@@ -41,6 +41,7 @@ EMI、Jade、JECh（拼音搜索）、精妙背包/存储、Modern UI、GTM Thin
 - 入口类：`com.hoshino.gregulvexpansion.GregULVExpansion`
 - 当前版本：`0.1.0`（未发布）
 - 许可：代码与功能性资源 LGPL-3.0（`LICENSE.txt`）；`textures/` 图像素材 CC BY-NC-SA 4.0，禁止商用（`LICENSE-ASSETS.txt`）
+- 提交约定：Conventional Commits（`feat:`/`fix:`/`docs:` 等前缀），描述正文使用中文
 
 ## 致谢
 
