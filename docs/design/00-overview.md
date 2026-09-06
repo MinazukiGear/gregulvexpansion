@@ -1,0 +1,125 @@
+# 总纲：Greg ULV Expansion 内容设计总览
+
+> 状态：**未定案（草案 v0.2，2026-09-07）**。
+> 本文是全部设计文档的索引与共同基准；每台机器/机制另有独立规格文档。任何数值、名称与边界在标注「已定案」前都可能变动。
+> v0.2 变更：移除硒材料路线（项目所有者决定）；ULV 基础构件线立项为最高优先级 P0；铅室法依据上游硫酸路线调研定稿；锗路线冻结。
+
+## 1. 模组定位
+
+Greg ULV Expansion 是 GregTech CEu Modern（下称 GTCEu，7.5.3）的附属模组，主题是**把 ULV（Ultra Low Voltage，超低压，8 EU/t）做成电力时代的真正序章**：在蒸汽时代与 LV 电力时代之间，补上一层「低成本、低吞吐、低风险」的微电力玩法。
+
+一句话玩家故事：**你刚摸到电，还没有电网**——用手摇发电机点亮第一个 EU，把过剩蒸汽换成电池里的储备，用 8 EU/t 的简陋机器试运行产线，最后带着攒下的电池与元件跨入 LV。
+
+## 2. 上游现状（GTCEu 7.5.3 调研结论）
+
+以下事实均已对 GTCEu 7.5.3 源码逐一核实（2026-09-07，来源为本机 Gradle 缓存的 sources jar）：
+
+| # | 事实 | 对本模组的含义 |
+| --- | --- | --- |
+| F1 | `GTValues.ULV = 0`，`V[0] = 8`，层级名 `VN[0] = "ULV"` | ULV 层级存在且是电压体系起点 |
+| F2 | 全部配方类单方块机器（磨机、电炉、洗矿机、电解机等 20+ 种）注册层级为 `ELECTRIC_TIERS = LV..UV`，**ULV 没有任何配方机器**；ULV 仅注册了机壳（HULL）、变压器（ULV↔LV 已存在）、能量输入/输出仓、电池缓冲、充电站 | ULV 层级的电力基建完整，但**没有任何可干的活**——这是本模组最大的填空空间 |
+| F3 | 单方块发电机仅内燃、蒸汽轮机、燃气轮机三种，层级 `LV..HV`，**没有 ULV 层发电机**；唯一的例外是 ULV 太阳能覆盖板 `ulv_solar_panel`（白天 8 EU/t 直接入网，属覆盖板而非独立设备）；蒸汽由锅炉体系（LP/HP 固体/液体/太阳能）承担，产汽不产电 | 「第一桶 EU 从哪来」在上游没有独立设备的答案，本模组补齐 |
+| F4 | 电池阶梯：最低为钽电容（`tantalum_capacitor`）1,000 EU、ULV 可充电；下一档直接是 LV 钠 80,000 / 锂 120,000 EU；无 ULV Power Unit | **1k → 80k 之间储能断档** |
+| F5 | ULV 电路仅真空管（`vacuum_tube`）与 NAND 芯片（`nand_chip`），电路板为树脂电路板（`resin_circuit_board`）；LV 起才有电子电路 | ULV 电路线极薄，只有两件成品 |
+| F6 | 电线层级 0 材料为红合金（8 V、1 A、0 损耗/块）；ULV 机壳配方 = ULV 机械方块 + 2 根红合金单线（装配机 25 t @ 16 EU/t） | ULV 机器外观与配方基座可直接沿用上游 |
+| F7 | 材料：锌、锰、方铅矿（Galena 矿石）、Massicot（PbO）、硒均已存在；锗为「注册但不可获取」（无矿石、无配方、无副产表，第二轮调研 C）；**PbO₂（二氧化铅）不存在**；硫酸（H₂SO₄）为 GTCEu 基石流体 | 铅酸电池化学所需材料基本齐备，仅缺 PbO₂；硒已按所有者决定弃用，锗路线冻结 |
+| F8 | 蒸汽→EU 基准：LV 蒸汽轮机 640 mB 蒸汽 → 320 EU（**0.5 EU/mB**，吞吐 64 mB/t）；煤经 LP 固体锅炉满温烧 1,600 t ≈ 9,600 mB 蒸汽 ≈ **4,800 EU/个煤**（理想值） | 蒸汽变现与燃料热值的统一换算基准 |
+| F9 | 无「万用表」类廉价电力工具；电力网络查看靠便携扫描器（`portable_scanner`，MV 级 100,000 EU 电池） | 廉价检测工具有空位，但与便携扫描器部分重叠，进候选 |
+| F10 | 蒸汽时代已有机器：锅炉（LP/HP 固体/液体/太阳能）、提取机、磨机、压缩机、锻锤、熔炉、合金炉、碎石机、蒸汽矿机；另有多方块：原始高炉、焦炉、原始泵、木炭窑 | ULV 机器选题必须避开这些功能，防止三线重复 |
+| F11 | 硫酸化学链（硫→SO₂→SO₃→H₂SO₄）配方 EUt 仅 `VA[ULV]=7`，但载体化学反应机注册层级 LV 起、无蒸汽变体，且无任何工作台路线——**蒸汽时代产不出硫酸**（第二轮调研 A） | 铅室法制酸装置的定位被完全验证：填补「无电硫酸」空白 |
+| F12 | 电动构件（马达、传送带、泵、机械臂、发射器、传感器、流体调节器）全部注册于 `LV..UV`，**无任何 ULV 版本**；cover 速率由层级闭包决定（传送带 `2×4^min(tier,LuV)` 件/t、泵 `64×4^min(tier−1,IV)` mB/t），tier 0 自然成立；附属可经 `IGTAddon#registerCovers()` + `GTCovers.register()` 注册自定义层级（第二轮调研 B） | **ULV 基础构件线（P0）的空白与可行性同时确认** |
+
+## 3. 设计原则（红线）
+
+1. **桥梁，不是替代**：所有内容服务于「蒸汽 → 电力」的过渡。ULV 设备允许玩家小规模起步，但不应成为 LV 之后仍有产业竞争力的方案。
+2. **只填空白，不抢位置**：蒸汽时代已有的功能（F10 清单）不再出 ULV 版本；LV 起的上游机器不做整体 ULV 化，只按「配方子集 + 显式边界」选择性下沉（见各机器文档）。
+3. **低成本低产出**：ULV 机器用 ULV 机壳、铁板、木板、红合金线等早期材料合成（工作台或蒸汽机可产出），吞吐与速度天然受 8 EU/t 限制，不引入并行、超频等放大机制。
+4. **越级必须显式声明**：凡将 LV/MV 语义内容（如洗矿、电解）下沉到 ULV 的设计，必须在文档中写明配方子集边界与升级关系，并单列开放问题。
+5. **不修改上游**：不改动 GTCEu 既有的配方、物品、方块与数值；一切以新增并存条目的方式实现（替代配方也是新增条目）。
+6. **数值可推导**：所有草案数值必须能从 §6 的基准（电压、0.5 EU/mB、煤 4,800 EU、降档规则）推导出来，禁止拍脑袋孤值。
+7. **姊妹项目联动优先**：涉及蒸汽消费的设计优先考虑与 Greg Steam Expansion（蒸汽时代扩展）的产汽端互通，蒸汽语义保持同构。
+
+## 4. 内容支柱与首批清单
+
+| 支柱 | 内容 | 文档 | 优先级 | 状态 |
+| --- | --- | --- | --- | --- |
+| A 第一桶电 | 手摇发电机 | [hand-crank-dynamo.md](hand-crank-dynamo.md) | P0 | 草案 |
+| B ULV 基础构件 | 超低压电动马达 / 传送带模块 / 电动泵（最高优先级） | [ulv-components.md](ulv-components.md) | **P0** | 草案 |
+| C 电路与元件 | 猫须探测器 + ULV 电路替代配方 | [ulv-circuit-line.md](ulv-circuit-line.md) | P0（探测器）/ P3（替代配方） | 草案 |
+| D 第一桶电·扩展 | 温差发电机 | [thermal-generator.md](thermal-generator.md) | P1 | 草案 |
+| D 第一桶电·扩展 | 小型蒸汽轮机（蒸汽变现 + 姊妹项目联动） | [small-steam-turbine.md](small-steam-turbine.md) | P1 | 草案 |
+| D 第一桶电·扩展 | 红石发电机 | [redstone-generator.md](redstone-generator.md) | P2 | 草案 |
+| E 储能阶梯 | 铅酸电池线（PbO₂ 新材料 + 单格/电池组 + 蓄电池箱） | [lead-acid-battery-line.md](lead-acid-battery-line.md) | P1 | 草案 |
+| F 化学前置 | 铅室法制酸装置（无电多方块） | [lead-chamber-acid-plant.md](lead-chamber-acid-plant.md) | P1 | 草案 |
+| G ULV 机器 | 原型电解槽（水电解等配方子集） | [primitive-electrolyzer.md](primitive-electrolyzer.md) | P1 | 草案 |
+| G ULV 机器 | ULV 洗矿机 / 线材轧机 / 切割机（配方子集下沉） | [ulv-basic-machines.md](ulv-basic-machines.md) | P1 | 草案 |
+| — | 未定案候选总表（水轮、万用表等） | [next-machine-candidates.md](next-machine-candidates.md) | — | 候选 |
+
+优先级语义：**P0** 首批必做（模组身份内容）；**P1** 首批（构成完整过渡体验）；**P2** 次批（增强）；**P3** 候选池。
+
+## 5. 玩家进度曲线（目标节奏）
+
+1. **蒸汽中期——第一次触电**：以铜+红石造出红合金线，从方铅矿磨出猫须探测器，合成手摇发电机；摇 15 秒 ≈ 跑 1 台 ULV 机器 1 分钟。玩家在这里学会 EU/t、安培、缓存、电池四个概念。
+2. **蒸汽中期——第一台马达**：用红合金线与铁件造出超低压电动马达（零电门槛），再接上传送带/泵覆盖板，蒸汽时代的产线第一次自己动起来——每秒两件，但确确实实在动。
+3. **蒸汽后期——微电常设化**：把温差发电机贴在岩浆/锅炉边上，获得免维护的基础负荷；开始给钽电容充电，夜里蒸汽设备歇业时靠电池顶。
+4. **电力前夜——蒸汽变现与化学开蒙**：小型蒸汽轮机把大青铜锅炉的富余蒸汽换成 EU；铅室法装置投产，硫酸不再依赖 LV；铅酸电池线铺开，储能从 1k EU 跳到 4k/16k/24k。
+5. **ULV 产线——试运行**：原型电解槽电解水出氢氧，ULV 洗矿机洗净第一批粉尘，ULV 线材轧机把电线产能提上来；整条产线由传送带与泵串成一条微电网流水线。
+6. **跨入 LV**：GTCEu 的 LV 燃烧/蒸汽轮机上线后，ULV 设备退居二线——继续当应急电源、细分产线与偏远区块的微电网，而不是被拆除。
+
+## 6. 数值基准（草案推导依据）
+
+### 6.1 电压与机器速度
+
+| 项目 | ULV | 对照 LV |
+| --- | ---: | ---: |
+| 电压 | 8 EU/t | 32 EU/t |
+| 扣线损配方电压 `VA` | 7 EU/t | 30 EU/t |
+| 线材 | 红合金 1x，0 损耗 | — |
+
+**降档规则（沿用 GT 超频守恒的逆运算）**：同一配方从 LV 下沉到 ULV 时，速度 ×0.5、功率 ×0.25、总能耗 ×0.5。即：ULV 机器慢一倍、省一半电；LV 升级的收益 = 速度翻倍 + 解锁 EU/t > 8 的配方。本模组所有「上游机器的 ULV 变体」遵循此规则，不引入并行或额外倍率。
+
+### 6.2 能量换算基准
+
+| 基准 | 数值 | 来源 |
+| --- | ---: | --- |
+| 蒸汽 | 0.5 EU/mB | GTCEu LV 蒸汽轮机配方（640 mB → 320 EU），调研 F8 |
+| 煤（经 LP 固体锅炉+轮机） | ≈ 4,800 EU/个 | 烧 1,600 t × 6 mB/t × 0.5 EU/mB，满温理想值，调研 F8 |
+| 本模组发电机输出 | 一律 ≤ 8 EU/t、1 A | 电压体系约束 |
+
+### 6.3 储能阶梯（草案）
+
+| 储能 | 容量 EU | 层级 | 来源 |
+| --- | ---: | --- | --- |
+| 钽电容 | 1,000 | ULV | 上游（F4） |
+| 铅酸单格电池 | 4,000 | ULV | 本模组草案 |
+| 铅酸电池组 | 16,000 | ULV | 本模组草案 |
+| 铅酸蓄电池箱（方块） | 24,000 | ULV | 本模组草案 |
+| LV 钠/锂电池 | 80,000 / 120,000 | LV | 上游（F4） |
+
+设计意图：把上游 1k → 80k 的断档填成 ×4 一档的平滑阶梯，同时保持 LV 电池仍值得做。
+
+## 7. 命名与 ID 规范
+
+- **资源 ID**：小写下划线。独有机制机器不带层级前缀（`hand_crank_dynamo`）；上游机器/物品的 ULV 变体带 `ulv_` 前缀（`ulv_ore_washer`、`ulv_electric_motor`）；覆盖板定义 ID 沿用上游 `<name>.<vn>` 规则（`conveyor.ulv`）；一律不含具体材料名（存档兼容考虑，沿用姊妹项目约定）。
+- **显示名**：独有机器不加层级字样（手摇发电机 / Hand-Crank Dynamo）；ULV 变体加「超低压 / ULV」（超低压洗矿机 / ULV Ore Washer）。
+- **Java**：包 `com.hoshino.gregulvexpansion.machine.{generator,simple,multiblock}` 与 `...registry`；类名 `XxxMachine`；注册字段全大写蛇形；注册中心沿用 `GULVRegistration.REGISTRATE`。
+- **本地化键**：`gregulvexpansion.machine.<id>.<key>`（模式/状态文本），物品方块用 Registrate 自动键。
+- **新材料**：经 `MaterialRegistryEvent` 注册（GTCEu 7.5.3 已弃用 `registerMaterials()` 钩子），ID 如 `lead_dioxide`。
+
+## 8. 实现映射（API 对照，均已对 7.5.3 核实）
+
+| 需求 | API |
+| --- | --- |
+| 单方块机器 | `GTRegistrate#machine(name, metaMachine)` → `MachineBuilder`：`tier(0)`、`recipeType(...)`、`workableTieredHullModel(...)` |
+| 多方块 | `GTRegistrate#multiblock(...)` → `MultiblockMachineBuilder`：`pattern(...)`、`recipeTypes(...)` |
+| 新配方类型 | `GTRecipeTypes.register(name, group)` + `setMaxIOSize` / 进度条；配方条目用 `GTRecipeBuilder` 链式构建 |
+| 发电机基类 | `SimpleGeneratorMachine`（红石发电机、小型蒸汽轮机）；手摇/温差为自定义 `MetaMachine` 子类 |
+| 覆盖板 | `IGTAddon#registerCovers()` 钩子内 `GTCovers.register(id, behaviorProvider, rendererSupplier)`；ULV 传送带/泵复用上游行为类传 tier 0（调研 F12） |
+| 新材料 | `MaterialRegistryEvent` → `MaterialRegistryManager.getInstance().createRegistry(modid)` |
+| 工作台合成 | vanilla `RecipeProvider`（GTCEu 无 CraftingRecipeTypes 类） |
+
+## 9. 文档状态与定案流程
+
+- 状态三级：**草案 → 讨论中 → 已定案**。定案由项目所有者逐项确认后，在对应文档头部与总纲 §4 中标注。
+- 代码与数据生成只允许以「已定案」章节为准；「草案」内容可直接开实现验证，但数值与边界变动不视为返工。
+- 与上游相关的事实断言（标注「调研 F*」者）如与新版 GTCEu 冲突，以新版实测为准并回改文档。
