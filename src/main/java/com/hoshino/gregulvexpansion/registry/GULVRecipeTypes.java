@@ -32,6 +32,8 @@ public final class GULVRecipeTypes {
     public static GTRecipeType ULV_WIRE_MILLING;
     /** ULV 切割：杆→螺栓、长杆→杆、板材块→板（晶圆/宝石等精密语义排除）。 */
     public static GTRecipeType ULV_CUTTING;
+    /** 红石发电机燃料：红石粉/红石块 → EU（GENERATOR 组，EUt 为负）。 */
+    public static GTRecipeType REDSTONE_GENERATOR_FUELS;
 
     private GULVRecipeTypes() {}
 
@@ -40,6 +42,21 @@ public final class GULVRecipeTypes {
         LEAD_CHAMBER_RECIPES = registerLeadChamber(event);
         ULV_WIRE_MILLING = registerUlvWireMilling(event);
         ULV_CUTTING = registerUlvCutting(event);
+        REDSTONE_GENERATOR_FUELS = registerRedstoneGeneratorFuels(event);
+    }
+
+    private static GTRecipeType registerRedstoneGeneratorFuels(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        ResourceLocation id = GregULVExpansion.id("redstone_generator");
+        // IO 布局 (redstone-generator.md)：固体燃料 1 进；GENERATOR 组，EUt 为负（发电）
+        REDSTONE_GENERATOR_FUELS = new GTRecipeType(id, GTRecipeTypes.GENERATOR)
+                .setMaxIOSize(1, 0, 0, 0)
+                .setEUIO(IO.OUT)
+                .setSlotOverlay(false, true, true, GuiTextures.FURNACE_OVERLAY_2)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.COMBUSTION)
+                .setXEIVisible(true);
+
+        return register(id, REDSTONE_GENERATOR_FUELS, event);
     }
 
     private static GTRecipeType registerPrimitiveElectrolysis(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {

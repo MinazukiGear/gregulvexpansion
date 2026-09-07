@@ -8,6 +8,9 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidContainerIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.hoshino.gregulvexpansion.GregULVExpansion;
 import com.hoshino.gregulvexpansion.registry.GULVItems;
@@ -52,6 +55,7 @@ public final class GULVRecipes {
         addThermoelectricGeneratorRecipe(provider);
         addWireMillRecipe(provider);
         addCutterRecipe(provider);
+        addRedstoneGeneratorRecipe(provider);
     }
 
     /** 猫须探测器：纯净方铅矿矿石 + 红合金单线 → ×2 (D13 产出翻倍)。 */
@@ -369,5 +373,72 @@ public final class GULVRecipes {
                 'M', GULVItems.ULV_ELECTRIC_MOTOR,
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
                 'H', GTMachines.HULL[0].asStack());
+    }
+
+    /** 红石发电机：马达 + 红合金单线 ×2 + 铁板 ×4 + 活塞 ×1 + ULV 机械方块。 */
+    private static void addRedstoneGeneratorRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("redstone_generator"),
+                GULVMachines.REDSTONE_GENERATOR.asStack(),
+                "WPW",
+                "IMI",
+                "IHI",
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'P', Items.PISTON,
+                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'H', GTMachines.HULL[0].asStack());
+    }
+
+    /**
+     * 红石发电机燃料表 (redstone-generator.md 燃料表，C6 基准联动)：
+     * 红石粉 1,200 EU ≈ 煤蒸汽链的 1/4；红石块 9 倍、无压缩奖励。
+     * EUt 为负 = 发电。同样仅供运行时 addRecipes 调用。
+     */
+    public static void addRedstoneGeneratorFuels(Consumer<FinishedRecipe> provider) {
+        GULVRecipeTypes.REDSTONE_GENERATOR_FUELS
+                .recipeBuilder(GregULVExpansion.id("redstone_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Redstone, 1)
+                .duration(150)
+                .EUt(-8)
+                .save(provider);
+
+        GULVRecipeTypes.REDSTONE_GENERATOR_FUELS
+                .recipeBuilder(GregULVExpansion.id("redstone_block"))
+                .inputItems(TagPrefix.block, GTMaterials.Redstone, 1)
+                .duration(1350)
+                .EUt(-8)
+                .save(provider);
+    }
+
+    /**
+     * ULV 电路替代配方 (ulv-circuit-line.md，D14：探测器为 ULV 电路唯一入口)。
+     * 原上游 6 条配方已经 removeRecipes 移除，本方法提供唯一制法。
+     * 同样仅供运行时 addRecipes 调用。
+     */
+    public static void addCircuitReplacementRecipes(Consumer<FinishedRecipe> provider) {
+        // 真空管：保留上游配方 ID（配方书/查看器连续性）。该 ID 在 RECIPE_FILTERS
+        // 中（被自身 removeRecipes 移除），故必须直写 GTDynamicDataPack 绕过过滤器
+        // ——姊妹项目 GSE 焦炉替换配方的同款手法。
+        VanillaRecipeHelper.addShapedRecipe(GTDynamicDataPack::addRecipe,
+                GTCEu.id("vacuum_tube"),
+                GTItems.VACUUM_TUBE.asStack(),
+                "D",
+                "T",
+                "W",
+                'D', GULVItems.CATS_WHISKER_DETECTOR,
+                'T', GTItems.GLASS_TUBE.asStack(),
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy));
+
+        // NAND 芯片：新 ID 走常规 provider。树脂电路板工作台可造（黏性树脂+木板），
+        // 全程无电力门槛；原上游产线需 MV 电路装配机 + 晶圆链，D14 后永久关闭。
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("nand_chip"),
+                GTItems.NAND_CHIP_ULV.asStack(),
+                "DRD",
+                " B ",
+                'D', GULVItems.CATS_WHISKER_DETECTOR,
+                'R', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'B', GTItems.COATED_BOARD.asStack());
     }
 }

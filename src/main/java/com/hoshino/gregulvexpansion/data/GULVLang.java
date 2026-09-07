@@ -64,6 +64,12 @@ public final class GULVLang {
                 "A motor-driven saw blade for basic cutting: rods into bolts, long rods into rods, blocks into plates.");
         add("gregulvexpansion.machine.ulv_cutter.tooltip.summary.1",
                 "Wrought-iron blade (no precision work). Runs a hand-picked subset only — no wafers, no gem cutting.");
+
+        // ---- 红石发电机 ----
+        add("gregulvexpansion.machine.redstone_generator.tooltip.summary.0",
+                "The first automatable fuel generator: feed it redstone dust (1,200 EU) or redstone blocks (10,800 EU) and it burns steadily at 8 EU/t · 1 A.");
+        add("gregulvexpansion.machine.redstone_generator.tooltip.summary.1",
+                "Stack units to scale up — industrial scale belongs to LV combustion generators.");
     }
 
     private static void add(String key, String value) {

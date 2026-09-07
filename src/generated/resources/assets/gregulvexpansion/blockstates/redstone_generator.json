@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "gregulvexpansion:block/machine/redstone_generator",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "gregulvexpansion:block/machine/redstone_generator",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gregulvexpansion:block/machine/redstone_generator"
+    },
+    "facing=south": {
+      "model": "gregulvexpansion:block/machine/redstone_generator",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "gregulvexpansion:block/machine/redstone_generator",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "gregulvexpansion:block/machine/redstone_generator",
+      "y": 270
+    }
+  }
+}

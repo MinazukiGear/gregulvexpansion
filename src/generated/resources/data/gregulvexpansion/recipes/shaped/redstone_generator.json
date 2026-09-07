@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "H": {
+      "item": "gtceu:ulv_machine_hull"
+    },
+    "I": {
+      "item": "gtceu:iron_plate"
+    },
+    "M": {
+      "item": "gregulvexpansion:ulv_electric_motor"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "W": {
+      "item": "gtceu:red_alloy_single_wire"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "WPW",
+    "IMI",
+    "IHI"
+  ],
+  "result": {
+    "item": "gregulvexpansion:redstone_generator"
+  }
+}

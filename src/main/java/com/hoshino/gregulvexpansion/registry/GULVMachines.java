@@ -2,6 +2,8 @@ package com.hoshino.gregulvexpansion.registry;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
@@ -9,6 +11,8 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.hoshino.gregulvexpansion.GregULVExpansion;
 import com.hoshino.gregulvexpansion.machine.generator.HandCrankDynamoMachine;
+import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
+import com.hoshino.gregulvexpansion.machine.generator.RedstoneGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.generator.ThermoelectricGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.simple.PrimitiveElectrolyzerMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVCutterMachine;
@@ -124,6 +128,29 @@ public final class GULVMachines {
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_cutter.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_cutter.tooltip.summary.1"))
+            .register();
+
+    /**
+     * 红石发电机 — 可堆叠燃料电（P2, redstone-generator.md，C6 基准联动）。
+     * 单台恒定 8 EU/t，只烧红石系燃料；堆台数是唯一扩容方式。
+     */
+    public static final MachineDefinition REDSTONE_GENERATOR = GULVRegistration.REGISTRATE
+            .machine("redstone_generator",
+                    holder -> new RedstoneGeneratorMachine(holder, GTValues.ULV,
+                            GTMachineUtils.defaultTankSizeFunction))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.ALL)
+            .recipeType(GULVRecipeTypes.REDSTONE_GENERATOR_FUELS)
+            .recipeModifier(SimpleGeneratorMachine::recipeModifier, true)
+            .addOutputLimit(ItemRecipeCapability.CAP, 0)
+            .addOutputLimit(FluidRecipeCapability.CAP, 0)
+            .langValue("Redstone Generator")
+            .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(
+                    GregULVExpansion.id("redstone_generator"), GULVRecipeTypes.REDSTONE_GENERATOR_FUELS))
+            .workableTieredHullModel(GTCEu.id("block/generators/redstone_generator"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.redstone_generator.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.redstone_generator.tooltip.summary.1"))
             .register();
 
     private GULVMachines() {}
