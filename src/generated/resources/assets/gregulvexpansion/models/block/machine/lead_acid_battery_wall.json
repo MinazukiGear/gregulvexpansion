@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "gregulvexpansion:lead_acid_battery_wall",
+  "replaceable_textures": [
+    "bottom",
+    "top",
+    "side"
+  ],
+  "variants": {
+    "is_formed=false": {
+      "model": {
+        "parent": "gregulvexpansion:block/machine/part/lead_acid_battery_wall",
+        "textures": {
+          "bottom": "gtceu:block/casings/voltage/ulv/bottom",
+          "side": "gtceu:block/casings/voltage/ulv/side",
+          "top": "gtceu:block/casings/voltage/ulv/top"
+        }
+      }
+    },
+    "is_formed=true": {
+      "model": {
+        "parent": "gregulvexpansion:block/machine/part/lead_acid_battery_wall",
+        "textures": {
+          "bottom": "gtceu:block/casings/voltage/ulv/bottom",
+          "side": "gtceu:block/casings/voltage/ulv/side",
+          "top": "gtceu:block/casings/voltage/ulv/top"
+        }
+      }
+    }
+  }
+}

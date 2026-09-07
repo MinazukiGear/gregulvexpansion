@@ -2,6 +2,7 @@ package com.hoshino.gregulvexpansion.data;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidContainerIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
@@ -37,6 +38,9 @@ public final class GULVRecipes {
         addConveyorModuleRecipe(provider);
         addPumpRecipe(provider);
         addPrimitiveElectrolyzerRecipe(provider);
+        addLeadAcidCellRecipe(provider);
+        addBatteryPackRecipe(provider);
+        addBatteryWallRecipe(provider);
     }
 
     /** 猫须探测器：纯净方铅矿矿石 + 红合金单线 → ×2 (D13 产出翻倍)。 */
@@ -160,5 +164,49 @@ public final class GULVRecipes {
                 .EUt(8)
                 .duration(256)
                 .save(provider);
+    }
+
+    /**
+     * 铅酸单格电池 (lead-acid-battery-line.md 化学链)：PbO₂ 板 + 铅板 + 硫酸 100 mB +
+     * 木箱。硫酸走 {@link FluidContainerIngredient}：匹配任意盛有 ≥100 mB 硫酸的
+     * 流体容器（GT 单元等），合成时精确抽出 100 mB 并返还余量容器。
+     */
+    private static void addLeadAcidCellRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(provider, false,
+                GregULVExpansion.id("lead_acid_cell"),
+                GULVItems.LEAD_ACID_CELL.asStack(),
+                "DP",
+                "BC",
+                'D', ChemicalHelper.get(TagPrefix.plate, GULVMaterials.LEAD_DIOXIDE),
+                'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Lead),
+                'B', new FluidContainerIngredient(GTMaterials.SulfuricAcid.getFluid(100)),
+                'C', net.minecraftforge.common.Tags.Items.CHESTS_WOODEN);
+    }
+
+    /** 铅酸电池组：单格 ×4 + 铅板外壳 + 红合金单线；容量严格等于组成之和。 */
+    private static void addBatteryPackRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("lead_acid_battery_pack"),
+                GULVItems.LEAD_ACID_BATTERY_PACK.asStack(),
+                " C ",
+                "CPC",
+                " W ",
+                'C', GULVItems.LEAD_ACID_CELL,
+                'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Lead),
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy));
+    }
+
+    /** 铅酸蓄电墙：电池组 + 铅板 ×4 + ULV 机械方块 + 红合金单线 ×2。 */
+    private static void addBatteryWallRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("lead_acid_battery_wall"),
+                GULVMachines.LEAD_ACID_BATTERY_WALL.asStack(),
+                "PWP",
+                "PHP",
+                "WCW",
+                'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Lead),
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'H', GTMachines.HULL[0].asStack(),
+                'C', GULVItems.LEAD_ACID_BATTERY_PACK);
     }
 }

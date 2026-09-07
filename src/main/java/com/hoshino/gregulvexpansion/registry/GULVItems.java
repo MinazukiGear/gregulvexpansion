@@ -1,6 +1,8 @@
 package com.hoshino.gregulvexpansion.registry;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
+import com.gregtechceu.gtceu.api.item.component.ElectricStats;
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
@@ -70,6 +72,22 @@ public final class GULVItems {
                 lines.add(Component.translatable("gtceu.universal.tooltip.pump_rate", 16));
             })))
             .tag(CustomTags.ELECTRIC_PUMPS)
+            .register();
+
+    /** 铅酸单格电池 — 4,000 EU 可充电 (lead-acid-battery-line.md，×4 阶梯第一档)。 */
+    public static final ItemEntry<ComponentItem> LEAD_ACID_CELL = GULVRegistration.REGISTRATE
+            .item("lead_acid_cell", ComponentItem::create)
+            .lang("Lead-Acid Cell")
+            .onRegister(GTItems.attach(ElectricStats.createRechargeableBattery(4_000, GTValues.ULV)))
+            .tag(CustomTags.ULV_BATTERIES)
+            .register();
+
+    /** 铅酸电池组 — 16,000 EU 可充电，容量严格等于 4 格单格之和（无合成膨胀）。 */
+    public static final ItemEntry<ComponentItem> LEAD_ACID_BATTERY_PACK = GULVRegistration.REGISTRATE
+            .item("lead_acid_battery_pack", ComponentItem::create)
+            .lang("Lead-Acid Battery Pack")
+            .onRegister(GTItems.attach(ElectricStats.createRechargeableBattery(16_000, GTValues.ULV)))
+            .tag(CustomTags.ULV_BATTERIES)
             .register();
 
     private GULVItems() {}

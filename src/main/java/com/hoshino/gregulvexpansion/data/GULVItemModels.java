@@ -18,6 +18,8 @@ public final class GULVItemModels {
         generated(provider, "ulv_electric_motor");
         generated(provider, "ulv_conveyor_module");
         generated(provider, "ulv_electric_pump");
+        generated(provider, "lead_acid_cell");
+        generated(provider, "lead_acid_battery_pack");
     }
 
     private static void generated(RegistrateItemModelProvider provider, String name) {

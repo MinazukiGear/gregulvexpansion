@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.hoshino.gregulvexpansion.GregULVExpansion;
 import com.hoshino.gregulvexpansion.machine.generator.HandCrankDynamoMachine;
 import com.hoshino.gregulvexpansion.machine.simple.PrimitiveElectrolyzerMachine;
+import com.hoshino.gregulvexpansion.machine.storage.LeadAcidBatteryWallMachine;
 
 import net.minecraft.network.chat.Component;
 
@@ -52,6 +53,23 @@ public final class GULVMachines {
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.1"))
+            .register();
+
+    /**
+     * 铅酸蓄电墙 — 自含 24,000 EU 储能方块，六面接线 1A 进出（D8/D10），
+     * 过压熔断 + 扳手重置，无电池物品槽（与上游充电站语义互补）。
+     */
+    public static final MachineDefinition LEAD_ACID_BATTERY_WALL = GULVRegistration.REGISTRATE
+            .machine("lead_acid_battery_wall",
+                    holder -> new LeadAcidBatteryWallMachine(holder, GTValues.ULV))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.ALL)
+            .overlayTieredHullModel("lead_acid_battery_wall")
+            .langValue("Lead-Acid Battery Wall")
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.lead_acid_battery_wall.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.lead_acid_battery_wall.tooltip.summary.1"),
+                    Component.translatable("gregulvexpansion.machine.lead_acid_battery_wall.tooltip.fuse"))
             .register();
 
     private GULVMachines() {}

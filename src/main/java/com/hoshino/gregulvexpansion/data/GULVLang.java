@@ -31,6 +31,14 @@ public final class GULVLang {
                 "Lesson one of electric chemistry: electrolysis at 8 EU/t — water in, hydrogen and oxygen out.");
         add("gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.1",
                 "Runs only the hand-picked ULV reaction whitelist; buffer 240 EU. Its rectifier bridge is a pair of cat's-whisker detectors.");
+
+        // ---- 铅酸蓄电墙 ----
+        add("gregulvexpansion.machine.lead_acid_battery_wall.tooltip.summary.0",
+                "A wall-mounted battery: 24,000 EU of self-contained storage. Wire any side — 8 EU/t · 1 A in and out.");
+        add("gregulvexpansion.machine.lead_acid_battery_wall.tooltip.summary.1",
+                "No battery slots (use the upstream charging station for that); no self-discharge when idle.");
+        add("gregulvexpansion.machine.lead_acid_battery_wall.tooltip.fuse",
+                "Overvoltage from an LV+ network trips its fuse and locks it; unsneaking wrench click resets it.");
     }
 
     private static void add(String key, String value) {

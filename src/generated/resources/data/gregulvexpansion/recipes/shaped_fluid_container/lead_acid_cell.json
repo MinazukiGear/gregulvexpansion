@@ -1,0 +1,33 @@
+{
+  "type": "gtceu:crafting_shaped_fluid_container",
+  "key": {
+    "B": {
+      "type": "gtceu:fluid_container",
+      "fluid": {
+        "amount": 100,
+        "value": [
+          {
+            "tag": "forge:sulfuric_acid"
+          }
+        ]
+      }
+    },
+    "C": {
+      "tag": "forge:chests/wooden"
+    },
+    "D": {
+      "item": "gregulvexpansion:lead_dioxide_plate"
+    },
+    "P": {
+      "item": "gtceu:lead_plate"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "DP",
+    "BC"
+  ],
+  "result": {
+    "item": "gregulvexpansion:lead_acid_cell"
+  }
+}

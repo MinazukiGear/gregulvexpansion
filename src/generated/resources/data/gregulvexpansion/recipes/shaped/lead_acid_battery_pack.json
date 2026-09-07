@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "gregulvexpansion:lead_acid_cell"
+    },
+    "P": {
+      "item": "gtceu:lead_plate"
+    },
+    "W": {
+      "item": "gtceu:red_alloy_single_wire"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    " C ",
+    "CPC",
+    " W "
+  ],
+  "result": {
+    "item": "gregulvexpansion:lead_acid_battery_pack"
+  }
+}

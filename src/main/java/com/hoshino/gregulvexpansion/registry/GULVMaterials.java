@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.common.unification.material.MaterialRegistryManager;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.hoshino.gregulvexpansion.GregULVExpansion;
@@ -32,9 +33,12 @@ public final class GULVMaterials {
     public static void init(MaterialEvent event) {
         // B1 裁决：PbO₂ 由原型电解槽阳极氧化 PbO（Massicot）制取，铅酸电池链前置；
         // 真实二氧化铅为深棕黑色粉末，与上游 Massicot（PbO，黄色 0xFFDD55）形成颜色叙事对比。
+        // GENERATE_PLATE：铅酸单格电池需要 PbO₂ 板形态（纯尘材料加板有硼硅玻璃先例，
+        // 板由压缩机从尘压制，蒸汽压缩机即可完成，零电门槛不受伤）。
         // 注意 ID 必须用本模组命名空间：registerMaterial() 按 namespace 路由注册表。
         LEAD_DIOXIDE = new Material.Builder(GregULVExpansion.id("lead_dioxide"))
                 .dust(1)
+                .flags(MaterialFlags.GENERATE_PLATE)
                 .color(0x3E3430).secondaryColor(0x1C1712)
                 .components(GTMaterials.Lead, 1, GTMaterials.Oxygen, 2)
                 .buildAndRegister();

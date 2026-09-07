@@ -1,12 +1,15 @@
 {
   "block.gregulvexpansion.hand_crank_dynamo": "手摇发电机",
   "block.gregulvexpansion.primitive_electrolyzer": "原型电解槽",
+  "block.gregulvexpansion.lead_acid_battery_wall": "铅酸蓄电墙",
   "material.gregulvexpansion.lead_dioxide": "二氧化铅",
   "item.gregulvexpansion.cats_whisker_detector": "猫须探测器",
   "item.gregulvexpansion.wood_crank": "木质曲柄",
   "item.gregulvexpansion.ulv_electric_motor": "超低压电动马达",
   "item.gregulvexpansion.ulv_conveyor_module": "超低压传送带模块",
   "item.gregulvexpansion.ulv_electric_pump": "超低压电动泵",
+  "item.gregulvexpansion.lead_acid_cell": "铅酸单格电池",
+  "item.gregulvexpansion.lead_acid_battery_pack": "铅酸电池组",
 
   "gregulvexpansion.item.cats_whisker_detector.tooltip": "纯净方铅矿晶体配一根细红合金触须——史上第一种半导体器件。",
   "gregulvexpansion.item.wood_crank.tooltip": "可拆卸曲柄。右键手摇发电机安装，用扳手拆下。",
@@ -17,5 +20,9 @@
   "gregulvexpansion.machine.hand_crank_dynamo.tooltip.crank": "手持木质曲柄（AE2 曲柄亦可）右键可重新安装；扳手可拆下。",
 
   "gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.0": "电力化学的第一课：以 8 EU/t 电解水，产出氢气与氧气。",
-  "gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.1": "仅运行人工审定的 ULV 反应白名单；缓存 240 EU，整流桥由一对猫须探测器构成。"
+  "gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.1": "仅运行人工审定的 ULV 反应白名单；缓存 240 EU，整流桥由一对猫须探测器构成。",
+
+  "gregulvexpansion.machine.lead_acid_battery_wall.tooltip.summary.0": "墙上的蓄电池：自含 24,000 EU 储能，任意一面接线，8 EU/t · 1 A 进出。",
+  "gregulvexpansion.machine.lead_acid_battery_wall.tooltip.summary.1": "不设电池物品槽（放电池请用上游充电站/电池缓冲）；闲置无自放电。",
+  "gregulvexpansion.machine.lead_acid_battery_wall.tooltip.fuse": "被 LV+ 网络超压供电会熔断锁死；用扳手（非潜行）右键重置。"
 }
