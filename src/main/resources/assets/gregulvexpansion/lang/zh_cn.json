@@ -42,5 +42,11 @@
   "gregulvexpansion.machine.ulv_bender.tooltip.summary.1": "仅运行人工审定的子集（红合金、铜、铁、锡、铅、锌）。",
   "block.gregulvexpansion.ulv_lathe": "超低压车床",
   "gregulvexpansion.machine.ulv_lathe.tooltip.summary.0": "螺栓车成螺丝、剥皮原木车成长木杆（附带木尘）——传送带与泵的螺丝供应全靠它。",
-  "gregulvexpansion.machine.ulv_lathe.tooltip.summary.1": "仅运行人工审定的子集；240 EU 缓存，与所有 ULV 机器一致。"
+  "gregulvexpansion.machine.ulv_lathe.tooltip.summary.1": "仅运行人工审定的子集；240 EU 缓存，与所有 ULV 机器一致。",
+  "block.gregulvexpansion.ulv_chemical_reactor": "超低压化学反应釜",
+  "gregulvexpansion.machine.ulv_chemical_reactor.tooltip.summary.0": "电动化学第二课：硫氧化链——硫粉 + 氧气以 8 EU/t 制硫酸，比铅室快四倍。",
+  "gregulvexpansion.machine.ulv_chemical_reactor.tooltip.summary.1": "需要电解槽供氧；240 EU 缓存。",
+  "block.gregulvexpansion.ulv_fluid_solidifier": "超低压流体固化器",
+  "gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.0": "用可复用模具把流体冻结成型：水成雪、岩浆成黑曜石。",
+  "gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.1": "仅运行人工审定的子集；240 EU 缓存。"
 }

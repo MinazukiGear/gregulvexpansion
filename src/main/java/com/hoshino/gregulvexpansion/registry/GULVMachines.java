@@ -16,7 +16,9 @@ import com.hoshino.gregulvexpansion.machine.generator.RedstoneGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.generator.ThermoelectricGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.simple.PrimitiveElectrolyzerMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVBenderMachine;
+import com.hoshino.gregulvexpansion.machine.simple.ULVChemicalReactorMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVCutterMachine;
+import com.hoshino.gregulvexpansion.machine.simple.ULVFluidSolidifierMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVLatheMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVWireMillMachine;
 import com.hoshino.gregulvexpansion.machine.storage.LeadAcidBatteryWallMachine;
@@ -189,6 +191,42 @@ public final class GULVMachines {
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_lathe.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_lathe.tooltip.summary.1"))
+            .register();
+
+    /** 超低压化学反应釜 — 酸链子集（硫氧化/三氧化硫/成酸），电动提效第二级（v0.8）。 */
+    public static final MachineDefinition ULV_CHEMICAL_REACTOR = GULVRegistration.REGISTRATE
+            .machine("ulv_chemical_reactor",
+                    holder -> new ULVChemicalReactorMachine(holder, GTValues.ULV,
+                            GTMachineUtils.defaultTankSizeFunction))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GULVRecipeTypes.ULV_CHEMICAL_REACTING)
+            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .langValue("ULV Chemical Reactor")
+            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
+                    GregULVExpansion.id("ulv_chemical_reactor"), GULVRecipeTypes.ULV_CHEMICAL_REACTING))
+            .workableTieredHullModel(GTCEu.id("block/machines/ulv_chemical_reactor"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.ulv_chemical_reactor.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.ulv_chemical_reactor.tooltip.summary.1"))
+            .register();
+
+    /** 超低压流体固化器 — 水/岩浆 + 模具固化成型（v0.8），模具不消耗。 */
+    public static final MachineDefinition ULV_FLUID_SOLIDIFIER = GULVRegistration.REGISTRATE
+            .machine("ulv_fluid_solidifier",
+                    holder -> new ULVFluidSolidifierMachine(holder, GTValues.ULV,
+                            GTMachineUtils.defaultTankSizeFunction))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GULVRecipeTypes.ULV_FLUID_SOLIDFICATION)
+            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .langValue("ULV Fluid Solidifier")
+            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
+                    GregULVExpansion.id("ulv_fluid_solidifier"), GULVRecipeTypes.ULV_FLUID_SOLIDFICATION))
+            .workableTieredHullModel(GTCEu.id("block/machines/ulv_fluid_solidifier"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.1"))
             .register();
 
     private GULVMachines() {}

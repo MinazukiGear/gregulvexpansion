@@ -34,6 +34,10 @@ public final class GULVRecipeTypes {
     public static GTRecipeType ULV_CUTTING;
     /** 红石发电机燃料：红石粉/红石块 → EU（GENERATOR 组，EUt 为负）。 */
     public static GTRecipeType REDSTONE_GENERATOR_FUELS;
+    /** ULV 化学反应：硫氧化/三氧化硫/成酸（酸链子集，EUt 7 原样直录）。 */
+    public static GTRecipeType ULV_CHEMICAL_REACTING;
+    /** ULV 流体固化：雪球/雪块/黑曜石（模具不消耗）。 */
+    public static GTRecipeType ULV_FLUID_SOLIDFICATION;
     /** ULV 卷板：锭 → 板 ×1（EUt 24 降档为 7，时长 ×2）。 */
     public static GTRecipeType ULV_BENDING;
     /** ULV 车削：螺栓→螺丝、剥皮原木→长木杆（EUt ≤7，时长 ×2）。 */

@@ -81,11 +81,15 @@ public final class GULVLang {
         add("gregulvexpansion.machine.ulv_lathe.tooltip.summary.1",
                 "Runs a hand-picked subset only. 240 EU buffer, like every other ULV machine.");
 
-        // ---- 超低压挤出机 ----
-        add("gregulvexpansion.machine.ulv_extruder.tooltip.summary.0",
-                "The metal rod production line: ingot + extruder mold -> 2 rods (bolts ×8 and plates too). Molds are never consumed.");
-        add("gregulvexpansion.machine.ulv_extruder.tooltip.summary.1",
-                "Runs a hand-picked subset only (red alloy, copper, iron, tin, lead, zinc). Molds craftable from steel plates.");
+        // ---- 超低压化学反应釜 / 流体固化器 ----
+        add("gregulvexpansion.machine.ulv_chemical_reactor.tooltip.summary.0",
+                "Electric chemistry step two: the sulfur oxidation chain — sulfur + oxygen into sulfuric acid at 8 EU/t, four times faster than the lead chamber.");
+        add("gregulvexpansion.machine.ulv_chemical_reactor.tooltip.summary.1",
+                "Needs oxygen from your electrolyzer. 240 EU buffer.");
+        add("gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.0",
+                "Freezes fluids into shapes with reusable molds: water into snow, lava into obsidian.");
+        add("gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.1",
+                "Runs a hand-picked subset only. 240 EU buffer.");
     }
 
     private static void add(String key, String value) {

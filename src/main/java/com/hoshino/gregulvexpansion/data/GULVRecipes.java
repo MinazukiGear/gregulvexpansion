@@ -500,6 +500,74 @@ public final class GULVRecipes {
 
 
 
+
+    /**
+     * ULV 化学反应釜配方子集 (ulv-basic-machines.md v0.8 子集表，酸链三条)。
+     * 上游 AcidRecipes（EUt VA[ULV]=7 原样直录）；硫化氢路线不收录。
+     * 编程电路省略（单一职能无歧义）。同样仅供运行时 addRecipes 调用。
+     */
+    public static void addUlvChemicalReactorRecipes(Consumer<FinishedRecipe> provider) {
+        GULVRecipeTypes.ULV_CHEMICAL_REACTING
+                .recipeBuilder(GregULVExpansion.id("sulfur_dioxide_from_sulfur"))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Sulfur, 1))
+                .inputFluids(GTMaterials.Oxygen.getFluid(2000))
+                .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000))
+                .duration(60)
+                .EUt(7)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_CHEMICAL_REACTING
+                .recipeBuilder(GregULVExpansion.id("sulfur_trioxide"))
+                .inputFluids(GTMaterials.SulfurDioxide.getFluid(1000), GTMaterials.Oxygen.getFluid(1000))
+                .outputFluids(GTMaterials.SulfurTrioxide.getFluid(1000))
+                .duration(200)
+                .EUt(7)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_CHEMICAL_REACTING
+                .recipeBuilder(GregULVExpansion.id("sulfuric_acid_from_trioxide"))
+                .inputFluids(GTMaterials.SulfurTrioxide.getFluid(1000), GTMaterials.Water.getFluid(1000))
+                .outputFluids(GTMaterials.SulfuricAcid.getFluid(1000))
+                .duration(160)
+                .EUt(7)
+                .save(provider);
+    }
+
+    /**
+     * ULV 流体固化器配方子集 (ulv-basic-machines.md v0.8 子集表)。
+     * 雪球/雪块（EUt 4 原样直录）；黑曜石（上游 EUt 16、1024t，总 EU 16,384
+     * → EUt 7、2,341t，v0.7 耗能不变）。模具 notConsumable 不消耗。
+     * 同样仅供运行时 addRecipes 调用。
+     */
+    public static void addUlvFluidSolidifierRecipes(Consumer<FinishedRecipe> provider) {
+        GULVRecipeTypes.ULV_FLUID_SOLIDFICATION
+                .recipeBuilder(GregULVExpansion.id("snowball"))
+                .inputFluids(GTMaterials.Water.getFluid(250))
+                .notConsumable(GTItems.SHAPE_MOLD_BALL)
+                .outputItems(new ItemStack(net.minecraft.world.item.Items.SNOWBALL))
+                .duration(128)
+                .EUt(4)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_FLUID_SOLIDFICATION
+                .recipeBuilder(GregULVExpansion.id("snow_block"))
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .notConsumable(GTItems.SHAPE_MOLD_BLOCK)
+                .outputItems(new ItemStack(net.minecraft.world.level.block.Blocks.SNOW_BLOCK))
+                .duration(512)
+                .EUt(4)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_FLUID_SOLIDFICATION
+                .recipeBuilder(GregULVExpansion.id("obsidian"))
+                .inputFluids(GTMaterials.Lava.getFluid(1000))
+                .notConsumable(GTItems.SHAPE_MOLD_BLOCK)
+                .outputItems(new ItemStack(net.minecraft.world.level.block.Blocks.OBSIDIAN))
+                .duration(2341)
+                .EUt(7)
+                .save(provider);
+    }
+
     /**
      * 红石发电机燃料表 (redstone-generator.md 燃料表，C6 基准联动)：
      * 红石粉 1,200 EU ≈ 煤蒸汽链的 1/4；红石块 9 倍、无压缩奖励。
@@ -624,4 +692,33 @@ public final class GULVRecipes {
                 'H', GTMachines.HULL[0].asStack());
     }
 
+    /** 超低压化学反应釜：马达 + 红合金单线 ×2 + 铁板 ×2 + 玻璃 ×3 + ULV 机械方块（v0.8）。 */
+    private static void addChemicalReactorRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_chemical_reactor"),
+                GULVMachines.ULV_CHEMICAL_REACTOR.asStack(),
+                "WGW",
+                "GMG",
+                "IHI",
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'G', net.minecraftforge.common.Tags.Items.GLASS,
+                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'H', GTMachines.HULL[0].asStack());
+    }
+
+    /** 超低压流体固化器：马达 + 红合金单线 ×2 + 铁板 ×4 + 钢板 ×1 + ULV 机械方块（v0.8）。 */
+    private static void addFluidSolidifierRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_fluid_solidifier"),
+                GULVMachines.ULV_FLUID_SOLIDIFIER.asStack(),
+                "ISI",
+                "WMW",
+                "IHI",
+                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
+                'S', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Steel),
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'H', GTMachines.HULL[0].asStack());
+    }
 }
