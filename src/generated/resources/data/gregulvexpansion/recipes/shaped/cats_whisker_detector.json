@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "O": {
-      "item": "gtceu:raw_galena"
+      "item": "gtceu:purified_galena_ore"
     },
     "W": {
       "item": "gtceu:red_alloy_single_wire"

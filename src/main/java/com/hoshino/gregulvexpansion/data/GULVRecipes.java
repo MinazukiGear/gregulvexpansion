@@ -19,8 +19,9 @@ import java.util.function.Consumer;
  * 首批工作台配方 (P0)。
  *
  * <p>零电力门槛自检 (各设计文档「合成草案」)：红合金线 = 铜+红石蒸汽合金炉 +
- * 剪线钳手工裁切；方铅矿为挖掘直接掉落的粗矿 (rawOre，保留「矿石直接进元件」
- * 的粗粝感)；橡胶/螺丝/铁杆均为蒸汽时代已有形态 —— 整条链不需要任何电力机器。
+ * 剪线钳手工裁切；纯净方铅矿矿石 = 方铅矿经蒸汽磨机 + 蒸汽洗矿获得
+ * （GTCEu 蒸汽磨机 / 姊妹项目 GSE 大型蒸汽洗矿机，实现期修订 2026-09-07
+ * 所有者指定输入），橡胶/螺丝/铁杆均为蒸汽时代已有形态 —— 整条链无电力机器。
  */
 public final class GULVRecipes {
     private GULVRecipes() {}
@@ -34,7 +35,7 @@ public final class GULVRecipes {
         addPumpRecipe(provider);
     }
 
-    /** 猫须探测器：粗方铅矿 + 红合金单线 → ×2 (D13 产出翻倍)。 */
+    /** 猫须探测器：纯净方铅矿矿石 + 红合金单线 → ×2 (D13 产出翻倍)。 */
     private static void addDetectorRecipe(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider,
                 GregULVExpansion.id("cats_whisker_detector"),
@@ -42,7 +43,7 @@ public final class GULVRecipes {
                 "W",
                 "O",
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
-                'O', ChemicalHelper.get(TagPrefix.rawOre, GTMaterials.Galena));
+                'O', ChemicalHelper.get(TagPrefix.crushedPurified, GTMaterials.Galena));
     }
 
     /** 木质曲柄：木板 ×2 + 木棍 ×1 (D2 独立物品)。 */

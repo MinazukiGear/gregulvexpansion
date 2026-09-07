@@ -12,7 +12,7 @@ public final class GULVLang {
     public static void init() {
         // ---- 物品提示 ----
         add("gregulvexpansion.item.cats_whisker_detector.tooltip",
-                "A raw galena crystal with a fine red alloy whisk — historically the first semiconductor device.");
+                "A purified galena crystal with a fine red alloy whisk — historically the first semiconductor device.");
         add("gregulvexpansion.item.wood_crank.tooltip",
                 "A detachable crank. Right-click a hand-crank dynamo to install; wrench to detach.");
         add("gregulvexpansion.item.ulv_electric_motor.tooltip",
