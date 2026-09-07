@@ -51,6 +51,7 @@ public final class GregULVExpansionAddon implements IGTAddon {
         GULVRecipes.addLeadChamberRecipe(provider);
         GULVRecipes.addUlvMachineRecipes(provider);
         GULVRecipes.addUlvBenderLatheRecipes(provider);
+        GULVRecipes.addUlvExtruderRecipes(provider);
         GULVRecipes.addRedstoneGeneratorFuels(provider);
         GULVRecipes.addCircuitReplacementRecipes(provider);
     }

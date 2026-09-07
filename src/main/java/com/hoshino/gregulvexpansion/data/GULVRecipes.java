@@ -58,6 +58,7 @@ public final class GULVRecipes {
         addRedstoneGeneratorRecipe(provider);
         addBenderRecipe(provider);
         addLatheRecipe(provider);
+        addExtruderRecipe(provider);
     }
 
     /** 猫须探测器：纯净方铅矿矿石 + 红合金单线 → ×2 (D13 产出翻倍)。 */
@@ -469,6 +470,65 @@ public final class GULVRecipes {
         }
     }
 
+
+    /**
+     * ULV 挤出机配方子集 (ulv-basic-machines.md v0.6 子集表)。
+     * 上游同源换算：杆（EUt 42→7，mass×2→×4）/ 螺栓（EUt 120→7，15→30）/
+     * 板（EUt 56→7，mass→mass×2）；模具 notConsumable 不消耗。
+     * 材料清单同轧机/切割机六种；扩表必须先改设计文档。
+     * 同样仅供运行时 addRecipes 调用。
+     */
+    public static void addUlvExtruderRecipes(Consumer<FinishedRecipe> provider) {
+        Material[] subsetMaterials = {
+                GTMaterials.RedAlloy, GTMaterials.Copper, GTMaterials.Iron,
+                GTMaterials.Tin, GTMaterials.Lead, GTMaterials.Zinc
+        };
+        for (Material material : subsetMaterials) {
+            // 锭 + 杆模具 → 杆 ×2（金属杆主产线）
+            if (material.shouldGenerateRecipesFor(TagPrefix.rod)) {
+                ItemStack rodStack = ChemicalHelper.get(TagPrefix.rod, material);
+                if (!rodStack.isEmpty()) {
+                    GULVRecipeTypes.ULV_EXTRUDING
+                            .recipeBuilder(GregULVExpansion.id("extrude_" + material.getName() + "_to_rod"))
+                            .inputItems(TagPrefix.ingot, material)
+                            .notConsumable(GTItems.SHAPE_EXTRUDER_ROD)
+                            .outputItems(rodStack.copyWithCount(2))
+                            .duration((int) material.getMass() * 4)
+                            .EUt(7)
+                            .save(provider);
+                }
+            }
+            // 锭 + 螺栓模具 → 螺栓 ×8
+            if (material.shouldGenerateRecipesFor(TagPrefix.bolt)) {
+                ItemStack boltStack = ChemicalHelper.get(TagPrefix.bolt, material);
+                if (!boltStack.isEmpty()) {
+                    GULVRecipeTypes.ULV_EXTRUDING
+                            .recipeBuilder(GregULVExpansion.id("extrude_" + material.getName() + "_ingot_to_bolt"))
+                            .inputItems(TagPrefix.ingot, material)
+                            .notConsumable(GTItems.SHAPE_EXTRUDER_BOLT)
+                            .outputItems(boltStack.copyWithCount(8))
+                            .duration(30)
+                            .EUt(7)
+                            .save(provider);
+                }
+            }
+            // 锭 + 板模具 → 板 ×1
+            if (material.hasFlag(MaterialFlags.GENERATE_PLATE)) {
+                ItemStack plateStack = ChemicalHelper.get(TagPrefix.plate, material);
+                if (!plateStack.isEmpty()) {
+                    GULVRecipeTypes.ULV_EXTRUDING
+                            .recipeBuilder(GregULVExpansion.id("extrude_" + material.getName() + "_to_plate"))
+                            .inputItems(TagPrefix.ingot, material)
+                            .notConsumable(GTItems.SHAPE_EXTRUDER_PLATE)
+                            .outputItems(plateStack)
+                            .duration((int) material.getMass() * 2)
+                            .EUt(7)
+                            .save(provider);
+                }
+            }
+        }
+    }
+
     /**
      * 红石发电机燃料表 (redstone-generator.md 燃料表，C6 基准联动)：
      * 红石粉 1,200 EU ≈ 煤蒸汽链的 1/4；红石块 9 倍、无压缩奖励。
@@ -591,5 +651,20 @@ public final class GULVRecipes {
                 'M', GULVItems.ULV_ELECTRIC_MOTOR,
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
                 'H', GTMachines.HULL[0].asStack());
+    }
+
+    /** 超低压挤出机：马达 + 红合金单线 ×2 + 铁板 ×4 + 钢板 ×1 + ULV 机械方块（v0.6）。 */
+    private static void addExtruderRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_extruder"),
+                GULVMachines.ULV_EXTRUDER.asStack(),
+                "WII",
+                "IMI",
+                "WHS",
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'H', GTMachines.HULL[0].asStack(),
+                'S', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Steel));
     }
 }

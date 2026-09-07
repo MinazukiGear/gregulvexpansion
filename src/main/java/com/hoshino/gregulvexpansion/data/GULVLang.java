@@ -80,6 +80,12 @@ public final class GULVLang {
                 "Turns bolts into screws and stripped logs into long wood rods (plus a dust bonus) — the screw supply for your conveyors and pumps.");
         add("gregulvexpansion.machine.ulv_lathe.tooltip.summary.1",
                 "Runs a hand-picked subset only. 240 EU buffer, like every other ULV machine.");
+
+        // ---- 超低压挤出机 ----
+        add("gregulvexpansion.machine.ulv_extruder.tooltip.summary.0",
+                "The metal rod production line: ingot + extruder mold -> 2 rods (bolts ×8 and plates too). Molds are never consumed.");
+        add("gregulvexpansion.machine.ulv_extruder.tooltip.summary.1",
+                "Runs a hand-picked subset only (red alloy, copper, iron, tin, lead, zinc). Molds craftable from steel plates.");
     }
 
     private static void add(String key, String value) {
