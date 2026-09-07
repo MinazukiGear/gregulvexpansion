@@ -6,8 +6,18 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.FluidDrillMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.FluidDrillMachine;
 import com.hoshino.gregulvexpansion.GregULVExpansion;
 import com.hoshino.gregulvexpansion.machine.multiblock.LeadChamberMachine;
+import com.hoshino.gregulvexpansion.machine.multiblock.PrimitiveCrackerMachine;
+import com.hoshino.gregulvexpansion.machine.multiblock.PrimitiveDistillationTowerMachine;
+import com.hoshino.gregulvexpansion.machine.multiblock.ULVOilPumpMachine;
+import net.minecraft.world.level.block.Blocks;
+import com.hoshino.gregulvexpansion.machine.multiblock.PrimitiveCrackerMachine;
+import com.hoshino.gregulvexpansion.machine.multiblock.PrimitiveDistillationTowerMachine;
+import com.hoshino.gregulvexpansion.machine.multiblock.ULVOilPumpMachine;
+import net.minecraft.world.level.block.Blocks;
 
 import net.minecraft.network.chat.Component;
 
@@ -55,6 +65,99 @@ public final class GULVMultiblocks {
                     Component.translatable("gregulvexpansion.machine.lead_chamber.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.lead_chamber.tooltip.summary.1"),
                     Component.translatable("gregulvexpansion.machine.lead_chamber.tooltip.summary.2"))
+            .register();
+
+    
+    
+    
+    /**
+     * 原始蒸馏塔 — 无电多方块（3×6×3 固定，最高 6 层），原油分馏 ×16 拉伸
+     * (v1.1, primitive-distillation-tower.md)：HV 级配方的无电原始多方块特例首例。
+     * 只接受流体输入（与上游蒸馏塔一致）。
+     */
+    public static final MultiblockMachineDefinition PRIMITIVE_DISTILLATION_TOWER = GULVRegistration.REGISTRATE
+            .multiblock("primitive_distillation_tower",
+                    holder -> new PrimitiveDistillationTowerMachine(holder))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GULVRecipeTypes.PRIMITIVE_DISTILLATION)
+            .appearanceBlock(GULVBlocks.DISTILLATION_FRAME)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("AAA", "AAA", "AAA")
+                    .aisle("AAA", "A#A", "AAA")
+                    .aisle("AAA", "A#A", "AAA")
+                    .aisle("AAA", "A#A", "AAA")
+                    .aisle("AAA", "A#A", "AAA")
+                    .aisle("AAA", "ASA", "AAA")
+                    .where('A', blocks(GULVBlocks.DISTILLATION_FRAME.get())
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes(),
+                                    false, false, false, false, true, true)))
+                    .where('#', air())
+                    .where('S', controller(blocks(definition.getBlock())))
+                    .build())
+            .workableCasingModel(GregULVExpansion.id("block/casings/distillation_frame"),
+                    GregULVExpansion.id("block/multiblock/primitive_distillation_tower"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.primitive_distillation_tower.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.primitive_distillation_tower.tooltip.summary.1"))
+            .register();
+
+    /**
+     * 原始裂化机 — 无电多方块（5×3×3，仿上游裂化机结构原始化），
+     * 乙烯产量为上游裂化+蒸馏全链的 1/6 (v1.1)。
+     */
+    public static final MultiblockMachineDefinition PRIMITIVE_CRACKER = GULVRegistration.REGISTRATE
+            .multiblock("primitive_cracker",
+                    holder -> new PrimitiveCrackerMachine(holder))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GULVRecipeTypes.PRIMITIVE_CRACKING)
+            .appearanceBlock(GULVBlocks.DISTILLATION_FRAME)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("FFFFF", "FFFFF", "FFFFF")
+                    .aisle("FFFFF", "F###F", "FFFFF")
+                    .aisle("FFFFF", "F#O#F", "FFFFF")
+                    .where('F', blocks(GULVBlocks.DISTILLATION_FRAME.get())
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes(),
+                                    false, false, false, false, true, true)))
+                    .where('#', air())
+                    .where('O', controller(blocks(definition.getBlock())))
+                    .build())
+            .workableCasingModel(GregULVExpansion.id("block/casings/distillation_frame"),
+                    GregULVExpansion.id("block/multiblock/primitive_cracker"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.primitive_cracker.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.primitive_cracker.tooltip.summary.1"))
+            .register();
+
+    /**
+     * ULV 油田泵 — 仿上游流体钻井机的 ULV 多方块（抽取基岩流体油田，带枯竭机制），
+     * 相对 LV 钻井机：产出减半、单位能耗加倍（v1.1）。
+     */
+    public static final MultiblockMachineDefinition ULV_OIL_PUMP = GULVRegistration.REGISTRATE
+            .multiblock("ulv_oil_pump",
+                    holder -> new ULVOilPumpMachine(holder, GTValues.ULV))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.ALL)
+            .recipeType(com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES)
+            .appearanceBlock(GULVBlocks.DISTILLATION_FRAME)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("XXX", "#F#", "#F#", "###")
+                    .aisle("XXX", "FCF", "FCF", "###")
+                    .aisle("XSX", "#F#", "#F#", "###")
+                    .where('X', blocks(GULVBlocks.DISTILLATION_FRAME.get())
+                            .or(abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1)
+                                    .setMaxGlobalLimited(2))
+                            .or(abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(1)))
+                    .where('C', blocks(GULVBlocks.DISTILLATION_FRAME.get()))
+                    .where('F', blocks(FluidDrillMachine.getFrameState(GTValues.ULV)))
+                    .where('S', controller(blocks(definition.getBlock())))
+                    .build())
+            .workableCasingModel(GregULVExpansion.id("block/casings/distillation_frame"),
+                    GregULVExpansion.id("block/multiblock/ulv_oil_pump"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.ulv_oil_pump.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.ulv_oil_pump.tooltip.summary.1"))
             .register();
 
     private GULVMultiblocks() {}

@@ -40,6 +40,11 @@ public final class GULVRecipeTypes {
     public static GTRecipeType ULV_FLUID_SOLIDFICATION;
     /** ULV 流体提取：橡胶链（粘性树脂/橡胶树部件 → 生橡胶粉，EUt 2 原样直录）。 */
     public static GTRecipeType ULV_EXTRACTING;
+
+    /** 原始蒸馏：原油分馏（无电多方块，蒸汽驱动，产出比例与上游一致）。 */
+    public static GTRecipeType PRIMITIVE_DISTILLATION;
+    /** 原始裂化：石脑油/轻燃料 + 蒸汽 → 乙烯（无电多方块，产量 1/6）。 */
+    public static GTRecipeType PRIMITIVE_CRACKING;
     /** ULV 卷板：锭 → 板 ×1（EUt 24 降档为 7，时长 ×2）。 */
     public static GTRecipeType ULV_BENDING;
     /** ULV 车削：螺栓→螺丝、剥皮原木→长木杆（EUt ≤7，时长 ×2）。 */
