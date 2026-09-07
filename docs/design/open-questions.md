@@ -41,13 +41,21 @@
 
 ## 待办调研（无决策含量，实现前完成）
 
-| 任务 | 服务于 | 备注 |
-| --- | --- | --- |
-| 上游电解配方清单（水电解等 EUt/duration） | 电解槽子集表数值列 | 与 B2 原范围一致 |
-| 上游板→线、板→切割件配方清单 | 轧机/切割机子集表 | 原 B3 范围收缩后仍需（不含洗矿） |
-| 硫粉主世界副产积累速度实测 | 铅室产能校准 | B4 |
-| 上游真空管/NAND 原配方完整材料清单 | P2 替代配方等价设计 + 移除配方 ID 列表 | B5，因 D14 裁决变为必做 |
-| cover 渲染器按 tier 复用性验证 | 构件线渲染 | F1 |
+> 更新（2026-09-07 第二轮调研）：以下 5 项中 4 项已完成，结论统一收录在 [upstream-recipe-research.md](upstream-recipe-research.md)；仅剩 B4 进游戏实测。
+
+| 任务 | 服务于 | 备注 | 状态 |
+| --- | --- | --- | --- |
+| 上游电解配方清单（水电解等 EUt/duration） | 电解槽子集表数值列 | 与 B2 原范围一致 | ✅ 完成（水电解/蒸馏水电解 1500t @ 30；PbO 氧化确认无上游对标） |
+| 上游板→线、板→切割件配方清单 | 轧机/切割机子集表 | 原 B3 范围收缩后仍需（不含洗矿） | ✅ 完成（轧机吃锭不吃板；切割机配方族已列） |
+| 硫粉主世界副产积累速度实测 | 铅室产能校准 | B4 | ⏳ 待办（需进游戏） |
+| 上游真空管/NAND 原配方完整材料清单 | P2 替代配方等价设计 + 移除配方 ID 列表 | B5，因 D14 裁决变为必做 | ✅ 完成（6 条移除 ID 已列，`removeRecipes` 机制确认可行） |
+| cover 渲染器按 tier 复用性验证 | 构件线渲染 | F1 | ✅ 完成（可复用，无需简模占位） |
+
+### 第二轮调研记录（2026-09-07）
+
+- **F1 关闭**：`GTCovers.registerTiered` 的渲染器 supplier 全层级共用同一贴图（传送带 tier 参数被忽略，泵直接用常量实例 `PUMP_LIKE_COVER_RENDERER`），且 `SOLAR_PANEL` 已有 `ALL_TIERS_WITH_ULV` 先例——ULV 传送带/泵直接复用上游行为类与渲染器，无降级预案。
+- **D14 实现确认**：GT 配方统一经 `GTRecipes.recipeAddition` 的过滤器 consumer 落盘，`IGTAddon#removeRecipes` 提交精确 ID 可同时移除工作台配方（`gtceu:vacuum_tube`）与机器配方（`gtceu:assembler/...`、`gtceu:circuit_assembler/...`）。
+- 依据与完整数据见 [upstream-recipe-research.md](upstream-recipe-research.md)。
 
 ## 归档：问题背景与方案权衡（裁决依据）
 

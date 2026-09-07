@@ -74,4 +74,4 @@
 
 ## 开放问题
 
-v0.3 首轮裁决后，D11（氯线）、C3（缓存）、原开放问题 3（PbO₂ 路线，并入 B1 裁决）全部关闭。残余为实现前调研项：上游电解配方 EUt/duration 逐条清单（水电解、PbO 氧化对标用），见 [open-questions.md](open-questions.md) 待办调研表。
+v0.3 首轮裁决后，D11（氯线）、C3（缓存）、原开放问题 3（PbO₂ 路线，并入 B1 裁决）全部关闭。上游电解配方清单核实已完成（2026-09-07 第二轮调研：水电解/蒸馏水电解 1500t @ VA[LV]=30，PbO 氧化确认无上游对标条目），见 [upstream-recipe-research.md](upstream-recipe-research.md) §3。
