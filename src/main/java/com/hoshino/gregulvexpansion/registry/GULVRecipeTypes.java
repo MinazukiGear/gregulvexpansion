@@ -38,8 +38,6 @@ public final class GULVRecipeTypes {
     public static GTRecipeType ULV_BENDING;
     /** ULV 车削：螺栓→螺丝、剥皮原木→长木杆（EUt ≤7，时长 ×2）。 */
     public static GTRecipeType ULV_TURNING;
-    /** ULV 挤出：锭 + 挤出模具 → 杆/螺栓/板（EUt 7，时长 ×2）。 */
-    public static GTRecipeType ULV_EXTRUDING;
 
     private GULVRecipeTypes() {}
 
@@ -51,21 +49,6 @@ public final class GULVRecipeTypes {
         REDSTONE_GENERATOR_FUELS = registerRedstoneGeneratorFuels(event);
         ULV_BENDING = registerUlvBending(event);
         ULV_TURNING = registerUlvTurning(event);
-        ULV_EXTRUDING = registerUlvExtruding(event);
-    }
-
-    private static GTRecipeType registerUlvExtruding(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
-        ResourceLocation id = GregULVExpansion.id("ulv_extruding");
-        // IO 布局：输入 2 格（材料 + 挤出模具[不消耗]）、输出 1 格（与上游挤出机一致）
-        ULV_EXTRUDING = new GTRecipeType(id, GTRecipeTypes.ELECTRIC)
-                .setMaxIOSize(2, 1, 0, 0)
-                .setEUIO(IO.IN)
-                .setSlotOverlay(false, false, true, GuiTextures.MOLD_OVERLAY)
-                .setProgressBar(GuiTextures.PROGRESS_BAR_EXTRUDER, LEFT_TO_RIGHT)
-                .setSound(GTSoundEntries.COMPRESSOR)
-                .setXEIVisible(true);
-
-        return register(id, ULV_EXTRUDING, event);
     }
 
     private static GTRecipeType registerUlvBending(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {

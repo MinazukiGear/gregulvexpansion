@@ -16,7 +16,6 @@ import com.hoshino.gregulvexpansion.machine.generator.RedstoneGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.generator.ThermoelectricGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.simple.PrimitiveElectrolyzerMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVBenderMachine;
-import com.hoshino.gregulvexpansion.machine.simple.ULVExtruderMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVCutterMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVLatheMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVWireMillMachine;
@@ -190,24 +189,6 @@ public final class GULVMachines {
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_lathe.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_lathe.tooltip.summary.1"))
-            .register();
-
-    /** 超低压挤出机 — 金属杆主产线（锭+模具→杆×2），另含螺栓/板挤出（v0.6）。 */
-    public static final MachineDefinition ULV_EXTRUDER = GULVRegistration.REGISTRATE
-            .machine("ulv_extruder",
-                    holder -> new ULVExtruderMachine(holder, GTValues.ULV,
-                            GTMachineUtils.defaultTankSizeFunction))
-            .tier(GTValues.ULV)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GULVRecipeTypes.ULV_EXTRUDING)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
-            .langValue("ULV Extruder")
-            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
-                    GregULVExpansion.id("ulv_extruder"), GULVRecipeTypes.ULV_EXTRUDING))
-            .workableTieredHullModel(GTCEu.id("block/machines/ulv_extruder"))
-            .tooltips(
-                    Component.translatable("gregulvexpansion.machine.ulv_extruder.tooltip.summary.0"),
-                    Component.translatable("gregulvexpansion.machine.ulv_extruder.tooltip.summary.1"))
             .register();
 
     private GULVMachines() {}
