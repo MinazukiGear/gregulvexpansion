@@ -1,6 +1,8 @@
 {
   "block.gregulvexpansion.hand_crank_dynamo": "oɯɐuʎᗡ ʞuɐɹƆ-puɐH",
   "block.gregulvexpansion.lead_acid_battery_wall": "ןןɐM ʎɹǝʇʇɐᗺ pıɔⱯ-pɐǝꞀ",
+  "block.gregulvexpansion.lead_chamber": "ɹǝqɯɐɥƆ pɐǝꞀ",
+  "block.gregulvexpansion.lead_lined_casing": "buısɐƆ pǝuıꞀ-pɐǝꞀ",
   "block.gregulvexpansion.primitive_electrolyzer": "ɹǝzʎןoɹʇɔǝןƎ ǝʌıʇıɯıɹԀ",
   "gregulvexpansion.item.cats_whisker_detector.tooltip": "˙ǝɔıʌǝp ɹoʇɔnpuoɔıɯǝs ʇsɹıɟ ǝɥʇ ʎןןɐɔıɹoʇsıɥ — ʞsıɥʍ ʎoןןɐ pǝɹ ǝuıɟ ɐ ɥʇıʍ ןɐʇsʎɹɔ ɐuǝןɐb pǝıɟıɹnd Ɐ",
   "gregulvexpansion.item.ulv_electric_motor.tooltip": "˙ɹoʇɐɹǝuǝb puɐ ǝuıɥɔɐɯ ΛꞀ∩ ʎɹǝʌǝ ɟo ǝʇısınbǝɹǝɹd uoɯɯoɔ ǝɥ⟘ ˙ɹoʇoɯ ∩Ǝ 8 ǝpnɹɔ Ɐ",
@@ -11,6 +13,9 @@
   "gregulvexpansion.machine.lead_acid_battery_wall.tooltip.fuse": "˙ʇı sʇǝsǝɹ ʞɔıןɔ ɥɔuǝɹʍ buıʞɐǝusun ؛ʇı sʞɔoן puɐ ǝsnɟ sʇı sdıɹʇ ʞɹoʍʇǝu +ΛꞀ uɐ ɯoɹɟ ǝbɐʇןoʌɹǝʌO",
   "gregulvexpansion.machine.lead_acid_battery_wall.tooltip.summary.0": "˙ʇno puɐ uı Ɐ Ɩ · ʇ/∩Ǝ 8 — ǝpıs ʎuɐ ǝɹıM ˙ǝbɐɹoʇs pǝuıɐʇuoɔ-ɟןǝs ɟo ∩Ǝ 000'ㄣᄅ :ʎɹǝʇʇɐq pǝʇunoɯ-ןןɐʍ Ɐ",
   "gregulvexpansion.machine.lead_acid_battery_wall.tooltip.summary.1": "˙ǝןpı uǝɥʍ ǝbɹɐɥɔsıp-ɟןǝs ou ؛)ʇɐɥʇ ɹoɟ uoıʇɐʇs buıbɹɐɥɔ ɯɐǝɹʇsdn ǝɥʇ ǝsn( sʇoןs ʎɹǝʇʇɐq oN",
+  "gregulvexpansion.machine.lead_chamber.tooltip.summary.0": "˙ʇsǝuıɟ sʇı ʇɐ ʎɹʇsnpuı s0ϛ8Ɩ — ɯɐǝʇs ɥʇıʍ pıɔɐ ɔıɹnɟןns sǝʞɐɯ ʇɐɥʇ ʞɔoןqıʇןnɯ ʎʇıɔıɹʇɔǝןǝ-ou Ɐ",
+  "gregulvexpansion.machine.lead_chamber.tooltip.summary.1": "˙sןןɐʍ ǝɥʇ uo sǝɥɔʇɐɥ ʇndʇno pınןɟ puɐ ʇnduı pınןɟ 'ʇnduı ɯǝʇı snןd 'doʇ uo ɥɔʇɐɥ ʇnduı pınןɟ ɐ spǝǝN ˙s 0ㄣ uı pıɔɐ ɔıɹnɟןns ᗺɯ 00ϛ >- ɯɐǝʇs + ɹǝʇɐʍ ᗺɯ 00ϛ + ʇsnp ɹnɟןns ᄅ :ǝdıɔǝᴚ",
+  "gregulvexpansion.machine.lead_chamber.tooltip.summary.2": "˙ɹoʇıʇǝdɯoɔ ɐ ʇou 'dnʞɔɐq pıɹb-ɟɟo uɐ — sɹoʇɔɐǝɹ ןɐɔıɯǝɥɔ ΛꞀ uɐɥʇ ɹǝʍoןs ɹɐℲ",
   "gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.0": "˙ʇno uǝbʎxo puɐ uǝboɹpʎɥ 'uı ɹǝʇɐʍ — ʇ/∩Ǝ 8 ʇɐ sısʎןoɹʇɔǝןǝ :ʎɹʇsıɯǝɥɔ ɔıɹʇɔǝןǝ ɟo ǝuo uossǝꞀ",
   "gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.1": "˙sɹoʇɔǝʇǝp ɹǝʞsıɥʍ-s,ʇɐɔ ɟo ɹıɐd ɐ sı ǝbpıɹq ɹǝıɟıʇɔǝɹ sʇI ˙∩Ǝ 0ㄣᄅ ɹǝɟɟnq ؛ʇsıןǝʇıɥʍ uoıʇɔɐǝɹ ΛꞀ∩ pǝʞɔıd-puɐɥ ǝɥʇ ʎןuo sunᴚ",
   "item.gregulvexpansion.cats_whisker_detector": "ɹoʇɔǝʇǝᗡ ɹǝʞsıɥM-s,ʇɐƆ",

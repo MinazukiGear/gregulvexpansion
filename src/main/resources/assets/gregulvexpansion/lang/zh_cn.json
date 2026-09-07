@@ -2,6 +2,7 @@
   "block.gregulvexpansion.hand_crank_dynamo": "手摇发电机",
   "block.gregulvexpansion.primitive_electrolyzer": "原型电解槽",
   "block.gregulvexpansion.lead_acid_battery_wall": "铅酸蓄电墙",
+  "block.gregulvexpansion.lead_lined_casing": "铅衬机壳",
   "material.gregulvexpansion.lead_dioxide": "二氧化铅",
   "item.gregulvexpansion.cats_whisker_detector": "猫须探测器",
   "item.gregulvexpansion.wood_crank": "木质曲柄",
@@ -24,5 +25,9 @@
 
   "gregulvexpansion.machine.lead_acid_battery_wall.tooltip.summary.0": "墙上的蓄电池：自含 24,000 EU 储能，任意一面接线，8 EU/t · 1 A 进出。",
   "gregulvexpansion.machine.lead_acid_battery_wall.tooltip.summary.1": "不设电池物品槽（放电池请用上游充电站/电池缓冲）；闲置无自放电。",
-  "gregulvexpansion.machine.lead_acid_battery_wall.tooltip.fuse": "被 LV+ 网络超压供电会熔断锁死；用扳手（非潜行）右键重置。"
+  "gregulvexpansion.machine.lead_acid_battery_wall.tooltip.fuse": "被 LV+ 网络超压供电会熔断锁死；用扳手（非潜行）右键重置。",
+
+  "gregulvexpansion.machine.lead_chamber.tooltip.summary.0": "无电多方块：用蒸汽产硫酸——1850 年代工业的真实复刻。",
+  "gregulvexpansion.machine.lead_chamber.tooltip.summary.1": "配方：硫粉 ×2 + 水 500 mB + 蒸汽 → 500 mB 硫酸，40 秒。顶面须放 1 个流体输入仓（蒸汽进气），墙面放物品输入、流体输入与流体输出仓。",
+  "gregulvexpansion.machine.lead_chamber.tooltip.summary.2": "远慢于 LV 化学反应器——它是无电备援，不是竞争者。"
 }

@@ -33,6 +33,7 @@ public final class GregULVExpansionAddon implements IGTAddon {
         // 上游 7.5.3 自身零配方 JSON，datagen 路径会在 toJson 处 NPE。
         // 工作台配方仍在 datagen（GULVRecipes，ProviderType.RECIPE）。
         GULVRecipes.addElectrolysisRecipes(provider);
+        GULVRecipes.addLeadChamberRecipe(provider);
     }
 
     @Override

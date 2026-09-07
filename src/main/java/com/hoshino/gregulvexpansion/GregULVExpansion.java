@@ -8,6 +8,7 @@ import com.hoshino.gregulvexpansion.data.GULVItemModels;
 import com.hoshino.gregulvexpansion.data.GULVRecipes;
 import com.hoshino.gregulvexpansion.registry.GULVMachines;
 import com.hoshino.gregulvexpansion.registry.GULVMaterials;
+import com.hoshino.gregulvexpansion.registry.GULVMultiblocks;
 import com.hoshino.gregulvexpansion.registry.GULVRecipeTypes;
 import com.hoshino.gregulvexpansion.registry.GULVRegistration;
 import com.mojang.logging.LogUtils;
@@ -46,6 +47,7 @@ public final class GregULVExpansion {
 
     private void registerMachines(final GTCEuAPI.RegisterEvent<?, MachineDefinition> event) {
         GULVMachines.init();
+        GULVMultiblocks.init();
     }
 
     public static ResourceLocation id(String path) {

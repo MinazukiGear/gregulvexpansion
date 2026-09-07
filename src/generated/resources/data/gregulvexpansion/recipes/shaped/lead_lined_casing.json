@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": {
+      "item": "gtceu:lead_plate"
+    },
+    "S": {
+      "tag": "forge:stone"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "PPP",
+    " S ",
+    "PPP"
+  ],
+  "result": {
+    "count": 2,
+    "item": "gregulvexpansion:lead_lined_casing"
+  }
+}

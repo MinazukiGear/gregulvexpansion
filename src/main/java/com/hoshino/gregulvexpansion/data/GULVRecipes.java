@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.hoshino.gregulvexpansion.GregULVExpansion;
 import com.hoshino.gregulvexpansion.registry.GULVItems;
 import com.hoshino.gregulvexpansion.registry.GULVMachines;
+import com.hoshino.gregulvexpansion.registry.GULVBlocks;
 import com.hoshino.gregulvexpansion.registry.GULVRecipeTypes;
 import com.hoshino.gregulvexpansion.registry.GULVMaterials;
 
@@ -41,6 +42,7 @@ public final class GULVRecipes {
         addLeadAcidCellRecipe(provider);
         addBatteryPackRecipe(provider);
         addBatteryWallRecipe(provider);
+        addLeadLinedCasingRecipe(provider);
     }
 
     /** 猫须探测器：纯净方铅矿矿石 + 红合金单线 → ×2 (D13 产出翻倍)。 */
@@ -167,6 +169,21 @@ public final class GULVRecipes {
     }
 
     /**
+     * 铅室法制酸 (lead-chamber-acid-plant.md 配方草案，v0.3.1 时长拉长定案)：
+     * 硫粉 ×2 + 水 500 mB + 蒸汽 6,400 mB（= 8 mB/t × 800 t，运行期一次性扣除）
+     * → 硫酸 500 mB；无电（省略 EUt，焦炉同款语义）。等效 1,600 t / 1,000 mB，
+     * 产能替代性已锁死。同样仅供运行时 addRecipes 调用。
+     */
+    public static void addLeadChamberRecipe(Consumer<FinishedRecipe> provider) {
+        GULVRecipeTypes.LEAD_CHAMBER_RECIPES.recipeBuilder(GregULVExpansion.id("sulfuric_acid"))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Sulfur, 2))
+                .inputFluids(GTMaterials.Water.getFluid(500), GTMaterials.Steam.getFluid(6_400))
+                .outputFluids(GTMaterials.SulfuricAcid.getFluid(500))
+                .duration(800)
+                .save(provider);
+    }
+
+    /**
      * 铅酸单格电池 (lead-acid-battery-line.md 化学链)：PbO₂ 板 + 铅板 + 硫酸 100 mB +
      * 木箱。硫酸走 {@link FluidContainerIngredient}：匹配任意盛有 ≥100 mB 硫酸的
      * 流体容器（GT 单元等），合成时精确抽出 100 mB 并返还余量容器。
@@ -208,5 +225,17 @@ public final class GULVRecipes {
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
                 'H', GTMachines.HULL[0].asStack(),
                 'C', GULVItems.LEAD_ACID_BATTERY_PACK);
+    }
+
+    /** 铅衬机壳：铅板 ×6 + 石材基座，每次产出 2 个（铅室法 3×4×3 结构约需 22 块）。 */
+    private static void addLeadLinedCasingRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("lead_lined_casing"),
+                GULVBlocks.LEAD_LINED_CASING.asStack(2),
+                "PPP",
+                " S ",
+                "PPP",
+                'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Lead),
+                'S', Tags.Items.STONE);
     }
 }

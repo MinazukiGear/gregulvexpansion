@@ -39,6 +39,15 @@ public final class GULVLang {
                 "No battery slots (use the upstream charging station for that); no self-discharge when idle.");
         add("gregulvexpansion.machine.lead_acid_battery_wall.tooltip.fuse",
                 "Overvoltage from an LV+ network trips its fuse and locks it; unsneaking wrench click resets it.");
+
+        // ---- 铅衬机壳 / 铅室法制酸装置 ----
+        // (铅衬机壳名称由 GULVBlocks 的 .lang() 生成，勿重复添加)
+        add("gregulvexpansion.machine.lead_chamber.tooltip.summary.0",
+                "A no-electricity multiblock that makes sulfuric acid with steam — 1850s industry at its finest.");
+        add("gregulvexpansion.machine.lead_chamber.tooltip.summary.1",
+                "Recipe: 2 sulfur dust + 500 mB water + steam -> 500 mB sulfuric acid in 40 s. Needs a fluid input hatch on top, plus item input, fluid input and fluid output hatches on the walls.");
+        add("gregulvexpansion.machine.lead_chamber.tooltip.summary.2",
+                "Far slower than LV chemical reactors — an off-grid backup, not a competitor.");
     }
 
     private static void add(String key, String value) {
