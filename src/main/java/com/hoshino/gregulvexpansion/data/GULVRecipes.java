@@ -430,6 +430,30 @@ public final class GULVRecipes {
                 'T', GTItems.GLASS_TUBE.asStack(),
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy));
 
+        // 真空管·装配机红合金流体档（上游 3/4 号配方 + 探测器成本，ID 保留、动态包直写）：
+        // 工作台 ×1 → 装配机红合金 ×3 → 装配机退火铜 ×4，恢复上游「以流体育提产率」的梯度
+        com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES
+                .recipeBuilder("vacuum_tube_red_alloy")
+                .EUt(GTValues.VA[GTValues.ULV]).duration(40)
+                .inputItems(GTItems.GLASS_TUBE)
+                .inputItems(TagPrefix.bolt, GTMaterials.Steel)
+                .inputItems(TagPrefix.wireGtSingle, GTMaterials.Copper, 2)
+                .inputFluids(GTMaterials.RedAlloy.getFluid(18))
+                .inputItems(GULVItems.CATS_WHISKER_DETECTOR)
+                .outputItems(GTItems.VACUUM_TUBE, 3)
+                .save(GTDynamicDataPack::addRecipe);
+
+        com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES
+                .recipeBuilder("vacuum_tube_red_alloy_annealed")
+                .EUt(GTValues.VA[GTValues.ULV]).duration(40)
+                .inputItems(GTItems.GLASS_TUBE)
+                .inputItems(TagPrefix.bolt, GTMaterials.Steel)
+                .inputItems(TagPrefix.wireGtSingle, GTMaterials.AnnealedCopper, 2)
+                .inputFluids(GTMaterials.RedAlloy.getFluid(18))
+                .inputItems(GULVItems.CATS_WHISKER_DETECTOR)
+                .outputItems(GTItems.VACUUM_TUBE, 4)
+                .save(GTDynamicDataPack::addRecipe);
+
         // NAND 芯片（2026-09-08 所有者指示：仍按上游产线，仅修改成本）：完整保留上游
         // 两条电路装配机配方（MV 装配机 + 好电路板/塑料板 + SoC 晶圆链 + 红合金螺栓 +
         // 锡细线），唯一成本修改是追加猫须探测器 ×1 作为 D14 入口。ID 保留上游原 ID，
