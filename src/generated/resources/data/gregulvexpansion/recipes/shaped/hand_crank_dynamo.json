@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "gregulvexpansion:wood_crank"
+    },
+    "D": {
+      "item": "gregulvexpansion:cats_whisker_detector"
+    },
+    "H": {
+      "item": "gtceu:ulv_machine_hull"
+    },
+    "I": {
+      "item": "gtceu:iron_plate"
+    },
+    "W": {
+      "item": "gtceu:red_alloy_single_wire"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "WCW",
+    "IDI",
+    "IHI"
+  ],
+  "result": {
+    "item": "gregulvexpansion:hand_crank_dynamo"
+  }
+}

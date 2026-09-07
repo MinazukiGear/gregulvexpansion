@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "PP",
+    " S"
+  ],
+  "result": {
+    "item": "gregulvexpansion:wood_crank"
+  }
+}

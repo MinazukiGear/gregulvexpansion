@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "gregulvexpansion:block/machine/hand_crank_dynamo",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "gregulvexpansion:block/machine/hand_crank_dynamo",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gregulvexpansion:block/machine/hand_crank_dynamo"
+    },
+    "facing=south": {
+      "model": "gregulvexpansion:block/machine/hand_crank_dynamo",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "gregulvexpansion:block/machine/hand_crank_dynamo",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "gregulvexpansion:block/machine/hand_crank_dynamo",
+      "y": 270
+    }
+  }
+}

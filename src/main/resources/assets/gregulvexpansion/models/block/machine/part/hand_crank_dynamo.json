@@ -1,0 +1,7 @@
+{
+  "parent": "gtceu:block/overlay/2_layer/tinted/front",
+  "textures": {
+    "overlay": "gregulvexpansion:block/machine/part/hand_crank_dynamo",
+    "overlay_tinted": "gregulvexpansion:block/machine/part/hand_crank_dynamo_tinted"
+  }
+}

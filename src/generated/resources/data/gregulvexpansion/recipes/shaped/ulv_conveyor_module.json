@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "M": {
+      "item": "gregulvexpansion:ulv_electric_motor"
+    },
+    "R": {
+      "item": "gtceu:rubber_plate"
+    },
+    "S": {
+      "item": "gtceu:iron_screw"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "SMS",
+    "RR "
+  ],
+  "result": {
+    "item": "gregulvexpansion:ulv_conveyor_module"
+  }
+}

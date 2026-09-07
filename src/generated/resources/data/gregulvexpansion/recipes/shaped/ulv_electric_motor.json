@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": {
+      "item": "gregulvexpansion:cats_whisker_detector"
+    },
+    "P": {
+      "item": "gtceu:iron_plate"
+    },
+    "R": {
+      "item": "gtceu:iron_rod"
+    },
+    "W": {
+      "item": "gtceu:red_alloy_single_wire"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "WRW",
+    "PDP",
+    "WRW"
+  ],
+  "result": {
+    "item": "gregulvexpansion:ulv_electric_motor"
+  }
+}
