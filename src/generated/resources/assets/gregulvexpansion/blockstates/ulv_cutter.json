@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "gregulvexpansion:block/machine/ulv_cutter",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gregulvexpansion:block/machine/ulv_cutter"
+    },
+    "facing=south": {
+      "model": "gregulvexpansion:block/machine/ulv_cutter",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "gregulvexpansion:block/machine/ulv_cutter",
+      "y": 270
+    }
+  }
+}

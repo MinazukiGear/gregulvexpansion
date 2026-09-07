@@ -34,6 +34,7 @@ public final class GregULVExpansionAddon implements IGTAddon {
         // 工作台配方仍在 datagen（GULVRecipes，ProviderType.RECIPE）。
         GULVRecipes.addElectrolysisRecipes(provider);
         GULVRecipes.addLeadChamberRecipe(provider);
+        GULVRecipes.addUlvMachineRecipes(provider);
     }
 
     @Override

@@ -48,6 +48,22 @@ public final class GULVLang {
                 "Recipe: 2 sulfur dust + 500 mB water + steam -> 500 mB sulfuric acid in 40 s. Needs a fluid input hatch on top, plus item input, fluid input and fluid output hatches on the walls.");
         add("gregulvexpansion.machine.lead_chamber.tooltip.summary.2",
                 "Far slower than LV chemical reactors — an off-grid backup, not a competitor.");
+
+        // ---- 温差发电机 ----
+        add("gregulvexpansion.machine.thermoelectric_generator.tooltip.summary.0",
+                "Paste it against a heat source (lava, fire, torches) and it quietly produces 1-5 EU/t. Water or ice on any other face boosts the output.");
+        add("gregulvexpansion.machine.thermoelectric_generator.tooltip.summary.1",
+                "Maintenance-free but capped at 8 EU/t · 1 A — for a real power grid, move on to redstone fuel cells.");
+
+        // ---- 超低压线材轧机 / 切割机 ----
+        add("gregulvexpansion.machine.ulv_wire_mill.tooltip.summary.0",
+                "Draws metal ingots into single wires at 8 EU/t — twice as slow as the LV wiremill, half the energy.");
+        add("gregulvexpansion.machine.ulv_wire_mill.tooltip.summary.1",
+                "Runs a hand-picked subset only (red alloy, copper, iron, tin, lead, zinc).");
+        add("gregulvexpansion.machine.ulv_cutter.tooltip.summary.0",
+                "A motor-driven saw blade for basic cutting: rods into bolts, long rods into rods, blocks into plates.");
+        add("gregulvexpansion.machine.ulv_cutter.tooltip.summary.1",
+                "Wrought-iron blade (no precision work). Runs a hand-picked subset only — no wafers, no gem cutting.");
     }
 
     private static void add(String key, String value) {

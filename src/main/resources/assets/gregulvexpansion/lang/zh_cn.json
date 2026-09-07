@@ -29,5 +29,17 @@
 
   "gregulvexpansion.machine.lead_chamber.tooltip.summary.0": "无电多方块：用蒸汽产硫酸——1850 年代工业的真实复刻。",
   "gregulvexpansion.machine.lead_chamber.tooltip.summary.1": "配方：硫粉 ×2 + 水 500 mB + 蒸汽 → 500 mB 硫酸，40 秒。顶面须放 1 个流体输入仓（蒸汽进气），墙面放物品输入、流体输入与流体输出仓。",
-  "gregulvexpansion.machine.lead_chamber.tooltip.summary.2": "远慢于 LV 化学反应器——它是无电备援，不是竞争者。"
+  "gregulvexpansion.machine.lead_chamber.tooltip.summary.2": "远慢于 LV 化学反应器——它是无电备援，不是竞争者。",
+
+  "block.gregulvexpansion.thermoelectric_generator": "温差发电机",
+  "gregulvexpansion.machine.thermoelectric_generator.tooltip.summary.0": "贴着热源（岩浆、火、火把）安静地产出 1-5 EU/t；任意其他面贴水或冰雪可提升输出。",
+  "gregulvexpansion.machine.thermoelectric_generator.tooltip.summary.1": "免维护但封顶 8 EU/t · 1 A——想要真正的电网，请转向红石发电机。",
+
+  "block.gregulvexpansion.ulv_wire_mill": "超低压线材轧机",
+  "gregulvexpansion.machine.ulv_wire_mill.tooltip.summary.0": "以 8 EU/t 把金属锭拉成单线——比 LV 轧机慢一倍，省一半电。",
+  "gregulvexpansion.machine.ulv_wire_mill.tooltip.summary.1": "仅运行人工审定的子集（红合金、铜、铁、锡、铅、锌）。",
+
+  "block.gregulvexpansion.ulv_cutter": "超低压切割机",
+  "gregulvexpansion.machine.ulv_cutter.tooltip.summary.0": "马达驱动的锯片，只做基础切割：杆→螺栓、长杆→杆、板材块→板。",
+  "gregulvexpansion.machine.ulv_cutter.tooltip.summary.1": "锻铁锯片（不做精密加工）；仅运行人工审定的子集——没有晶圆，没有宝石切割。"
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "gtceu:block/overlay/2_layer/tinted/front",
+  "textures": {
+    "overlay": "gregulvexpansion:block/machine/part/thermoelectric_generator",
+    "overlay_tinted": "gregulvexpansion:block/machine/part/thermoelectric_generator_tinted"
+  }
+}

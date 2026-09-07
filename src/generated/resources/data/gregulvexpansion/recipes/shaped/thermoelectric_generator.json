@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "gtceu:copper_plate"
+    },
+    "H": {
+      "item": "gtceu:ulv_machine_hull"
+    },
+    "I": {
+      "item": "gtceu:iron_plate"
+    },
+    "M": {
+      "item": "gregulvexpansion:ulv_electric_motor"
+    },
+    "W": {
+      "item": "gtceu:red_alloy_single_wire"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "WCW",
+    "IMI",
+    "IHI"
+  ],
+  "result": {
+    "item": "gregulvexpansion:thermoelectric_generator"
+  }
+}

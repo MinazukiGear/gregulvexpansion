@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
-import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection;
 import com.hoshino.gregulvexpansion.GregULVExpansion;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,12 +28,18 @@ public final class GULVRecipeTypes {
     public static GTRecipeType PRIMITIVE_ELECTROLYSIS;
     /** 铅室法制酸 (LEAD_CHAMBER)：无电多方块，蒸汽驱动，单一一步法配方。 */
     public static GTRecipeType LEAD_CHAMBER_RECIPES;
+    /** ULV 线材轧制：白名单金属锭 → 单线 ×2，时长为上游 ×2（轧机 1 进 1 出）。 */
+    public static GTRecipeType ULV_WIRE_MILLING;
+    /** ULV 切割：杆→螺栓、长杆→杆、板材块→板（晶圆/宝石等精密语义排除）。 */
+    public static GTRecipeType ULV_CUTTING;
 
     private GULVRecipeTypes() {}
 
     public static void init(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
         PRIMITIVE_ELECTROLYSIS = registerPrimitiveElectrolysis(event);
         LEAD_CHAMBER_RECIPES = registerLeadChamber(event);
+        ULV_WIRE_MILLING = registerUlvWireMilling(event);
+        ULV_CUTTING = registerUlvCutting(event);
     }
 
     private static GTRecipeType registerPrimitiveElectrolysis(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
@@ -65,6 +70,36 @@ public final class GULVRecipeTypes {
                 .setXEIVisible(true);
 
         return register(id, LEAD_CHAMBER_RECIPES, event);
+    }
+
+    private static GTRecipeType registerUlvWireMilling(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        ResourceLocation id = GregULVExpansion.id("ulv_wire_milling");
+        // IO 布局 (ulv-basic-machines.md 数值草案)：轧机 1 进 1 出
+        ULV_WIRE_MILLING = new GTRecipeType(id, GTRecipeTypes.ELECTRIC)
+                .setMaxIOSize(1, 1, 0, 0)
+                .setEUIO(IO.IN)
+                .setSlotOverlay(false, false, GuiTextures.WIREMILL_OVERLAY)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_WIREMILL, LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.MOTOR)
+                .setXEIVisible(true);
+
+        return register(id, ULV_WIRE_MILLING, event);
+    }
+
+    private static GTRecipeType registerUlvCutting(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        ResourceLocation id = GregULVExpansion.id("ulv_cutting");
+        // IO 布局 (ulv-basic-machines.md 数值草案)：切割 1 进 2 出
+        ULV_CUTTING = new GTRecipeType(id, GTRecipeTypes.ELECTRIC)
+                .setMaxIOSize(1, 2, 0, 0)
+                .setEUIO(IO.IN)
+                .setSlotOverlay(false, false, GuiTextures.SAWBLADE_OVERLAY)
+                .setSlotOverlay(true, false, false, GuiTextures.CUTTER_OVERLAY)
+                .setSlotOverlay(true, false, true, GuiTextures.DUST_OVERLAY)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_SLICE, LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.CUT)
+                .setXEIVisible(true);
+
+        return register(id, ULV_CUTTING, event);
     }
 
     private static GTRecipeType register(ResourceLocation id, GTRecipeType recipeType,

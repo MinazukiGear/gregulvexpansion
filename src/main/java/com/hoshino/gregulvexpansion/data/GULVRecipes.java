@@ -1,6 +1,9 @@
 package com.hoshino.gregulvexpansion.data;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidContainerIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -15,6 +18,9 @@ import com.hoshino.gregulvexpansion.registry.GULVMaterials;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
+
+import com.gregtechceu.gtceu.api.GTValues;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 
@@ -43,6 +49,9 @@ public final class GULVRecipes {
         addBatteryPackRecipe(provider);
         addBatteryWallRecipe(provider);
         addLeadLinedCasingRecipe(provider);
+        addThermoelectricGeneratorRecipe(provider);
+        addWireMillRecipe(provider);
+        addCutterRecipe(provider);
     }
 
     /** 猫须探测器：纯净方铅矿矿石 + 红合金单线 → ×2 (D13 产出翻倍)。 */
@@ -168,6 +177,84 @@ public final class GULVRecipes {
                 .save(provider);
     }
 
+
+    /**
+     * ULV 轧机/切割机配方子集 (ulv-basic-machines.md 子集表 + upstream-recipe-research.md §4)。
+     * 材料清单即定案对象（红合金/铜/铁/锡/铅/锌），扩表必须先改设计文档。
+     * 换算规则：EUt ≤ 8 时用上游原值、时长 ×2；板材块→板 EUt 30 → 7、时长 ×2。
+     * 同样仅供运行时 addRecipes 调用。
+     */
+    public static void addUlvMachineRecipes(Consumer<FinishedRecipe> provider) {
+        Material[] subsetMaterials = {
+                GTMaterials.RedAlloy, GTMaterials.Copper, GTMaterials.Iron,
+                GTMaterials.Tin, GTMaterials.Lead, GTMaterials.Zinc
+        };
+
+        // ---- ULV 线材轧机：锭 ×1 → 单线 ×2（上游 WireRecipeHandler，省略编程电路：
+        // ---- 本机单一职能无档位歧义，降低 ULV 门槛；上游同配方 EUt 7，时长 ×2）
+        for (Material material : subsetMaterials) {
+            if (!material.hasProperty(PropertyKey.WIRE) ||
+                    !material.shouldGenerateRecipesFor(TagPrefix.wireGtSingle)) {
+                continue;
+            }
+            TagPrefix prefix = material.hasProperty(PropertyKey.INGOT) ? TagPrefix.ingot :
+                    material.hasProperty(PropertyKey.GEM) ? TagPrefix.gem : TagPrefix.dust;
+            GULVRecipeTypes.ULV_WIRE_MILLING
+                    .recipeBuilder(GregULVExpansion.id("wire_" + material.getName()))
+                    .inputItems(prefix, material)
+                    .outputItems(TagPrefix.wireGtSingle, material, 2)
+                    .duration((int) material.getMass() * 2)
+                    .EUt(7)
+                    .save(provider);
+        }
+
+        // ---- ULV 切割机 ----
+        for (Material material : subsetMaterials) {
+            // 杆 ×1 → 螺栓 ×4（上游 EUt 4 / mass×2；子集 EUt 不变、时长 ×2）
+            if (material.hasFlag(MaterialFlags.GENERATE_BOLT_SCREW) &&
+                    material.shouldGenerateRecipesFor(TagPrefix.bolt) &&
+                    material.hasProperty(PropertyKey.DUST)) {
+                ItemStack boltStack = ChemicalHelper.get(TagPrefix.bolt, material);
+                if (!boltStack.isEmpty()) {
+                    GULVRecipeTypes.ULV_CUTTING
+                            .recipeBuilder(GregULVExpansion.id("cut_" + material.getName() + "_rod_to_bolt"))
+                            .inputItems(TagPrefix.rod, material)
+                            .outputItems(boltStack.copyWithCount(4))
+                            .duration((int) Math.max(material.getMass() * 4L, 1L))
+                            .EUt(4)
+                            .save(provider);
+                }
+            }
+            // 长杆 ×1 → 杆 ×2（上游 EUt 4 / mass；子集 EUt 不变、时长 ×2）
+            if (material.hasFlag(MaterialFlags.GENERATE_ROD) &&
+                    material.shouldGenerateRecipesFor(TagPrefix.rodLong)) {
+                ItemStack rodStack = ChemicalHelper.get(TagPrefix.rod, material);
+                if (!rodStack.isEmpty()) {
+                    GULVRecipeTypes.ULV_CUTTING
+                            .recipeBuilder(GregULVExpansion.id("cut_" + material.getName() + "_long_rod_to_rod"))
+                            .inputItems(TagPrefix.rodLong, material)
+                            .outputItems(rodStack.copyWithCount(2))
+                            .duration((int) Math.max(material.getMass() * 2L, 1L))
+                            .EUt(4)
+                            .save(provider);
+                }
+            }
+            // 板材块 ×1 → 板 ×(材料量/M)（上游 EUt 30 = VA[LV]；降档为 7、时长 ×2 = mass×16）
+            if (material.hasFlag(MaterialFlags.GENERATE_PLATE)) {
+                ItemStack plateStack = ChemicalHelper.get(TagPrefix.plate, material);
+                if (!plateStack.isEmpty()) {
+                    GULVRecipeTypes.ULV_CUTTING
+                            .recipeBuilder(GregULVExpansion.id("cut_" + material.getName() + "_block_to_plate"))
+                            .inputItems(TagPrefix.block, material)
+                            .outputItems(plateStack.copyWithCount((int) (TagPrefix.block.getMaterialAmount(material) / GTValues.M)))
+                            .duration((int) (material.getMass() * 16L))
+                            .EUt(7)
+                            .save(provider);
+                }
+            }
+        }
+    }
+
     /**
      * 铅室法制酸 (lead-chamber-acid-plant.md 配方草案，v0.3.1 时长拉长定案)：
      * 硫粉 ×2 + 水 500 mB + 蒸汽 6,400 mB（= 8 mB/t × 800 t，运行期一次性扣除）
@@ -237,5 +324,50 @@ public final class GULVRecipes {
                 "PPP",
                 'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Lead),
                 'S', Tags.Items.STONE);
+    }
+
+    /** 温差发电机：马达 + 红合金单线 ×2 + 铁板 ×3 + 铜板 ×2 + ULV 机械方块（3×3 收纳，铁板 4→3）。 */
+    private static void addThermoelectricGeneratorRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("thermoelectric_generator"),
+                GULVMachines.THERMOELECTRIC_GENERATOR.asStack(),
+                "WCW",
+                "IMI",
+                "IHI",
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'C', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Copper),
+                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'H', GTMachines.HULL[0].asStack());
+    }
+
+    /** 超低压线材轧机：马达 + 红合金单线 ×2 + 铁板 ×3 + 钢杆 ×2 + ULV 机械方块。 */
+    private static void addWireMillRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_wire_mill"),
+                GULVMachines.ULV_WIRE_MILL.asStack(),
+                "WRW",
+                "IMI",
+                "IHI",
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Steel),
+                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'H', GTMachines.HULL[0].asStack());
+    }
+
+    /** 超低压切割机：马达 + 红合金单线 ×2 + 铁板 ×4 + 锻铁锯片 + ULV 机械方块（D12）。 */
+    private static void addCutterRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_cutter"),
+                GULVMachines.ULV_CUTTER.asStack(),
+                "ISI",
+                "IMI",
+                "WHW",
+                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
+                'S', ChemicalHelper.get(TagPrefix.plate, GTMaterials.WroughtIron),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'H', GTMachines.HULL[0].asStack());
     }
 }

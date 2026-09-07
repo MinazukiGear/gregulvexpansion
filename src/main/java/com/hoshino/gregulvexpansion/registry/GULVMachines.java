@@ -9,7 +9,10 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.hoshino.gregulvexpansion.GregULVExpansion;
 import com.hoshino.gregulvexpansion.machine.generator.HandCrankDynamoMachine;
+import com.hoshino.gregulvexpansion.machine.generator.ThermoelectricGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.simple.PrimitiveElectrolyzerMachine;
+import com.hoshino.gregulvexpansion.machine.simple.ULVCutterMachine;
+import com.hoshino.gregulvexpansion.machine.simple.ULVWireMillMachine;
 import com.hoshino.gregulvexpansion.machine.storage.LeadAcidBatteryWallMachine;
 
 import net.minecraft.network.chat.Component;
@@ -70,6 +73,57 @@ public final class GULVMachines {
                     Component.translatable("gregulvexpansion.machine.lead_acid_battery_wall.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.lead_acid_battery_wall.tooltip.summary.1"),
                     Component.translatable("gregulvexpansion.machine.lead_acid_battery_wall.tooltip.fuse"))
+            .register();
+
+    /**
+     * 温差发电机 — 贴热产电的免维护基础负荷（P1, D5/C2/D15）。
+     * 岩浆源+贴水 5 EU/t 封顶，满功率需求转红石发电机。
+     */
+    public static final MachineDefinition THERMOELECTRIC_GENERATOR = GULVRegistration.REGISTRATE
+            .machine("thermoelectric_generator", ThermoelectricGeneratorMachine::new)
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.ALL)
+            .overlayTieredHullModel("thermoelectric_generator")
+            .langValue("Thermoelectric Generator")
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.thermoelectric_generator.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.thermoelectric_generator.tooltip.summary.1"))
+            .register();
+
+    /** 超低压线材轧机 — 金属锭→单线子集下沉（P1, ulv-basic-machines.md）。 */
+    public static final MachineDefinition ULV_WIRE_MILL = GULVRegistration.REGISTRATE
+            .machine("ulv_wire_mill",
+                    holder -> new ULVWireMillMachine(holder, GTValues.ULV,
+                            GTMachineUtils.defaultTankSizeFunction))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GULVRecipeTypes.ULV_WIRE_MILLING)
+            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .langValue("ULV Wire Mill")
+            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
+                    GregULVExpansion.id("ulv_wire_mill"), GULVRecipeTypes.ULV_WIRE_MILLING))
+            .workableTieredHullModel(GTCEu.id("block/machines/ulv_wire_mill"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.ulv_wire_mill.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.ulv_wire_mill.tooltip.summary.1"))
+            .register();
+
+    /** 超低压切割机 — 基础切割件子集下沉，锯片锻铁（P1, D12）。 */
+    public static final MachineDefinition ULV_CUTTER = GULVRegistration.REGISTRATE
+            .machine("ulv_cutter",
+                    holder -> new ULVCutterMachine(holder, GTValues.ULV,
+                            GTMachineUtils.defaultTankSizeFunction))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GULVRecipeTypes.ULV_CUTTING)
+            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .langValue("ULV Cutter")
+            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
+                    GregULVExpansion.id("ulv_cutter"), GULVRecipeTypes.ULV_CUTTING))
+            .workableTieredHullModel(GTCEu.id("block/machines/ulv_cutter"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.ulv_cutter.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.ulv_cutter.tooltip.summary.1"))
             .register();
 
     private GULVMachines() {}
