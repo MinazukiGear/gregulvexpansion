@@ -18,6 +18,7 @@ import com.hoshino.gregulvexpansion.registry.GULVMachines;
 import com.hoshino.gregulvexpansion.registry.GULVBlocks;
 import com.hoshino.gregulvexpansion.registry.GULVRecipeTypes;
 import com.hoshino.gregulvexpansion.registry.GULVMaterials;
+import com.hoshino.gregulvexpansion.registry.GULVMultiblocks;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.ItemTags;
@@ -58,6 +59,14 @@ public final class GULVRecipes {
         addRedstoneGeneratorRecipe(provider);
         addBenderRecipe(provider);
         addLatheRecipe(provider);
+        addChemicalReactorRecipe(provider);
+        addFluidSolidifierRecipe(provider);
+        addFluidExtractorRecipe(provider);
+        addLeadChamberControllerRecipe(provider);
+        addDistillationFrameRecipe(provider);
+        addPrimitiveDistillationTowerController(provider);
+        addPrimitiveCrackerController(provider);
+        addOilPumpController(provider);
     }
 
     /** 猫须探测器：纯净方铅矿矿石 + 红合金单线 → ×2 (D13 产出翻倍)。 */
@@ -357,7 +366,7 @@ public final class GULVRecipes {
                 "IMI",
                 "IHI",
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
-                'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Steel),
+                'T', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Steel),
                 'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
                 'M', GULVItems.ULV_ELECTRIC_MOTOR,
                 'H', GTMachines.HULL[0].asStack());
@@ -719,7 +728,7 @@ public final class GULVRecipes {
                 "IMI",
                 "IHI",
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
-                'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Steel),
+                'T', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Steel),
                 'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
                 'M', GULVItems.ULV_ELECTRIC_MOTOR,
                 'H', GTMachines.HULL[0].asStack());
@@ -784,4 +793,74 @@ public final class GULVRecipes {
                 'M', GULVItems.ULV_ELECTRIC_MOTOR,
                 'H', GTMachines.HULL[0].asStack());
     }
+
+    /** 铅室控制器：铅衬机壳 ×4(角) + 玻璃 ×2 + 猫须探测器 ×1 + 铅板 ×2。 */
+    private static void addLeadChamberControllerRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("lead_chamber"),
+                GULVMultiblocks.LEAD_CHAMBER.asStack(),
+                "ILI",
+                "GCG",
+                "ILI",
+                'I', GULVBlocks.LEAD_LINED_CASING.asStack(),
+                'G', net.minecraftforge.common.Tags.Items.GLASS,
+                'C', GULVItems.CATS_WHISKER_DETECTOR,
+                'L', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Lead));
+    }
+
+    /** 蒸馏塔框架：钢板 ×4(角) + 钢杆 ×4(边) + 玻璃 ×1(中) → ×2。 */
+    private static void addDistillationFrameRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("distillation_frame"),
+                GULVBlocks.DISTILLATION_FRAME.asStack(2),
+                "S S",
+                "GSG",
+                "S S",
+                'S', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Steel),
+                'G', net.minecraftforge.common.Tags.Items.GLASS,
+                'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Steel));
+    }
+
+    /** 原始蒸馏塔控制器：蒸馏塔框架 ×4 + 玻璃 ×2 + 红合金线 ×2 + 猫须探测器 ×1。 */
+    private static void addPrimitiveDistillationTowerController(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("primitive_distillation_tower"),
+                GULVMultiblocks.PRIMITIVE_DISTILLATION_TOWER.asStack(),
+                "WFW",
+                "GDG",
+                "WFW",
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'F', GULVBlocks.DISTILLATION_FRAME.asStack(),
+                'G', net.minecraftforge.common.Tags.Items.GLASS,
+                'D', GULVItems.CATS_WHISKER_DETECTOR);
+    }
+
+    /** 原始裂化机控制器：蒸馏塔框架 ×4 + 钢板 ×2 + 红合金线 ×2 + 猫须探测器 ×1。 */
+    private static void addPrimitiveCrackerController(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("primitive_cracker"),
+                GULVMultiblocks.PRIMITIVE_CRACKER.asStack(),
+                "FSF",
+                "WDW",
+                "FSF",
+                'F', GULVBlocks.DISTILLATION_FRAME.asStack(),
+                'S', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Steel),
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'D', GULVItems.CATS_WHISKER_DETECTOR);
+    }
+
+    /** ULV 油田泵控制器：蒸馏塔框架 ×4 + 马达 ×1 + 钢杆 ×2 + 红合金线 ×2。 */
+    private static void addOilPumpController(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_fluid_drilling_rig"),
+                GULVMultiblocks.ULV_FLUID_DRILLING_RIG.asStack(),
+                "TFR",
+                "TMT",
+                "TFR",
+                'F', GULVBlocks.DISTILLATION_FRAME.asStack(),
+                'T', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Steel),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy));
+    }
+
 }

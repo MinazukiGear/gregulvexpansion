@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": {
+      "item": "gregulvexpansion:cats_whisker_detector"
+    },
+    "F": {
+      "item": "gregulvexpansion:distillation_frame"
+    },
+    "S": {
+      "item": "gtceu:steel_plate"
+    },
+    "W": {
+      "item": "gtceu:red_alloy_single_wire"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "FSF",
+    "WDW",
+    "FSF"
+  ],
+  "result": {
+    "item": "gregulvexpansion:primitive_cracker"
+  }
+}

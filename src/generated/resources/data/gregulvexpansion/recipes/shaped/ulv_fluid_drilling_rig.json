@@ -1,11 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
-    "H": {
-      "item": "gtceu:ulv_machine_hull"
-    },
-    "I": {
-      "item": "gtceu:iron_plate"
+    "F": {
+      "item": "gregulvexpansion:distillation_frame"
     },
     "M": {
       "item": "gregulvexpansion:ulv_electric_motor"
@@ -19,11 +16,11 @@
   },
   "matchSize": false,
   "pattern": [
-    "WRW",
-    "IMI",
-    "IHI"
+    "TFR",
+    "TMT",
+    "TFR"
   ],
   "result": {
-    "item": "gregulvexpansion:ulv_bender"
+    "item": "gregulvexpansion:ulv_fluid_drilling_rig"
   }
 }

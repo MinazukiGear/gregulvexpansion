@@ -1,6 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
+    "G": {
+      "tag": "forge:glass"
+    },
     "H": {
       "item": "gtceu:ulv_machine_hull"
     },
@@ -10,20 +13,17 @@
     "M": {
       "item": "gregulvexpansion:ulv_electric_motor"
     },
-    "T": {
-      "item": "gtceu:steel_rod"
-    },
     "W": {
       "item": "gtceu:red_alloy_single_wire"
     }
   },
   "matchSize": false,
   "pattern": [
-    "WRW",
-    "IMI",
+    "WGW",
+    "GMG",
     "IHI"
   ],
   "result": {
-    "item": "gregulvexpansion:ulv_bender"
+    "item": "gregulvexpansion:ulv_chemical_reactor"
   }
 }

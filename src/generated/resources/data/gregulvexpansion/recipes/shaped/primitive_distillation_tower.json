@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": {
+      "item": "gregulvexpansion:cats_whisker_detector"
+    },
+    "F": {
+      "item": "gregulvexpansion:distillation_frame"
+    },
+    "G": {
+      "tag": "forge:glass"
+    },
+    "W": {
+      "item": "gtceu:red_alloy_single_wire"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "WFW",
+    "GDG",
+    "WFW"
+  ],
+  "result": {
+    "item": "gregulvexpansion:primitive_distillation_tower"
+  }
+}

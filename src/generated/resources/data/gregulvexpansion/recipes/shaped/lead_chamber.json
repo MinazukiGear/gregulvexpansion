@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "gregulvexpansion:cats_whisker_detector"
+    },
+    "G": {
+      "tag": "forge:glass"
+    },
+    "I": {
+      "item": "gregulvexpansion:lead_lined_casing"
+    },
+    "L": {
+      "item": "gtceu:lead_plate"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "ILI",
+    "GCG",
+    "ILI"
+  ],
+  "result": {
+    "item": "gregulvexpansion:lead_chamber"
+  }
+}

@@ -10,8 +10,8 @@
     "M": {
       "item": "gregulvexpansion:ulv_electric_motor"
     },
-    "T": {
-      "item": "gtceu:steel_rod"
+    "S": {
+      "item": "gtceu:steel_plate"
     },
     "W": {
       "item": "gtceu:red_alloy_single_wire"
@@ -19,11 +19,11 @@
   },
   "matchSize": false,
   "pattern": [
-    "WRW",
-    "IMI",
+    "ISI",
+    "WMW",
     "IHI"
   ],
   "result": {
-    "item": "gregulvexpansion:ulv_bender"
+    "item": "gregulvexpansion:ulv_fluid_solidifier"
   }
 }
