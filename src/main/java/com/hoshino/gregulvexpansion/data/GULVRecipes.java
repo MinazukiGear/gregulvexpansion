@@ -493,7 +493,8 @@ public final class GULVRecipes {
                             .inputItems(TagPrefix.ingot, material)
                             .notConsumable(GTItems.SHAPE_EXTRUDER_ROD)
                             .outputItems(rodStack.copyWithCount(2))
-                            .duration((int) material.getMass() * 4)
+                            // 耗能不变：上游 42 × mass×2 = 7 × 12×mass（总 EU 一致）
+                            .duration((int) material.getMass() * 12)
                             .EUt(7)
                             .save(provider);
                 }
@@ -507,7 +508,8 @@ public final class GULVRecipes {
                             .inputItems(TagPrefix.ingot, material)
                             .notConsumable(GTItems.SHAPE_EXTRUDER_BOLT)
                             .outputItems(boltStack.copyWithCount(8))
-                            .duration(30)
+                            // 耗能不变：上游 120 × 15 = 1800 EU → 7 × 258t
+                            .duration(258)
                             .EUt(7)
                             .save(provider);
                 }
@@ -521,7 +523,8 @@ public final class GULVRecipes {
                             .inputItems(TagPrefix.ingot, material)
                             .notConsumable(GTItems.SHAPE_EXTRUDER_PLATE)
                             .outputItems(plateStack)
-                            .duration((int) material.getMass() * 2)
+                            // 耗能不变：上游 56 × mass = 7 × 8×mass（总 EU 一致）
+                            .duration((int) material.getMass() * 8)
                             .EUt(7)
                             .save(provider);
                 }
