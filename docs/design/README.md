@@ -10,16 +10,17 @@
 
 | 文档 | 内容 | 状态 |
 | --- | --- | --- |
-| [00-overview.md](00-overview.md) | 总纲：定位、上游调研结论、设计原则、内容支柱、进度曲线、数值基准、命名与 API 规范 | 已裁决草案 v0.3 |
-| [hand-crank-dynamo.md](hand-crank-dynamo.md) | 手摇发电机（第一桶 EU，P0；摇 10 秒 ≈ 跑 1 分钟） | 已裁决草案 v0.3 |
-| [ulv-components.md](ulv-components.md) | ULV 基础构件线：超低压电动马达/传送带模块/电动泵（P0 最高优先级） | 已裁决草案 v0.3 |
-| [ulv-circuit-line.md](ulv-circuit-line.md) | ULV 元件线：猫须探测器 + 替代配方 P2（禁用上游原配方，探测器为 ULV 电路唯一入口） | 已裁决草案 v0.3 |
-| [thermal-generator.md](thermal-generator.md) | 温差发电机（环境热免维护电，P1） | 已裁决草案 v0.3 |
-| [redstone-generator.md](redstone-generator.md) | 红石发电机（可堆叠燃料电，P2） | 已裁决草案 v0.3 |
-| [lead-acid-battery-line.md](lead-acid-battery-line.md) | 铅酸电池线（PbO₂ 新材料 + 电池物品 + 铅酸蓄电墙，P1） | 已裁决草案 v0.3 |
-| [lead-chamber-acid-plant.md](lead-chamber-acid-plant.md) | 铅室法制酸装置（无电多方块，P1） | 已裁决草案 v0.3 |
-| [primitive-electrolyzer.md](primitive-electrolyzer.md) | 原型电解槽（水电解 + PbO₂ 氧化，储能链前置，P1 首位） | 已裁决草案 v0.3 |
-| [ulv-basic-machines.md](ulv-basic-machines.md) | 超低压线材轧机 / 切割机（配方子集下沉，P1；洗矿机已裁决砍除） | 已裁决草案 v0.3 |
+| [00-overview.md](00-overview.md) | 总纲：定位、上游调研结论、设计原则、内容支柱、进度曲线、数值基准、命名与 API 规范 | 已裁决草案 v0.3（§4 状态列已标记实现进度） |
+| [hand-crank-dynamo.md](hand-crank-dynamo.md) | 手摇发电机（第一桶 EU，P0；摇 10 秒 ≈ 跑 1 分钟） | 已实现 v0.3 |
+| [ulv-components.md](ulv-components.md) | ULV 基础构件线：超低压电动马达/传送带模块/电动泵（P0 最高优先级） | 已实现 v0.3 |
+| [ulv-circuit-line.md](ulv-circuit-line.md) | ULV 元件线：猫须探测器 + 替代配方 P2（禁用上游原配方，探测器为 ULV 电路唯一入口） | 已实现 v0.4.3 |
+| [thermal-generator.md](thermal-generator.md) | 温差发电机（环境热免维护电，P1） | 已实现 v0.3.1 |
+| [redstone-generator.md](redstone-generator.md) | 红石发电机（可堆叠燃料电，P2） | 已实现 v0.4 |
+| [lead-acid-battery-line.md](lead-acid-battery-line.md) | 铅酸电池线（PbO₂ 新材料 + 电池物品 + 铅酸蓄电墙，P1） | 已实现 v0.3.1 |
+| [lead-chamber-acid-plant.md](lead-chamber-acid-plant.md) | 铅室法制酸装置（无电多方块，P1） | 已实现 v0.3.1 |
+| [primitive-electrolyzer.md](primitive-electrolyzer.md) | 原型电解槽（水电解 + PbO₂ 氧化，储能链前置，P1 首位） | 已实现 v0.3.1 |
+| [ulv-basic-machines.md](ulv-basic-machines.md) | 超低压线材轧机 / 切割机 / 卷板机 / 车床 / 化学反应釜 / 流体固化器 / 流体提取机（配方子集下沉，P1；洗矿机已裁决砍除） | 已实现 v0.9 |
+| [primitive-distillation-tower.md](primitive-distillation-tower.md) | 原始蒸馏塔 + 原始裂化机（石油线，无电多方块，含 ULV 油田泵） | 草案 v1.1 |
 | [open-questions.md](open-questions.md) | 开放问题裁决追踪表（34 项首轮裁决记录 + 待办调研） | 首轮裁决完成 |
 | [next-machine-candidates.md](next-machine-candidates.md) | 后续内容候选总表与负面清单（含蒸汽轮机/洗矿机落选记录） | 候选 |
 
