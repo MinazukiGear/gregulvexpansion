@@ -430,15 +430,30 @@ public final class GULVRecipes {
                 'T', GTItems.GLASS_TUBE.asStack(),
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy));
 
-        // NAND 芯片：新 ID 走常规 provider。树脂电路板工作台可造（黏性树脂+木板），
-        // 全程无电力门槛；原上游产线需 MV 电路装配机 + 晶圆链，D14 后永久关闭。
-        VanillaRecipeHelper.addShapedRecipe(provider,
-                GregULVExpansion.id("nand_chip"),
-                GTItems.NAND_CHIP_ULV.asStack(),
-                "DRD",
-                " B ",
-                'D', GULVItems.CATS_WHISKER_DETECTOR,
-                'R', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
-                'B', GTItems.COATED_BOARD.asStack());
+        // NAND 芯片（2026-09-08 所有者指示：仍按上游产线，仅修改成本）：完整保留上游
+        // 两条电路装配机配方（MV 装配机 + 好电路板/塑料板 + SoC 晶圆链 + 红合金螺栓 +
+        // 锡细线），唯一成本修改是追加猫须探测器 ×1 作为 D14 入口。ID 保留上游原 ID，
+        // 经 GTDynamicDataPack 直写绕过 removeRecipes 过滤器（与真空管同手法）。
+        com.gregtechceu.gtceu.common.data.GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES
+                .recipeBuilder("nand_chip_ulv_good_board")
+                .EUt(GTValues.VA[GTValues.MV]).duration(300)
+                .inputItems(GTItems.GOOD_CIRCUIT_BOARD)
+                .inputItems(GTItems.SIMPLE_SYSTEM_ON_CHIP)
+                .inputItems(TagPrefix.bolt, GTMaterials.RedAlloy, 2)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Tin, 2)
+                .inputItems(GULVItems.CATS_WHISKER_DETECTOR)
+                .outputItems(GTItems.NAND_CHIP_ULV, 8)
+                .save(GTDynamicDataPack::addRecipe);
+
+        com.gregtechceu.gtceu.common.data.GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES
+                .recipeBuilder("nand_chip_ulv_plastic_board")
+                .EUt(GTValues.VA[GTValues.MV]).duration(300)
+                .inputItems(GTItems.PLASTIC_CIRCUIT_BOARD)
+                .inputItems(GTItems.SIMPLE_SYSTEM_ON_CHIP)
+                .inputItems(TagPrefix.bolt, GTMaterials.RedAlloy, 2)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Tin, 2)
+                .inputItems(GULVItems.CATS_WHISKER_DETECTOR)
+                .outputItems(GTItems.NAND_CHIP_ULV, 12)
+                .save(GTDynamicDataPack::addRecipe);
     }
 }
