@@ -12,11 +12,11 @@ import com.hoshino.gregulvexpansion.GregULVExpansion;
 import com.hoshino.gregulvexpansion.machine.multiblock.LeadChamberMachine;
 import com.hoshino.gregulvexpansion.machine.multiblock.PrimitiveCrackerMachine;
 import com.hoshino.gregulvexpansion.machine.multiblock.PrimitiveDistillationTowerMachine;
-import com.hoshino.gregulvexpansion.machine.multiblock.ULVOilPumpMachine;
+import com.hoshino.gregulvexpansion.machine.multiblock.ULVFluidDrillingRigMachine;
 import net.minecraft.world.level.block.Blocks;
 import com.hoshino.gregulvexpansion.machine.multiblock.PrimitiveCrackerMachine;
 import com.hoshino.gregulvexpansion.machine.multiblock.PrimitiveDistillationTowerMachine;
-import com.hoshino.gregulvexpansion.machine.multiblock.ULVOilPumpMachine;
+import com.hoshino.gregulvexpansion.machine.multiblock.ULVFluidDrillingRigMachine;
 import net.minecraft.world.level.block.Blocks;
 
 import net.minecraft.network.chat.Component;
@@ -134,9 +134,9 @@ public final class GULVMultiblocks {
      * ULV 油田泵 — 仿上游流体钻井机的 ULV 多方块（抽取基岩流体油田，带枯竭机制），
      * 相对 LV 钻井机：产出减半、单位能耗加倍（v1.1）。
      */
-    public static final MultiblockMachineDefinition ULV_OIL_PUMP = GULVRegistration.REGISTRATE
-            .multiblock("ulv_oil_pump",
-                    holder -> new ULVOilPumpMachine(holder, GTValues.ULV))
+    public static final MultiblockMachineDefinition ULV_FLUID_DRILLING_RIG = GULVRegistration.REGISTRATE
+            .multiblock("ulv_fluid_drilling_rig",
+                    holder -> new ULVFluidDrillingRigMachine(holder, GTValues.ULV))
             .tier(GTValues.ULV)
             .rotationState(RotationState.ALL)
             .recipeType(com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES)
@@ -154,10 +154,10 @@ public final class GULVMultiblocks {
                     .where('S', controller(blocks(definition.getBlock())))
                     .build())
             .workableCasingModel(GregULVExpansion.id("block/casings/distillation_frame"),
-                    GregULVExpansion.id("block/multiblock/ulv_oil_pump"))
+                    GregULVExpansion.id("block/multiblock/ulv_fluid_drilling_rig"))
             .tooltips(
-                    Component.translatable("gregulvexpansion.machine.ulv_oil_pump.tooltip.summary.0"),
-                    Component.translatable("gregulvexpansion.machine.ulv_oil_pump.tooltip.summary.1"))
+                    Component.translatable("gregulvexpansion.machine.ulv_fluid_drilling_rig.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.ulv_fluid_drilling_rig.tooltip.summary.1"))
             .register();
 
     private GULVMultiblocks() {}

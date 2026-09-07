@@ -26,20 +26,20 @@ import org.jetbrains.annotations.Nullable;
  * 周期 86t @ EUt 7（=1,202 EU）→ 单位能耗 2,404/P ≈ LV 的 2 倍（取整），
  * 实际产率 ≈ LV 钻机的 11.6%。矿脉枯竭机制与上游一致。
  */
-public class ULVOilPumpLogic extends FluidDrillLogic {
+public class ULVFluidDrillingRigLogic extends FluidDrillLogic {
 
     public static final int MAX_PROGRESS = 86;
 
     @Nullable
     private Fluid veinFluid;
 
-    public ULVOilPumpLogic(FluidDrillMachine machine) {
+    public ULVFluidDrillingRigLogic(FluidDrillMachine machine) {
         super(machine);
     }
 
     @Override
-    public ULVOilPumpMachine getMachine() {
-        return (ULVOilPumpMachine) super.getMachine();
+    public ULVFluidDrillingRigMachine getMachine() {
+        return (ULVFluidDrillingRigMachine) super.getMachine();
     }
 
     @Override

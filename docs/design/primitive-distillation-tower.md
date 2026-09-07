@@ -47,14 +47,14 @@
 - 上游同源：`distill_oil`（蒸馏塔，EUt 96 / 20t）。**×16 时长拉伸**（HV→无电跨四级电压，每级 ≥2×），蒸汽按运行时长一次扣除。
 - **无法替代电力产线**：HV 塔同批次 20t + 1,920 EU；原始塔慢 16 倍且烧掉等值蒸汽。
 
-## 4. ULV 油田泵（新增单方块，原油主获取端）
+## 4. ULV 流体钻井机（新增多方块，原油主获取端）
 
 | 项目 | 值 |
 | --- | --- |
-| 资源 ID | `gregulvexpansion:ulv_oil_pump` |
-| 机器类 | `machine.simple.ULVOilPumpMachine`（单方块，ULV 电力 8 EU/t） |
+| 资源 ID | `gregulvexpansion:ulv_fluid_drilling_rig` |
+| 机器类 | `machine.multiblock.ULVFluidDrillingRigMachine`（多方块，ULV 电力 8 EU/t，extends 上游 FluidDrillMachine） |
 
-- **抽取实体油田**：复用上游基岩流体系统（`GTBedrockFluids`：原油/轻油/重油/天然气矿脉，带产量与枯竭机制）——泵放置在含油矿脉的区块上，缓慢产出原油并存入内部缓存/输出仓；
+- **抽取实体油田**：命名与上游 `fluid_drilling_rig` 对齐（ULV 前缀变体）。复用上游基岩流体系统（`GTBedrockFluids`：原油/轻油/重油/天然气矿脉，带产量与枯竭机制）——多方块放置在含油矿脉的区块上，缓慢产出原油并存入内部缓存/输出仓；
 - 产出速率：LV 流体钻井机的 **1/4**（钻井机 multi 钻头倍率对照），同样受矿脉枯竭约束；
 - 与油砂路线并存：油砂为挖掘型补充来源（流体提取机榨取），油田泵为持续型主来源。
 

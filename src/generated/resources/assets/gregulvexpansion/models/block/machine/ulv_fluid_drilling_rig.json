@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
-  "machine": "gregulvexpansion:ulv_oil_pump",
+  "machine": "gregulvexpansion:ulv_fluid_drilling_rig",
   "texture_overrides": {
     "all": "gregulvexpansion:block/casings/distillation_frame"
   },

@@ -11,23 +11,23 @@ import javax.annotation.ParametersAreNonnullByDefault;
 /**
  * ULV 油田泵 (primitive-distillation-tower.md v1.1)：仿上游流体钻井机的 ULV 多方块，
  * 抽取基岩流体油田（原油/轻油/重油/天然气矿脉，带枯竭机制）。
- * 相对 LV 钻井机：产出减半、单位能耗加倍（ULVOilPumpLogic 实现，所有者指示）。
+ * 相对 LV 钻井机：产出减半、单位能耗加倍（ULVFluidDrillingRigLogic 实现，所有者指示）。
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ULVOilPumpMachine extends FluidDrillMachine {
+public class ULVFluidDrillingRigMachine extends FluidDrillMachine {
 
-    public ULVOilPumpMachine(IMachineBlockEntity holder, int tier) {
+    public ULVFluidDrillingRigMachine(IMachineBlockEntity holder, int tier) {
         super(holder, tier);
     }
 
     @Override
-    protected ULVOilPumpLogic createRecipeLogic(Object... args) {
-        return new ULVOilPumpLogic(this);
+    protected ULVFluidDrillingRigLogic createRecipeLogic(Object... args) {
+        return new ULVFluidDrillingRigLogic(this);
     }
 
     @Override
-    public ULVOilPumpLogic getRecipeLogic() {
-        return (ULVOilPumpLogic) super.getRecipeLogic();
+    public ULVFluidDrillingRigLogic getRecipeLogic() {
+        return (ULVFluidDrillingRigLogic) super.getRecipeLogic();
     }
 }
