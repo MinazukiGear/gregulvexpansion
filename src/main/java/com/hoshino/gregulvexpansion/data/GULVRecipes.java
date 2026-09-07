@@ -447,6 +447,28 @@ public final class GULVRecipes {
                     .save(provider);
         }
 
+        // ---- ULV 车床：锭 ×1 → 杆 ×1 + 小撮粉 ×2（上游 processRod 默认形态
+        // ---- harderRods=true：EUt 16、mass×2 → 总能耗 32×mass 不变：EUt 7、时长 ÷7）----
+        for (Material material : subsetMaterials) {
+            if (!material.shouldGenerateRecipesFor(TagPrefix.rod) ||
+                    !material.hasProperty(PropertyKey.DUST) ||
+                    !(material.hasProperty(PropertyKey.INGOT) || material.hasProperty(PropertyKey.GEM))) {
+                continue;
+            }
+            ItemStack rodStack = ChemicalHelper.get(TagPrefix.rod, material);
+            if (rodStack.isEmpty()) {
+                continue;
+            }
+            GULVRecipeTypes.ULV_TURNING
+                    .recipeBuilder(GregULVExpansion.id("lathe_" + material.getName() + "_to_rod"))
+                    .inputItems(TagPrefix.ingot, material)
+                    .outputItems(rodStack.copyWithCount(1))
+                    .outputItems(ChemicalHelper.get(TagPrefix.dustSmall, material, 2))
+                    .duration((int) Math.max((material.getMass() * 32L + 6) / 7, 1))
+                    .EUt(7)
+                    .save(provider);
+        }
+
         // ---- ULV 车床：剥皮原木 ×1 → 长木杆 ×4 + 木尘 ×1（原版八种木；上游 EUt 7 已是
         // ---- ULV 档故不换算，时长 160 → 320）----
         net.minecraft.world.level.block.Block[] strippedLogs = {
