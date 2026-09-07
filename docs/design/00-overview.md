@@ -28,6 +28,7 @@ Greg ULV Expansion 是 GregTech CEu Modern（下称 GTCEu，7.5.3）的附属模
 | F10 | 蒸汽时代已有机器：锅炉（LP/HP 固体/液体/太阳能）、提取机、磨机、压缩机、锻锤、熔炉、合金炉、碎石机、蒸汽矿机；另有多方块：原始高炉、焦炉、原始泵、木炭窑 | ULV 机器选题必须避开这些功能，防止三线重复 |
 | F11 | 硫酸化学链（硫→SO₂→SO₃→H₂SO₄）配方 EUt 仅 `VA[ULV]=7`，但载体化学反应机注册层级 LV 起、无蒸汽变体，且无任何工作台路线——**蒸汽时代产不出硫酸**（第二轮调研 A） | 铅室法制酸装置的定位被完全验证：填补「无电硫酸」空白 |
 | F12 | 电动构件（马达、传送带、泵、机械臂、发射器、传感器、流体调节器）全部注册于 `LV..UV`，**无任何 ULV 版本**；cover 速率由层级闭包决定（传送带 `2×4^min(tier,LuV)` 件/t、泵 `64×4^min(tier−1,IV)` mB/t），tier 0 自然成立；附属可经 `IGTAddon#registerCovers()` + `GTCovers.register()` 注册自定义层级（第二轮调研 B） | **ULV 基础构件线（P0）的空白与可行性同时确认** |
+| F13 | GTCEu 为 `crushed` 前缀物品注册了水炼药锅交互（`GTItems#cauldronInteraction`，`purifyMap: crushed→crushedPurified`）：手持碎矿石右键盛水炼药锅，整组 1:1 转换为纯净矿石并降低 1 格水位，纯手动无机器 | 碎矿手洗即得纯净矿——ULV 元件线的洗矿前置零门槛达成，无需电力或依赖模组 |
 
 ## 3. 设计原则（红线）
 
