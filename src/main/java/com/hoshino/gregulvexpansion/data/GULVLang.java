@@ -25,6 +25,12 @@ public final class GULVLang {
                 "Buffer: 480 EU. Each crank adds 24 EU (0.5 s cooldown); outputs 8 EU/t · 1 A on every side.");
         add("gregulvexpansion.machine.hand_crank_dynamo.tooltip.crank",
                 "Right-click with a wooden crank (AE2's crank works too) to reinstall; wrench to detach.");
+
+        // ---- 原型电解槽 ----
+        add("gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.0",
+                "Lesson one of electric chemistry: electrolysis at 8 EU/t — water in, hydrogen and oxygen out.");
+        add("gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.1",
+                "Runs only the hand-picked ULV reaction whitelist; buffer 240 EU. Its rectifier bridge is a pair of cat's-whisker detectors.");
     }
 
     private static void add(String key, String value) {

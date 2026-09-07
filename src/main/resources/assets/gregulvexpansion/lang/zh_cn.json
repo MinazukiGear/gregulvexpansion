@@ -1,5 +1,7 @@
 {
   "block.gregulvexpansion.hand_crank_dynamo": "手摇发电机",
+  "block.gregulvexpansion.primitive_electrolyzer": "原型电解槽",
+  "material.gregulvexpansion.lead_dioxide": "二氧化铅",
   "item.gregulvexpansion.cats_whisker_detector": "猫须探测器",
   "item.gregulvexpansion.wood_crank": "木质曲柄",
   "item.gregulvexpansion.ulv_electric_motor": "超低压电动马达",
@@ -12,5 +14,8 @@
 
   "gregulvexpansion.machine.hand_crank_dynamo.tooltip.summary.0": "你的第一台电源：右键摇动发电。无需燃料、蒸汽或任何前置。",
   "gregulvexpansion.machine.hand_crank_dynamo.tooltip.summary.1": "缓存 480 EU，每次摇动注入 24 EU（冷却 0.5 秒），任意一面 8 EU/t · 1 A 输出。",
-  "gregulvexpansion.machine.hand_crank_dynamo.tooltip.crank": "手持木质曲柄（AE2 曲柄亦可）右键可重新安装；扳手可拆下。"
+  "gregulvexpansion.machine.hand_crank_dynamo.tooltip.crank": "手持木质曲柄（AE2 曲柄亦可）右键可重新安装；扳手可拆下。",
+
+  "gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.0": "电力化学的第一课：以 8 EU/t 电解水，产出氢气与氧气。",
+  "gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.1": "仅运行人工审定的 ULV 反应白名单；缓存 240 EU，整流桥由一对猫须探测器构成。"
 }

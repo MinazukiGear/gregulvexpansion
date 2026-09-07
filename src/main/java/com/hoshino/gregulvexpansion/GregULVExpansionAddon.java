@@ -4,9 +4,14 @@ import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.hoshino.gregulvexpansion.data.GULVLang;
+import com.hoshino.gregulvexpansion.data.GULVRecipes;
 import com.hoshino.gregulvexpansion.registry.GULVCovers;
 import com.hoshino.gregulvexpansion.registry.GULVItems;
 import com.hoshino.gregulvexpansion.registry.GULVRegistration;
+
+import net.minecraft.data.recipes.FinishedRecipe;
+
+import java.util.function.Consumer;
 
 @GTAddon
 public final class GregULVExpansionAddon implements IGTAddon {
@@ -20,6 +25,14 @@ public final class GregULVExpansionAddon implements IGTAddon {
         // GTCEu 在 GTCovers.init() 内调用，早于物品注册与 initializeAddon：
         // cover 定义必须先于引用它们的 cover 物品存在
         GULVCovers.init();
+    }
+
+    @Override
+    public void addRecipes(Consumer<FinishedRecipe> provider) {
+        // GT 配方图配方（配方类型注册表里的反应）统一走运行时动态包：
+        // 上游 7.5.3 自身零配方 JSON，datagen 路径会在 toJson 处 NPE。
+        // 工作台配方仍在 datagen（GULVRecipes，ProviderType.RECIPE）。
+        GULVRecipes.addElectrolysisRecipes(provider);
     }
 
     @Override

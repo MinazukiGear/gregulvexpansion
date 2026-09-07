@@ -7,6 +7,9 @@ import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.hoshino.gregulvexpansion.GregULVExpansion;
 import com.hoshino.gregulvexpansion.registry.GULVItems;
+import com.hoshino.gregulvexpansion.registry.GULVMachines;
+import com.hoshino.gregulvexpansion.registry.GULVRecipeTypes;
+import com.hoshino.gregulvexpansion.registry.GULVMaterials;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.ItemTags;
@@ -33,6 +36,7 @@ public final class GULVRecipes {
         addMotorRecipe(provider);
         addConveyorModuleRecipe(provider);
         addPumpRecipe(provider);
+        addPrimitiveElectrolyzerRecipe(provider);
     }
 
     /** 猫须探测器：纯净方铅矿矿石 + 红合金单线 → ×2 (D13 产出翻倍)。 */
@@ -111,5 +115,50 @@ public final class GULVRecipes {
                 'G', Tags.Items.GLASS,
                 'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
                 'M', GULVItems.ULV_ELECTRIC_MOTOR);
+    }
+
+    /**
+     * 原型电解槽工作台配方 (primitive-electrolyzer.md 合成草案，v0.3.1 收纳为 3×3)：
+     * 猫须探测器 ×2（整流桥语义） + 红合金单线 ×2 + 铅板 ×2 + 玻璃 ×2 + ULV 机械方块 ×1。
+     */
+    private static void addPrimitiveElectrolyzerRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("primitive_electrolyzer"),
+                GULVMachines.PRIMITIVE_ELECTROLYZER.asStack(),
+                "WDW",
+                "GHG",
+                "PDP",
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'D', GULVItems.CATS_WHISKER_DETECTOR,
+                'G', Tags.Items.GLASS,
+                'H', GTMachines.HULL[0].asStack(),
+                'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Lead));
+    }
+
+    /**
+     * 原型电解配方子集 (primitive-electrolyzer.md 配方子集表，D11/B1 已裁决)。
+     * 准入规则：每条必须先在文档表格中有名分，代码只注册表内条目。
+     *
+     * <p><b>注意：仅供运行时 {@code IGTAddon#addRecipes} 调用</b>——GT 配方图
+     * 配方在上游 7.5.3 已全部改为运行时动态包注册（jar 内零配方 JSON），
+     * datagen 路径的 toJson 会因无 RegistryAccess 而 NPE。
+     */
+    public static void addElectrolysisRecipes(Consumer<FinishedRecipe> provider) {
+        // 水电解：伏打电堆 (1800) 语义本体；128 t ≈ 上游 LV 同配方降档（慢一倍省一半电）
+        GULVRecipeTypes.PRIMITIVE_ELECTROLYSIS.recipeBuilder(GregULVExpansion.id("water_electrolysis"))
+                .inputFluids(GTMaterials.Water.getFluid(100))
+                .outputFluids(GTMaterials.Hydrogen.getFluid(100), GTMaterials.Oxygen.getFluid(50))
+                .EUt(8)
+                .duration(128)
+                .save(provider);
+
+        // PbO₂ 阳极氧化：B1 裁决，铅酸电池链前置；上游无对标条目（第二轮调研 B2）
+        GULVRecipeTypes.PRIMITIVE_ELECTROLYSIS.recipeBuilder(GregULVExpansion.id("lead_dioxide_oxidation"))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Massicot, 1))
+                .inputFluids(GTMaterials.Water.getFluid(100))
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GULVMaterials.LEAD_DIOXIDE, 1))
+                .EUt(8)
+                .duration(256)
+                .save(provider);
     }
 }

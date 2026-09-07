@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": {
+      "item": "gregulvexpansion:cats_whisker_detector"
+    },
+    "G": {
+      "tag": "forge:glass"
+    },
+    "H": {
+      "item": "gtceu:ulv_machine_hull"
+    },
+    "P": {
+      "item": "gtceu:lead_plate"
+    },
+    "W": {
+      "item": "gtceu:red_alloy_single_wire"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "WDW",
+    "GHG",
+    "PDP"
+  ],
+  "result": {
+    "item": "gregulvexpansion:primitive_electrolyzer"
+  }
+}

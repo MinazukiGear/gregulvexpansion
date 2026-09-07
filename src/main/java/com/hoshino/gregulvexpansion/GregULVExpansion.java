@@ -1,9 +1,14 @@
 package com.hoshino.gregulvexpansion;
 
+import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 import com.hoshino.gregulvexpansion.data.GULVItemModels;
 import com.hoshino.gregulvexpansion.data.GULVRecipes;
 import com.hoshino.gregulvexpansion.registry.GULVMachines;
+import com.hoshino.gregulvexpansion.registry.GULVMaterials;
+import com.hoshino.gregulvexpansion.registry.GULVRecipeTypes;
 import com.hoshino.gregulvexpansion.registry.GULVRegistration;
 import com.mojang.logging.LogUtils;
 import com.tterrag.registrate.providers.ProviderType;
@@ -27,13 +32,19 @@ public final class GregULVExpansion {
         GULVRegistration.REGISTRATE.creativeModeTab(GTCreativeModeTabs.MACHINE);
         GULVRegistration.REGISTRATE.addDataGenerator(ProviderType.RECIPE, GULVRecipes::init);
         GULVRegistration.REGISTRATE.addDataGenerator(ProviderType.ITEM_MODEL, GULVItemModels::init);
-        // 机器定义须在 GTCEu 的 RegisterEvent 阶段完成（沿用姊妹项目模式）
-        modEventBus.addGenericListener(com.gregtechceu.gtceu.api.machine.MachineDefinition.class,
-                this::registerMachines);
+        // GTCEu 注册阶段钩子（时序见 CommonProxy：covers → 配方类型 → 机器 → 物品 → 材料）
+        modEventBus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
+        modEventBus.addGenericListener(MachineDefinition.class, this::registerMachines);
+        modEventBus.addListener(GULVMaterials::createRegistry);
+        modEventBus.addListener(GULVMaterials::init);
         modEventBus.addListener(this::commonSetup);
     }
 
-    private void registerMachines(final com.gregtechceu.gtceu.api.GTCEuAPI.RegisterEvent<?, com.gregtechceu.gtceu.api.machine.MachineDefinition> event) {
+    private void registerRecipeTypes(final GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        GULVRecipeTypes.init(event);
+    }
+
+    private void registerMachines(final GTCEuAPI.RegisterEvent<?, MachineDefinition> event) {
         GULVMachines.init();
     }
 
