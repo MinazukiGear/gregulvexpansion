@@ -568,6 +568,54 @@ public final class GULVRecipes {
                 .save(provider);
     }
 
+
+    /**
+     * ULV 流体提取机配方子集 (ulv-basic-machines.md v0.9 子集表，橡胶链五条)。
+     * 上游 MachineRecipeLoader.registerDecompositionRecipes（全部 EUt 2 = ULV
+     * 能量档，原样直录）。同样仅供运行时 addRecipes 调用。
+     */
+    public static void addUlvExtractorRecipes(Consumer<FinishedRecipe> provider) {
+        GULVRecipeTypes.ULV_EXTRACTING
+                .recipeBuilder(GregULVExpansion.id("raw_rubber_from_resin"))
+                .inputItems(GTItems.STICKY_RESIN)
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.RawRubber, 3))
+                .duration(150)
+                .EUt(2)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_EXTRACTING
+                .recipeBuilder(GregULVExpansion.id("raw_rubber_from_log"))
+                .inputItems(com.gregtechceu.gtceu.common.data.GTBlocks.RUBBER_LOG.asStack())
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.RawRubber, 1))
+                .duration(300)
+                .EUt(2)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_EXTRACTING
+                .recipeBuilder(GregULVExpansion.id("raw_rubber_from_leaves"))
+                .inputItems(com.gregtechceu.gtceu.common.data.GTBlocks.RUBBER_LEAVES.asStack(16))
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.RawRubber, 1))
+                .duration(300)
+                .EUt(2)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_EXTRACTING
+                .recipeBuilder(GregULVExpansion.id("raw_rubber_from_sapling"))
+                .inputItems(com.gregtechceu.gtceu.common.data.GTBlocks.RUBBER_SAPLING.asStack())
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.RawRubber, 1))
+                .duration(300)
+                .EUt(2)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_EXTRACTING
+                .recipeBuilder(GregULVExpansion.id("raw_rubber_from_slime"))
+                .inputItems(new ItemStack(net.minecraft.world.item.Items.SLIME_BALL))
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.RawRubber, 2))
+                .duration(150)
+                .EUt(2)
+                .save(provider);
+    }
+
     /**
      * 红石发电机燃料表 (redstone-generator.md 燃料表，C6 基准联动)：
      * 红石粉 1,200 EU ≈ 煤蒸汽链的 1/4；红石块 9 倍、无压缩奖励。
@@ -718,6 +766,21 @@ public final class GULVRecipes {
                 'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
                 'S', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Steel),
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'H', GTMachines.HULL[0].asStack());
+    }
+
+    /** 超低压流体提取机：马达 + 红合金单线 ×2 + 铁板 ×4 + 玻璃 ×1 + ULV 机械方块（v0.9）。 */
+    private static void addFluidExtractorRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_fluid_extractor"),
+                GULVMachines.ULV_FLUID_EXTRACTOR.asStack(),
+                "WGW",
+                "IMI",
+                "IHI",
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'G', net.minecraftforge.common.Tags.Items.GLASS,
+                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
                 'M', GULVItems.ULV_ELECTRIC_MOTOR,
                 'H', GTMachines.HULL[0].asStack());
     }

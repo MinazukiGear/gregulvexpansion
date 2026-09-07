@@ -18,6 +18,7 @@ import com.hoshino.gregulvexpansion.machine.simple.PrimitiveElectrolyzerMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVBenderMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVChemicalReactorMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVCutterMachine;
+import com.hoshino.gregulvexpansion.machine.simple.ULVFluidExtractorMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVFluidSolidifierMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVLatheMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVWireMillMachine;
@@ -227,6 +228,24 @@ public final class GULVMachines {
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.1"))
+            .register();
+
+    /** 超低压流体提取机 — 橡胶链子集（树脂/橡胶树部件→生橡胶粉），电力版（v0.9）。 */
+    public static final MachineDefinition ULV_FLUID_EXTRACTOR = GULVRegistration.REGISTRATE
+            .machine("ulv_fluid_extractor",
+                    holder -> new ULVFluidExtractorMachine(holder, GTValues.ULV,
+                            GTMachineUtils.defaultTankSizeFunction))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GULVRecipeTypes.ULV_EXTRACTING)
+            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .langValue("ULV Fluid Extractor")
+            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
+                    GregULVExpansion.id("ulv_fluid_extractor"), GULVRecipeTypes.ULV_EXTRACTING))
+            .workableTieredHullModel(GTCEu.id("block/machines/ulv_fluid_extractor"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.ulv_fluid_extractor.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.ulv_fluid_extractor.tooltip.summary.1"))
             .register();
 
     private GULVMachines() {}

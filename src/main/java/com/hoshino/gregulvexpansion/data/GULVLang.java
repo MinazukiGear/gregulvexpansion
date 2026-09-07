@@ -90,6 +90,12 @@ public final class GULVLang {
                 "Freezes fluids into shapes with reusable molds: water into snow, lava into obsidian.");
         add("gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.1",
                 "Runs a hand-picked subset only. 240 EU buffer.");
+
+        // ---- 超低压流体提取机 ----
+        add("gregulvexpansion.machine.ulv_fluid_extractor.tooltip.summary.0",
+                "Squeezes raw rubber from sticky resin and rubber tree parts at a mere 2 EU/t — the start of the rubber chain for your conveyors and pumps.");
+        add("gregulvexpansion.machine.ulv_fluid_extractor.tooltip.summary.1",
+                "Runs a hand-picked subset only. 240 EU buffer.");
     }
 
     private static void add(String key, String value) {

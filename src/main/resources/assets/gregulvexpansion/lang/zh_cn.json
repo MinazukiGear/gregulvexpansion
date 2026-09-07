@@ -48,5 +48,8 @@
   "gregulvexpansion.machine.ulv_chemical_reactor.tooltip.summary.1": "需要电解槽供氧；240 EU 缓存。",
   "block.gregulvexpansion.ulv_fluid_solidifier": "超低压流体固化器",
   "gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.0": "用可复用模具把流体冻结成型：水成雪、岩浆成黑曜石。",
-  "gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.1": "仅运行人工审定的子集；240 EU 缓存。"
+  "gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.1": "仅运行人工审定的子集；240 EU 缓存。",
+  "block.gregulvexpansion.ulv_fluid_extractor": "超低压流体提取机",
+  "gregulvexpansion.machine.ulv_fluid_extractor.tooltip.summary.0": "以 2 EU/t 从粘性树脂与橡胶树部件榨出生橡胶粉——传送带与泵的橡胶链从此开始。",
+  "gregulvexpansion.machine.ulv_fluid_extractor.tooltip.summary.1": "仅运行人工审定的子集；240 EU 缓存。"
 }

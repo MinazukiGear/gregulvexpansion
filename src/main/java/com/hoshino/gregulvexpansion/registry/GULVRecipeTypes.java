@@ -38,6 +38,8 @@ public final class GULVRecipeTypes {
     public static GTRecipeType ULV_CHEMICAL_REACTING;
     /** ULV 流体固化：雪球/雪块/黑曜石（模具不消耗）。 */
     public static GTRecipeType ULV_FLUID_SOLIDFICATION;
+    /** ULV 流体提取：橡胶链（粘性树脂/橡胶树部件 → 生橡胶粉，EUt 2 原样直录）。 */
+    public static GTRecipeType ULV_EXTRACTING;
     /** ULV 卷板：锭 → 板 ×1（EUt 24 降档为 7，时长 ×2）。 */
     public static GTRecipeType ULV_BENDING;
     /** ULV 车削：螺栓→螺丝、剥皮原木→长木杆（EUt ≤7，时长 ×2）。 */
