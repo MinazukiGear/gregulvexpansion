@@ -210,7 +210,7 @@ public final class GULVRecipes {
                     .recipeBuilder(GregULVExpansion.id("wire_" + material.getName()))
                     .inputItems(prefix, material)
                     .outputItems(TagPrefix.wireGtSingle, material, 2)
-                    .duration((int) material.getMass() * 2)
+                    .duration((int) material.getMass())
                     .EUt(7)
                     .save(provider);
         }
@@ -227,7 +227,7 @@ public final class GULVRecipes {
                             .recipeBuilder(GregULVExpansion.id("cut_" + material.getName() + "_rod_to_bolt"))
                             .inputItems(TagPrefix.rod, material)
                             .outputItems(boltStack.copyWithCount(4))
-                            .duration((int) Math.max(material.getMass() * 4L, 1L))
+                            .duration((int) Math.max(material.getMass() * 2L, 1L))
                             .EUt(4)
                             .save(provider);
                 }
@@ -241,7 +241,7 @@ public final class GULVRecipes {
                             .recipeBuilder(GregULVExpansion.id("cut_" + material.getName() + "_long_rod_to_rod"))
                             .inputItems(TagPrefix.rodLong, material)
                             .outputItems(rodStack.copyWithCount(2))
-                            .duration((int) Math.max(material.getMass() * 2L, 1L))
+                            .duration((int) Math.max(material.getMass(), 1L))
                             .EUt(4)
                             .save(provider);
                 }
@@ -254,7 +254,8 @@ public final class GULVRecipes {
                             .recipeBuilder(GregULVExpansion.id("cut_" + material.getName() + "_block_to_plate"))
                             .inputItems(TagPrefix.block, material)
                             .outputItems(plateStack.copyWithCount((int) (TagPrefix.block.getMaterialAmount(material) / GTValues.M)))
-                            .duration((int) (material.getMass() * 16L))
+                            // 耗能不变：上游 30 × mass×8 = 240×mass → 7 × (240×mass÷7)
+                            .duration((int) ((material.getMass() * 240L + 6) / 7))
                             .EUt(7)
                             .save(provider);
                 }
@@ -421,7 +422,8 @@ public final class GULVRecipes {
                     .recipeBuilder(GregULVExpansion.id("bend_" + material.getName() + "_to_plate"))
                     .inputItems(TagPrefix.ingot, material)
                     .outputItems(plateStack)
-                    .duration((int) material.getMass() * 2)
+                    // 耗能不变：上游 24 × mass → 7 × (24×mass÷7)
+                    .duration((int) ((material.getMass() * 24L + 6) / 7))
                     .EUt(7)
                     .save(provider);
         }
@@ -440,7 +442,7 @@ public final class GULVRecipes {
                     .recipeBuilder(GregULVExpansion.id("lathe_" + material.getName() + "_bolt_to_screw"))
                     .inputItems(TagPrefix.bolt, material)
                     .outputItems(screwStack)
-                    .duration((int) Math.max(material.getMass() / 4L, 1L))
+                    .duration((int) Math.max(material.getMass() / 8L, 1L))
                     .EUt(4)
                     .save(provider);
         }
@@ -464,7 +466,7 @@ public final class GULVRecipes {
                     .inputItems(new ItemStack(log))
                     .outputItems(ChemicalHelper.get(TagPrefix.rodLong, GTMaterials.Wood, 4))
                     .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Wood, 1))
-                    .duration(320)
+                    .duration(160)
                     .EUt(7)
                     .save(provider);
         }
