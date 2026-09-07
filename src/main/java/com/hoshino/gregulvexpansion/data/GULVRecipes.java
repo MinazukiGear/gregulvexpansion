@@ -420,15 +420,18 @@ public final class GULVRecipes {
         // 真空管：保留上游配方 ID（配方书/查看器连续性）。该 ID 在 RECIPE_FILTERS
         // 中（被自身 removeRecipes 移除），故必须直写 GTDynamicDataPack 绕过过滤器
         // ——姊妹项目 GSE 焦炉替换配方的同款手法。
+        // 工作台配方同样只修改成本：上游原版（钢螺栓 ×2 + 玻璃管 + 铜单线 ×3）
+        // 原样保留，仅追加探测器 ×1（底部中央）
         VanillaRecipeHelper.addShapedRecipe(GTDynamicDataPack::addRecipe,
                 GTCEu.id("vacuum_tube"),
                 GTItems.VACUUM_TUBE.asStack(),
-                "D",
-                "T",
-                "W",
-                'D', GULVItems.CATS_WHISKER_DETECTOR,
+                "PTP",
+                "WWW",
+                " D ",
+                'P', ChemicalHelper.get(TagPrefix.bolt, GTMaterials.Steel),
                 'T', GTItems.GLASS_TUBE.asStack(),
-                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy));
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.Copper),
+                'D', GULVItems.CATS_WHISKER_DETECTOR);
 
         // 真空管·装配机红合金流体档（上游 3/4 号配方 + 探测器成本，ID 保留、动态包直写）：
         // 工作台 ×1 → 装配机红合金 ×3 → 装配机退火铜 ×4，恢复上游「以流体育提产率」的梯度
