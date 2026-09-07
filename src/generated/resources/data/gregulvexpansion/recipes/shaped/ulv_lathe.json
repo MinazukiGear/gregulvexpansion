@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "H": {
+      "item": "gtceu:ulv_machine_hull"
+    },
+    "I": {
+      "item": "gtceu:iron_plate"
+    },
+    "M": {
+      "item": "gregulvexpansion:ulv_electric_motor"
+    },
+    "S": {
+      "item": "gtceu:wrought_iron_plate"
+    },
+    "W": {
+      "item": "gtceu:red_alloy_single_wire"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "ISI",
+    "IMI",
+    "WHW"
+  ],
+  "result": {
+    "item": "gregulvexpansion:ulv_lathe"
+  }
+}

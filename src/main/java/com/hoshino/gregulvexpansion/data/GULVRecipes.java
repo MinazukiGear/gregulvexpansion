@@ -56,6 +56,8 @@ public final class GULVRecipes {
         addWireMillRecipe(provider);
         addCutterRecipe(provider);
         addRedstoneGeneratorRecipe(provider);
+        addBenderRecipe(provider);
+        addLatheRecipe(provider);
     }
 
     /** 猫须探测器：纯净方铅矿矿石 + 红合金单线 → ×2 (D13 产出翻倍)。 */
@@ -390,6 +392,83 @@ public final class GULVRecipes {
                 'H', GTMachines.HULL[0].asStack());
     }
 
+
+    /**
+     * ULV 卷板机/车床配方子集 (ulv-basic-machines.md v0.5 子集表)。
+     * 卷板：锭→板 1:1（上游 EUt 24 → 7，时长 mass → mass×2，省略电路）；
+     * 车床：螺栓→螺丝（上游 EUt 4 / mass÷8 → 时长 ×2）与
+     * 剥皮原木 → 长木杆 ×4 + 木尘（上游 EUt 7 / 160t → 时长 ×2）。
+     * 材料清单同轧机/切割机六种；扩表必须先改设计文档。
+     * 同样仅供运行时 addRecipes 调用。
+     */
+    public static void addUlvBenderLatheRecipes(Consumer<FinishedRecipe> provider) {
+        Material[] subsetMaterials = {
+                GTMaterials.RedAlloy, GTMaterials.Copper, GTMaterials.Iron,
+                GTMaterials.Tin, GTMaterials.Lead, GTMaterials.Zinc
+        };
+
+        // ---- ULV 卷板机：锭 ×1 → 板 ×1 ----
+        for (Material material : subsetMaterials) {
+            if (!material.hasFlag(MaterialFlags.GENERATE_PLATE)) {
+                continue;
+            }
+            ItemStack plateStack = ChemicalHelper.get(TagPrefix.plate, material);
+            if (plateStack.isEmpty()) {
+                continue;
+            }
+            GULVRecipeTypes.ULV_BENDING
+                    .recipeBuilder(GregULVExpansion.id("bend_" + material.getName() + "_to_plate"))
+                    .inputItems(TagPrefix.ingot, material)
+                    .outputItems(plateStack)
+                    .duration((int) material.getMass() * 2)
+                    .EUt(7)
+                    .save(provider);
+        }
+
+        // ---- ULV 车床：螺栓 ×1 → 螺丝 ×1（螺丝自动化，本模组传送带/泵配方内部闭环）----
+        for (Material material : subsetMaterials) {
+            if (!material.shouldGenerateRecipesFor(TagPrefix.screw) ||
+                    !material.shouldGenerateRecipesFor(TagPrefix.bolt)) {
+                continue;
+            }
+            ItemStack screwStack = ChemicalHelper.get(TagPrefix.screw, material);
+            if (screwStack.isEmpty()) {
+                continue;
+            }
+            GULVRecipeTypes.ULV_TURNING
+                    .recipeBuilder(GregULVExpansion.id("lathe_" + material.getName() + "_bolt_to_screw"))
+                    .inputItems(TagPrefix.bolt, material)
+                    .outputItems(screwStack)
+                    .duration((int) Math.max(material.getMass() / 4L, 1L))
+                    .EUt(4)
+                    .save(provider);
+        }
+
+        // ---- ULV 车床：剥皮原木 ×1 → 长木杆 ×4 + 木尘 ×1（原版八种木；上游 EUt 7 已是
+        // ---- ULV 档故不换算，时长 160 → 320）----
+        net.minecraft.world.level.block.Block[] strippedLogs = {
+                net.minecraft.world.level.block.Blocks.STRIPPED_OAK_LOG,
+                net.minecraft.world.level.block.Blocks.STRIPPED_SPRUCE_LOG,
+                net.minecraft.world.level.block.Blocks.STRIPPED_BIRCH_LOG,
+                net.minecraft.world.level.block.Blocks.STRIPPED_JUNGLE_LOG,
+                net.minecraft.world.level.block.Blocks.STRIPPED_ACACIA_LOG,
+                net.minecraft.world.level.block.Blocks.STRIPPED_DARK_OAK_LOG,
+                net.minecraft.world.level.block.Blocks.STRIPPED_MANGROVE_LOG,
+                net.minecraft.world.level.block.Blocks.STRIPPED_CHERRY_LOG
+        };
+        for (net.minecraft.world.level.block.Block log : strippedLogs) {
+            String name = log.getDescriptionId().replace("block.minecraft.stripped_", "");
+            GULVRecipeTypes.ULV_TURNING
+                    .recipeBuilder(GregULVExpansion.id("lathe_stripped_" + name))
+                    .inputItems(new ItemStack(log))
+                    .outputItems(ChemicalHelper.get(TagPrefix.rodLong, GTMaterials.Wood, 4))
+                    .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Wood, 1))
+                    .duration(320)
+                    .EUt(7)
+                    .save(provider);
+        }
+    }
+
     /**
      * 红石发电机燃料表 (redstone-generator.md 燃料表，C6 基准联动)：
      * 红石粉 1,200 EU ≈ 煤蒸汽链的 1/4；红石块 9 倍、无压缩奖励。
@@ -482,5 +561,35 @@ public final class GULVRecipes {
                 .inputItems(GULVItems.CATS_WHISKER_DETECTOR)
                 .outputItems(GTItems.NAND_CHIP_ULV, 12)
                 .save(GTDynamicDataPack::addRecipe);
+    }
+
+    /** 超低压卷板机：马达 + 红合金单线 ×2 + 铁板 ×3 + 钢辊（钢杆）×2 + ULV 机械方块（v0.5）。 */
+    private static void addBenderRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_bender"),
+                GULVMachines.ULV_BENDER.asStack(),
+                "WRW",
+                "IMI",
+                "IHI",
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Steel),
+                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'H', GTMachines.HULL[0].asStack());
+    }
+
+    /** 超低压车床：马达 + 红合金单线 ×2 + 铁板 ×4 + 锻铁车刀（锻铁板）×1 + ULV 机械方块（v0.5）。 */
+    private static void addLatheRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_lathe"),
+                GULVMachines.ULV_LATHE.asStack(),
+                "ISI",
+                "IMI",
+                "WHW",
+                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
+                'S', ChemicalHelper.get(TagPrefix.plate, GTMaterials.WroughtIron),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'H', GTMachines.HULL[0].asStack());
     }
 }

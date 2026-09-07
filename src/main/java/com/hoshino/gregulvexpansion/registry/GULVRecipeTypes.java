@@ -34,6 +34,10 @@ public final class GULVRecipeTypes {
     public static GTRecipeType ULV_CUTTING;
     /** 红石发电机燃料：红石粉/红石块 → EU（GENERATOR 组，EUt 为负）。 */
     public static GTRecipeType REDSTONE_GENERATOR_FUELS;
+    /** ULV 卷板：锭 → 板 ×1（EUt 24 降档为 7，时长 ×2）。 */
+    public static GTRecipeType ULV_BENDING;
+    /** ULV 车削：螺栓→螺丝、剥皮原木→长木杆（EUt ≤7，时长 ×2）。 */
+    public static GTRecipeType ULV_TURNING;
 
     private GULVRecipeTypes() {}
 
@@ -43,6 +47,36 @@ public final class GULVRecipeTypes {
         ULV_WIRE_MILLING = registerUlvWireMilling(event);
         ULV_CUTTING = registerUlvCutting(event);
         REDSTONE_GENERATOR_FUELS = registerRedstoneGeneratorFuels(event);
+        ULV_BENDING = registerUlvBending(event);
+        ULV_TURNING = registerUlvTurning(event);
+    }
+
+    private static GTRecipeType registerUlvBending(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        ResourceLocation id = GregULVExpansion.id("ulv_bending");
+        // IO 布局：卷板 1 进 1 出（ulv-basic-machines.md v0.5）
+        ULV_BENDING = new GTRecipeType(id, GTRecipeTypes.ELECTRIC)
+                .setMaxIOSize(1, 1, 0, 0)
+                .setEUIO(IO.IN)
+                .setSlotOverlay(false, false, GuiTextures.BENDER_OVERLAY)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_BENDING, LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.MOTOR)
+                .setXEIVisible(true);
+
+        return register(id, ULV_BENDING, event);
+    }
+
+    private static GTRecipeType registerUlvTurning(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        ResourceLocation id = GregULVExpansion.id("ulv_turning");
+        // IO 布局：车削 1 进 2 出（长木杆 + 木尘）
+        ULV_TURNING = new GTRecipeType(id, GTRecipeTypes.ELECTRIC)
+                .setMaxIOSize(1, 2, 0, 0)
+                .setEUIO(IO.IN)
+                .setSlotOverlay(false, false, GuiTextures.CUTTER_OVERLAY)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_SLICE, LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.MOTOR)
+                .setXEIVisible(true);
+
+        return register(id, ULV_TURNING, event);
     }
 
     private static GTRecipeType registerRedstoneGeneratorFuels(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {

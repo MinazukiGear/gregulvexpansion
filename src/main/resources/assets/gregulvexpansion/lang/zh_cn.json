@@ -36,5 +36,11 @@
   "gregulvexpansion.machine.ulv_cutter.tooltip.summary.1": "锻铁锯片（不做精密加工）；仅运行人工审定的子集——没有晶圆，没有宝石切割。",
   "block.gregulvexpansion.redstone_generator": "红石发电机",
   "gregulvexpansion.machine.redstone_generator.tooltip.summary.0": "第一台可自动化的燃料发电机：喂入红石粉（1,200 EU）或红石块（10,800 EU），以 8 EU/t · 1 A 稳定燃烧发电。",
-  "gregulvexpansion.machine.redstone_generator.tooltip.summary.1": "堆叠台数扩容——产业规模属于 LV 内燃机。"
+  "gregulvexpansion.machine.redstone_generator.tooltip.summary.1": "堆叠台数扩容——产业规模属于 LV 内燃机。",
+  "block.gregulvexpansion.ulv_bender": "超低压卷板机",
+  "gregulvexpansion.machine.ulv_bender.tooltip.summary.0": "以 8 EU/t 把 1 根金属锭卷成 1 块板——比锻锤机「3 锭出 2 板」多出 50% 产能。",
+  "gregulvexpansion.machine.ulv_bender.tooltip.summary.1": "仅运行人工审定的子集（红合金、铜、铁、锡、铅、锌）。",
+  "block.gregulvexpansion.ulv_lathe": "超低压车床",
+  "gregulvexpansion.machine.ulv_lathe.tooltip.summary.0": "螺栓车成螺丝、剥皮原木车成长木杆（附带木尘）——传送带与泵的螺丝供应全靠它。",
+  "gregulvexpansion.machine.ulv_lathe.tooltip.summary.1": "仅运行人工审定的子集；240 EU 缓存，与所有 ULV 机器一致。"
 }

@@ -70,6 +70,16 @@ public final class GULVLang {
                 "The first automatable fuel generator: feed it redstone dust (1,200 EU) or redstone blocks (10,800 EU) and it burns steadily at 8 EU/t · 1 A.");
         add("gregulvexpansion.machine.redstone_generator.tooltip.summary.1",
                 "Stack units to scale up — industrial scale belongs to LV combustion generators.");
+
+        // ---- 超低压卷板机 / 车床 ----
+        add("gregulvexpansion.machine.ulv_bender.tooltip.summary.0",
+                "Rolls one ingot into one plate at 8 EU/t — a 50% yield boost over the forge hammer's 3-ingots-for-2-plates.");
+        add("gregulvexpansion.machine.ulv_bender.tooltip.summary.1",
+                "Runs a hand-picked subset only (red alloy, copper, iron, tin, lead, zinc).");
+        add("gregulvexpansion.machine.ulv_lathe.tooltip.summary.0",
+                "Turns bolts into screws and stripped logs into long wood rods (plus a dust bonus) — the screw supply for your conveyors and pumps.");
+        add("gregulvexpansion.machine.ulv_lathe.tooltip.summary.1",
+                "Runs a hand-picked subset only. 240 EU buffer, like every other ULV machine.");
     }
 
     private static void add(String key, String value) {

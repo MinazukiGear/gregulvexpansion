@@ -15,7 +15,9 @@ import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.generator.RedstoneGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.generator.ThermoelectricGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.simple.PrimitiveElectrolyzerMachine;
+import com.hoshino.gregulvexpansion.machine.simple.ULVBenderMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVCutterMachine;
+import com.hoshino.gregulvexpansion.machine.simple.ULVLatheMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVWireMillMachine;
 import com.hoshino.gregulvexpansion.machine.storage.LeadAcidBatteryWallMachine;
 
@@ -151,6 +153,42 @@ public final class GULVMachines {
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.redstone_generator.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.redstone_generator.tooltip.summary.1"))
+            .register();
+
+    /** 超低压卷板机 — 锭→板 1:1，对比锻锤 0.67 板/锭 +50% 产能（v0.5）。 */
+    public static final MachineDefinition ULV_BENDER = GULVRegistration.REGISTRATE
+            .machine("ulv_bender",
+                    holder -> new ULVBenderMachine(holder, GTValues.ULV,
+                            GTMachineUtils.defaultTankSizeFunction))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GULVRecipeTypes.ULV_BENDING)
+            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .langValue("ULV Bender")
+            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
+                    GregULVExpansion.id("ulv_bender"), GULVRecipeTypes.ULV_BENDING))
+            .workableTieredHullModel(GTCEu.id("block/machines/ulv_bender"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.ulv_bender.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.ulv_bender.tooltip.summary.1"))
+            .register();
+
+    /** 超低压车床 — 螺栓→螺丝自动化与木材链（剥皮原木→长木杆），（v0.5）。 */
+    public static final MachineDefinition ULV_LATHE = GULVRegistration.REGISTRATE
+            .machine("ulv_lathe",
+                    holder -> new ULVLatheMachine(holder, GTValues.ULV,
+                            GTMachineUtils.defaultTankSizeFunction))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GULVRecipeTypes.ULV_TURNING)
+            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .langValue("ULV Lathe")
+            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
+                    GregULVExpansion.id("ulv_lathe"), GULVRecipeTypes.ULV_TURNING))
+            .workableTieredHullModel(GTCEu.id("block/machines/ulv_lathe"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.ulv_lathe.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.ulv_lathe.tooltip.summary.1"))
             .register();
 
     private GULVMachines() {}
