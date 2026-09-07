@@ -58,7 +58,7 @@
 | 语义 | ① 螺丝自动化（本模组传送带/泵配方的螺丝需求内部闭环）；② 木材链：剥皮原木 → 长木杆 ×4 →（ULV 切割机）→ 木杆 ×8，附带木尘副产品；③ 车床经典职能：锭车成杆，车削废料以小撮粉回收 | |
 
 - 上游同源（v0.7 耗能不变，原样直录）：`lathe_<m>_bolt_to_screw`（EUt 4，时长 mass/8）；`lathe_stripped_<wood>_log`（EUt 7，160 t）。上游配方本就是 ULV/LV 低功率档，功率与时长均不变。
-- ③ 锭→杆+小撮粉：上游 `lathe_<m>_to_rod`（PartsRecipeHandler.processRod，harderRods 默认形态：EUt 16、时长 mass×2 → 杆 ×1 + 小撮粉 ×2）。换算（v0.7 耗能不变）：总 EU 32×mass 不变 → **EUt 7、时长 32×mass÷7**。此前记录「上游车床无金属杆配方」系调研遗漏，特此更正。（v0.6.2 删除挤出机后，**金属杆产线统一归本车床**。）
+- ③ 锭→杆：上游 `lathe_<m>_to_rod`（PartsRecipeHandler.processRod，EUt 16、时长 mass×2）。**跟随上游 harderRods 配置**：true（默认）= 杆 ×1 + 小撮粉 ×2；false = 杆 ×2。换算（v0.7 耗能不变）：两形态总 EU 同为 32×mass → **EUt 7、时长 32×mass÷7**。此前记录「上游车床无金属杆配方」系调研遗漏，特此更正。（v0.6.2 删除挤出机后，**金属杆产线统一归本车床**。）
 
 ### 子集表维护规则
 

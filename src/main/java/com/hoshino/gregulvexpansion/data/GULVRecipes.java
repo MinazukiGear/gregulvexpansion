@@ -446,8 +446,9 @@ public final class GULVRecipes {
                     .save(provider);
         }
 
-        // ---- ULV 车床：锭 ×1 → 杆 ×1 + 小撮粉 ×2（上游 processRod 默认形态
-        // ---- harderRods=true：EUt 16、mass×2 → 总能耗 32×mass 不变：EUt 7、时长 ÷7）----
+        // ---- ULV 车床：锭 → 杆（跟随上游 harderRods 配置，两形态总能耗同为 32×mass：
+        // ---- true（默认）杆 ×1 + 小撮粉 ×2；false 杆 ×2。EUt 16、mass×2 → EUt 7、时长 ÷7）----
+        boolean harderRods = com.gregtechceu.gtceu.config.ConfigHolder.INSTANCE.recipes.harderRods;
         for (Material material : subsetMaterials) {
             if (!material.shouldGenerateRecipesFor(TagPrefix.rod) ||
                     !material.hasProperty(PropertyKey.DUST) ||
@@ -458,12 +459,16 @@ public final class GULVRecipes {
             if (rodStack.isEmpty()) {
                 continue;
             }
-            GULVRecipeTypes.ULV_TURNING
+            var builder = GULVRecipeTypes.ULV_TURNING
                     .recipeBuilder(GregULVExpansion.id("lathe_" + material.getName() + "_to_rod"))
-                    .inputItems(TagPrefix.ingot, material)
-                    .outputItems(rodStack.copyWithCount(1))
-                    .outputItems(ChemicalHelper.get(TagPrefix.dustSmall, material, 2))
-                    .duration((int) Math.max((material.getMass() * 32L + 6) / 7, 1))
+                    .inputItems(TagPrefix.ingot, material);
+            if (harderRods) {
+                builder.outputItems(rodStack.copyWithCount(1));
+                builder.outputItems(ChemicalHelper.get(TagPrefix.dustSmall, material, 2));
+            } else {
+                builder.outputItems(rodStack.copyWithCount(2));
+            }
+            builder.duration((int) Math.max((material.getMass() * 32L + 6) / 7, 1))
                     .EUt(7)
                     .save(provider);
         }
