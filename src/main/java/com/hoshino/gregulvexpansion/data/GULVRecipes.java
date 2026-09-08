@@ -849,7 +849,7 @@ public final class GULVRecipes {
                 'D', GULVItems.CATS_WHISKER_DETECTOR);
     }
 
-    /** ULV 油田泵控制器：蒸馏塔框架 ×4 + 马达 ×1 + 钢杆 ×2 + 红合金线 ×2。 */
+    /** 超低压流体钻井机控制器：蒸馏塔框架 ×4 + 马达 ×1 + 钢杆 ×2 + 红合金线 ×2。 */
     private static void addOilPumpController(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider,
                 GregULVExpansion.id("ulv_fluid_drilling_rig"),

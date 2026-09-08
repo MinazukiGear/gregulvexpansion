@@ -7,13 +7,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FluidDrillMachine;
-import com.gregtechceu.gtceu.common.machine.multiblock.electric.FluidDrillMachine;
 import com.hoshino.gregulvexpansion.GregULVExpansion;
 import com.hoshino.gregulvexpansion.machine.multiblock.LeadChamberMachine;
-import com.hoshino.gregulvexpansion.machine.multiblock.PrimitiveCrackerMachine;
-import com.hoshino.gregulvexpansion.machine.multiblock.PrimitiveDistillationTowerMachine;
-import com.hoshino.gregulvexpansion.machine.multiblock.ULVFluidDrillingRigMachine;
-import net.minecraft.world.level.block.Blocks;
 import com.hoshino.gregulvexpansion.machine.multiblock.PrimitiveCrackerMachine;
 import com.hoshino.gregulvexpansion.machine.multiblock.PrimitiveDistillationTowerMachine;
 import com.hoshino.gregulvexpansion.machine.multiblock.ULVFluidDrillingRigMachine;
@@ -131,7 +126,7 @@ public final class GULVMultiblocks {
             .register();
 
     /**
-     * ULV 油田泵 — 仿上游流体钻井机的 ULV 多方块（抽取基岩流体油田，带枯竭机制），
+     * 超低压流体钻井机 — 仿上游流体钻井机的 ULV 多方块（抽取基岩流体油田，带枯竭机制），
      * 相对 LV 钻井机：产出减半、单位能耗加倍（v1.1）。
      */
     public static final MultiblockMachineDefinition ULV_FLUID_DRILLING_RIG = GULVRegistration.REGISTRATE

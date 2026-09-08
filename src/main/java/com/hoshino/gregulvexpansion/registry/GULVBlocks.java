@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.Blocks;
  */
 public final class GULVBlocks {
     
-    /** 蒸馏塔框架 — 原始蒸馏塔/原始裂化机/ULV 油田泵共用的石油框架结构块。 */
+    /** 蒸馏塔框架 — 原始蒸馏塔/原始裂化机/超低压流体钻井机共用的石油框架结构块。 */
     public static final BlockEntry<Block> DISTILLATION_FRAME = GULVRegistration.REGISTRATE
             .block("distillation_frame", Block::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)

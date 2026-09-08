@@ -19,7 +19,7 @@ import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * ULV 油田泵逻辑（primitive-distillation-tower.md v1.1，所有者指示）：
+ * 超低压流体钻井机逻辑（primitive-distillation-tower.md v1.1，所有者指示）：
  * 相对上游 LV 流体钻井机——**产出减半、单位能耗加倍**。
  *
  * <p>上游钻井周期 20t @ EUt VA[LV]=30 产 P mB（600 EU/mB·P）。本泵：产出 P/2、

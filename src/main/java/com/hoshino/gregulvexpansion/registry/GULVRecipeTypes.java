@@ -60,6 +60,11 @@ public final class GULVRecipeTypes {
         REDSTONE_GENERATOR_FUELS = registerRedstoneGeneratorFuels(event);
         ULV_BENDING = registerUlvBending(event);
         ULV_TURNING = registerUlvTurning(event);
+        ULV_CHEMICAL_REACTING = registerUlvChemicalReacting(event);
+        ULV_FLUID_SOLIDFICATION = registerUlvFluidSolidification(event);
+        ULV_EXTRACTING = registerUlvExtracting(event);
+        PRIMITIVE_DISTILLATION = registerPrimitiveDistillation(event);
+        PRIMITIVE_CRACKING = registerPrimitiveCracking(event);
     }
 
     private static GTRecipeType registerUlvBending(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
@@ -162,6 +167,86 @@ public final class GULVRecipeTypes {
                 .setXEIVisible(true);
 
         return register(id, ULV_CUTTING, event);
+    }
+
+    private static GTRecipeType registerUlvChemicalReacting(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        ResourceLocation id = GregULVExpansion.id("ulv_chemical_reacting");
+        // IO 布局：镜像上游化学反应机 2/2/3/2，为石油线脱硫/聚合子集预留槽位
+        // (ulv-basic-machines.md v0.8 子集表 + primitive-distillation-tower.md §6)
+        ULV_CHEMICAL_REACTING = new GTRecipeType(id, GTRecipeTypes.ELECTRIC)
+                .setMaxIOSize(2, 2, 3, 2)
+                .setEUIO(IO.IN)
+                .setSlotOverlay(false, false, false, GuiTextures.MOLECULAR_OVERLAY_1)
+                .setSlotOverlay(false, false, true, GuiTextures.MOLECULAR_OVERLAY_2)
+                .setSlotOverlay(false, true, false, GuiTextures.MOLECULAR_OVERLAY_3)
+                .setSlotOverlay(false, true, true, GuiTextures.MOLECULAR_OVERLAY_4)
+                .setSlotOverlay(true, false, GuiTextures.VIAL_OVERLAY_1)
+                .setSlotOverlay(true, true, GuiTextures.VIAL_OVERLAY_2)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.CHEMICAL)
+                .setXEIVisible(true);
+
+        return register(id, ULV_CHEMICAL_REACTING, event);
+    }
+
+    private static GTRecipeType registerUlvFluidSolidification(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        ResourceLocation id = GregULVExpansion.id("ulv_fluid_solidification");
+        // IO 布局 (ulv-basic-machines.md v0.8 子集表)：固化 1 流体进 + 模具（notConsumable）
+        // → 1 物品出，镜像上游 FLUID_SOLIDFICATION_RECIPES
+        ULV_FLUID_SOLIDFICATION = new GTRecipeType(id, GTRecipeTypes.ELECTRIC)
+                .setMaxIOSize(1, 1, 1, 0)
+                .setEUIO(IO.IN)
+                .setSlotOverlay(false, false, GuiTextures.SOLIDIFIER_OVERLAY)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.COOLING)
+                .setXEIVisible(true);
+
+        return register(id, ULV_FLUID_SOLIDFICATION, event);
+    }
+
+    private static GTRecipeType registerUlvExtracting(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        ResourceLocation id = GregULVExpansion.id("ulv_extracting");
+        // IO 布局 (ulv-basic-machines.md v0.9 子集表)：镜像上游提取机 1/1/0/1，
+        // 流体输出槽为油砂榨取（原油 250 mB，primitive-distillation-tower.md §2）预留
+        ULV_EXTRACTING = new GTRecipeType(id, GTRecipeTypes.ELECTRIC)
+                .setMaxIOSize(1, 1, 0, 1)
+                .setEUIO(IO.IN)
+                .setSlotOverlay(false, false, GuiTextures.EXTRACTOR_OVERLAY)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.MOTOR)
+                .setXEIVisible(true);
+
+        return register(id, ULV_EXTRACTING, event);
+    }
+
+    private static GTRecipeType registerPrimitiveDistillation(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        ResourceLocation id = GregULVExpansion.id("primitive_distillation");
+        // IO 布局 (primitive-distillation-tower.md §3)：流体 2 进（原油 + 蒸汽）、
+        // 4 出（硫化重/轻燃料、硫化石脑油、硫化气体）；无电：省略 EUt（铅室同款语义）
+        PRIMITIVE_DISTILLATION = new GTRecipeType(id, GTRecipeTypes.MULTIBLOCK)
+                .setMaxIOSize(0, 0, 2, 4)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
+                .setMaxTooltips(1)
+                .setSound(GTSoundEntries.CHEMICAL)
+                .setXEIVisible(true);
+
+        return register(id, PRIMITIVE_DISTILLATION, event);
+    }
+
+    private static GTRecipeType registerPrimitiveCracking(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        ResourceLocation id = GregULVExpansion.id("primitive_cracking");
+        // IO 布局 (primitive-distillation-tower.md §5)：镜像上游裂化机 1/0/2/2，
+        // 物品输出 +1（碳粉副产）；无电：省略 EUt
+        PRIMITIVE_CRACKING = new GTRecipeType(id, GTRecipeTypes.MULTIBLOCK)
+                .setMaxIOSize(1, 1, 2, 2)
+                .setSlotOverlay(false, true, GuiTextures.CRACKING_OVERLAY_1)
+                .setSlotOverlay(true, true, GuiTextures.CRACKING_OVERLAY_2)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_CRACKING, LEFT_TO_RIGHT)
+                .setMaxTooltips(1)
+                .setSound(GTSoundEntries.FIRE)
+                .setXEIVisible(true);
+
+        return register(id, PRIMITIVE_CRACKING, event);
     }
 
     private static GTRecipeType register(ResourceLocation id, GTRecipeType recipeType,
