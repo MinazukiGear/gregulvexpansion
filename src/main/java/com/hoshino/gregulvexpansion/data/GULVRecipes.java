@@ -540,6 +540,60 @@ public final class GULVRecipes {
                 .duration(160)
                 .EUt(7)
                 .save(provider);
+
+        // ---- 石油线子集 (primitive-distillation-tower.md §6；2026-09-08 补录：
+        // ---- 提交 2fda8e2 信息声称落地但代码缺失，本次按文档定稿值恢复) ----
+        // 脱硫 ×2：上游 desulfurizationRecipes（硫化油 12,000 + 氢 2,000 → 油 12,000 + H₂S 1,000，
+        // 30 EUt × 160t）；耗能不变：7 × 686t
+        GULVRecipeTypes.ULV_CHEMICAL_REACTING
+                .recipeBuilder(GregULVExpansion.id("desulfurize_light_fuel"))
+                .inputFluids(GTMaterials.SulfuricLightFuel.getFluid(12_000),
+                        GTMaterials.Hydrogen.getFluid(2_000))
+                .outputFluids(GTMaterials.LightFuel.getFluid(12_000),
+                        GTMaterials.HydrogenSulfide.getFluid(1_000))
+                .duration(686)
+                .EUt(7)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_CHEMICAL_REACTING
+                .recipeBuilder(GregULVExpansion.id("desulfurize_naphtha"))
+                .inputFluids(GTMaterials.SulfuricNaphtha.getFluid(12_000),
+                        GTMaterials.Hydrogen.getFluid(2_000))
+                .outputFluids(GTMaterials.Naphtha.getFluid(12_000),
+                        GTMaterials.HydrogenSulfide.getFluid(1_000))
+                .duration(686)
+                .EUt(7)
+                .save(provider);
+
+        // H₂S 反哺酸产（自定义，上游无对标条目）：H₂S 1,000 + 氧 4,000 → 硫酸 1,000；
+        // 口径同表：7 × 1,372t
+        GULVRecipeTypes.ULV_CHEMICAL_REACTING
+                .recipeBuilder(GregULVExpansion.id("sulfuric_acid_from_h2s"))
+                .inputFluids(GTMaterials.HydrogenSulfide.getFluid(1_000),
+                        GTMaterials.Oxygen.getFluid(4_000))
+                .outputFluids(GTMaterials.SulfuricAcid.getFluid(1_000))
+                .duration(1372)
+                .EUt(7)
+                .save(provider);
+
+        // 聚合 ×2（上游 PolymerRecipes，编程电路省略——空气/氧输入互斥无歧义）：
+        // 空气版 乙烯 144 + 空气 1,000 → PE 144；氧版产 216（上游 1.5× 氧化奖励）。
+        // 耗能不变：30 × 160t → 7 × 686t
+        GULVRecipeTypes.ULV_CHEMICAL_REACTING
+                .recipeBuilder(GregULVExpansion.id("polyethylene_from_air"))
+                .inputFluids(GTMaterials.Air.getFluid(1_000), GTMaterials.Ethylene.getFluid(144))
+                .outputFluids(GTMaterials.Polyethylene.getFluid(144))
+                .duration(686)
+                .EUt(7)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_CHEMICAL_REACTING
+                .recipeBuilder(GregULVExpansion.id("polyethylene_from_oxygen"))
+                .inputFluids(GTMaterials.Oxygen.getFluid(1_000), GTMaterials.Ethylene.getFluid(144))
+                .outputFluids(GTMaterials.Polyethylene.getFluid(216))
+                .duration(686)
+                .EUt(7)
+                .save(provider);
     }
 
     /**
@@ -573,6 +627,17 @@ public final class GULVRecipes {
                 .notConsumable(GTItems.SHAPE_MOLD_BLOCK)
                 .outputItems(new ItemStack(net.minecraft.world.level.block.Blocks.OBSIDIAN))
                 .duration(2341)
+                .EUt(7)
+                .save(provider);
+
+        // 聚乙烯板（石油线终点，primitive-distillation-tower.md §6）：
+        // PE 144 mB + 板模具 → 板 ×1（EUt 7 / 40t 原样直录，模具不消耗）
+        GULVRecipeTypes.ULV_FLUID_SOLIDFICATION
+                .recipeBuilder(GregULVExpansion.id("polyethylene_plate"))
+                .inputFluids(GTMaterials.Polyethylene.getFluid(144))
+                .notConsumable(GTItems.SHAPE_MOLD_PLATE)
+                .outputItems(ChemicalHelper.get(TagPrefix.plate, GTMaterials.Polyethylene))
+                .duration(40)
                 .EUt(7)
                 .save(provider);
     }
@@ -622,6 +687,44 @@ public final class GULVRecipes {
                 .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.RawRubber, 2))
                 .duration(150)
                 .EUt(2)
+                .save(provider);
+    }
+
+    /**
+     * 石油线无电多方块本体配方 (primitive-distillation-tower.md §3/§5，v1.1 所有者逐条修正；
+     * 2026-09-08 补录：提交 890a559 时序中声明但代码缺失，本次按文档定稿值恢复)。
+     * 无电：省略 EUt（铅室同款语义）；蒸汽按运行时长一次扣除（写入配方流体输入）。
+     * 同样仅供运行时 addRecipes 调用。
+     */
+    public static void addOilLineRecipes(Consumer<FinishedRecipe> provider) {
+        // 原始蒸馏塔：原油 50 + 蒸汽 2,560（8 mB/t × 320t 一次扣除）
+        // → 四硫化组分（产出比例与上游 distill_oil 完全一致），时长 ×16（320t）
+        GULVRecipeTypes.PRIMITIVE_DISTILLATION
+                .recipeBuilder(GregULVExpansion.id("distill_oil"))
+                .inputFluids(GTMaterials.Oil.getFluid(50), GTMaterials.Steam.getFluid(2_560))
+                .outputFluids(GTMaterials.SulfuricHeavyFuel.getFluid(15),
+                        GTMaterials.SulfuricLightFuel.getFluid(50),
+                        GTMaterials.SulfuricNaphtha.getFluid(20),
+                        GTMaterials.SulfuricGas.getFluid(60))
+                .duration(320)
+                .save(provider);
+
+        // 原始裂化机 ×2：石脑油/轻燃料 1,000 + 蒸汽 4,000（一次扣除）
+        // → 乙烯 250 + 甲烷 500 + 碳粉 ×1（上游裂化+蒸馏全链产量的 1/6），时长 640t
+        GULVRecipeTypes.PRIMITIVE_CRACKING
+                .recipeBuilder(GregULVExpansion.id("crack_naphtha"))
+                .inputFluids(GTMaterials.Naphtha.getFluid(1_000), GTMaterials.Steam.getFluid(4_000))
+                .outputFluids(GTMaterials.Ethylene.getFluid(250), GTMaterials.Methane.getFluid(500))
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Carbon, 1))
+                .duration(640)
+                .save(provider);
+
+        GULVRecipeTypes.PRIMITIVE_CRACKING
+                .recipeBuilder(GregULVExpansion.id("crack_light_fuel"))
+                .inputFluids(GTMaterials.LightFuel.getFluid(1_000), GTMaterials.Steam.getFluid(4_000))
+                .outputFluids(GTMaterials.Ethylene.getFluid(250), GTMaterials.Methane.getFluid(500))
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Carbon, 1))
+                .duration(640)
                 .save(provider);
     }
 

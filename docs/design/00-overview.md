@@ -1,6 +1,6 @@
 # 总纲：Greg ULV Expansion 内容设计总览
 
-> 状态：**已裁决草案（v0.3，2026-09-07）；v0.5–v1.2 实现期修订（2026-09-08，除石油线工艺配方待所有者确认后补录外，其余均已实现待实测）**——首批范围与全部开放问题已经项目所有者逐项裁决（裁决记录见 [open-questions.md](open-questions.md)）；数值仍可在标注区间内实测微调，结构性变更需新一轮裁决。
+> 状态：**已裁决草案（v0.3，2026-09-07）；v0.5–v1.2 实现期修订（2026-09-08，全线已实现待实测）**——首批范围与全部开放问题已经项目所有者逐项裁决（裁决记录见 [open-questions.md](open-questions.md)）；数值仍可在标注区间内实测微调，结构性变更需新一轮裁决。
 > v0.2 变更：移除硒材料路线；ULV 基础构件线立项为最高优先级 P0；铅室法依据上游硫酸路线调研定稿；锗路线冻结。
 > v0.3 变更（首轮裁决）：**小型蒸汽轮机砍除**（A1）；**ULV 洗矿机砍除**（A2）；PbO₂ 定为电解槽阳极氧化路线（B1）；替代配方提为 P2 并禁用上游真空管/NAND 原配方（D14，§3.5 原则相应修订）；储能方块定名「铅酸蓄电墙」（D10）；马达成为温差/红石发电机公共前置（D15）；其余数值与取舍裁决见 open-questions.md。
 
@@ -53,7 +53,7 @@ Greg ULV Expansion 是 GregTech CEu Modern（下称 GTCEu，7.5.3）的附属模
 | F 化学前置 | 铅室法制酸装置（无电多方块） | [lead-chamber-acid-plant.md](lead-chamber-acid-plant.md) | P1 | **已实现**（待实测） |
 | G ULV 机器 | 原型电解槽（水电解 + PbO₂ 氧化；储能链前置，P1 首位） | [primitive-electrolyzer.md](primitive-electrolyzer.md) | P1 | **已实现**（待实测） |
 | G ULV 机器 | ULV 线材轧机 / 切割机 / 卷板机 / 车床 / 化学反应釜 / 流体固化器 / 流体提取机（配方子集下沉） | [ulv-basic-machines.md](ulv-basic-machines.md) | P1 | **已实现**（待实测） |
-| H 石油线 | 原始蒸馏塔 / 原始裂化机 / ULV 流体钻井机（无电多方块，含聚乙烯链） | [primitive-distillation-tower.md](primitive-distillation-tower.md) | v1.1 新增 | **多方块已实现**（工艺配方未注册，待所有者确认） |
+| H 石油线 | 原始蒸馏塔 / 原始裂化机 / ULV 流体钻井机（无电多方块，含聚乙烯链） | [primitive-distillation-tower.md](primitive-distillation-tower.md) | v1.1 新增 | **已实现**（待实测） |
 | — | 开放问题裁决追踪表（34 项，首轮全部裁决） | [open-questions.md](open-questions.md) | — | 首轮裁决完成 |
 | — | 未定案候选总表与负面清单 | [next-machine-candidates.md](next-machine-candidates.md) | — | 候选 |
 

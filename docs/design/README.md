@@ -20,7 +20,7 @@
 | [lead-chamber-acid-plant.md](lead-chamber-acid-plant.md) | 铅室法制酸装置（无电多方块，P1） | 已实现 v0.3.1 |
 | [primitive-electrolyzer.md](primitive-electrolyzer.md) | 原型电解槽（水电解 + PbO₂ 氧化，储能链前置，P1 首位） | 已实现 v0.3.1 |
 | [ulv-basic-machines.md](ulv-basic-machines.md) | 超低压线材轧机 / 切割机 / 卷板机 / 车床 / 化学反应釜 / 流体固化器 / 流体提取机（配方子集下沉，P1；洗矿机已裁决砍除） | 已实现 v0.9 |
-| [primitive-distillation-tower.md](primitive-distillation-tower.md) | 原始蒸馏塔 + 原始裂化机 + 超低压流体钻井机（石油线，无电多方块，含聚乙烯链） | 多方块已实现 v1.2（工艺配方未注册，§8 待所有者确认） |
+| [primitive-distillation-tower.md](primitive-distillation-tower.md) | 原始蒸馏塔 + 原始裂化机 + 超低压流体钻井机（石油线，无电多方块，含聚乙烯链） | 已实现 v1.2（待实测） |
 | [open-questions.md](open-questions.md) | 开放问题裁决追踪表（34 项首轮裁决记录 + 待办调研） | 首轮裁决完成 |
 | [next-machine-candidates.md](next-machine-candidates.md) | 后续内容候选总表与负面清单（含蒸汽轮机/洗矿机落选记录） | 候选 |
 
