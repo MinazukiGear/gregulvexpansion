@@ -1,17 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
-    "H": {
-      "item": "gtceu:ulv_machine_hull"
+    "B": {
+      "tag": "forge:chests/wooden"
     },
-    "I": {
-      "item": "gtceu:iron_plate"
+    "C": {
+      "item": "gregulvexpansion:cats_whisker_detector"
+    },
+    "G": {
+      "tag": "forge:glass"
     },
     "M": {
-      "item": "gregulvexpansion:ulv_electric_motor"
+      "item": "gtceu:ulv_machine_hull"
     },
-    "S": {
-      "item": "gtceu:steel_plate"
+    "P": {
+      "item": "gregulvexpansion:ulv_electric_pump"
     },
     "W": {
       "item": "gtceu:red_alloy_single_wire"
@@ -19,9 +22,9 @@
   },
   "matchSize": false,
   "pattern": [
-    "ISI",
+    "PGP",
     "WMW",
-    "IHI"
+    "CBC"
   ],
   "result": {
     "item": "gregulvexpansion:ulv_fluid_solidifier"

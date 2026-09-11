@@ -1,17 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
+    "C": {
+      "item": "gregulvexpansion:cats_whisker_detector"
+    },
+    "E": {
+      "item": "gregulvexpansion:ulv_electric_motor"
+    },
     "G": {
       "tag": "forge:glass"
     },
-    "H": {
+    "M": {
       "item": "gtceu:ulv_machine_hull"
     },
-    "I": {
-      "item": "gtceu:iron_plate"
-    },
-    "M": {
-      "item": "gregulvexpansion:ulv_electric_motor"
+    "R": {
+      "item": "gtceu:tin_rotor"
     },
     "W": {
       "item": "gtceu:red_alloy_single_wire"
@@ -19,9 +22,9 @@
   },
   "matchSize": false,
   "pattern": [
-    "WGW",
-    "GMG",
-    "IHI"
+    "GRG",
+    "WEW",
+    "CMC"
   ],
   "result": {
     "item": "gregulvexpansion:ulv_chemical_reactor"

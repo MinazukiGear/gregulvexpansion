@@ -1,23 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
-    "B": {
-      "item": "gtceu:bronze_buzz_saw_blade"
-    },
     "C": {
       "item": "gregulvexpansion:cats_whisker_detector"
     },
     "E": {
       "item": "gregulvexpansion:ulv_electric_motor"
     },
-    "G": {
-      "tag": "forge:glass"
-    },
     "M": {
       "item": "gtceu:ulv_machine_hull"
     },
-    "V": {
-      "item": "gregulvexpansion:ulv_conveyor_module"
+    "R": {
+      "item": "gtceu:tin_rotor"
     },
     "W": {
       "item": "gtceu:red_alloy_single_wire"
@@ -25,11 +19,11 @@
   },
   "matchSize": false,
   "pattern": [
-    "WCG",
-    "VMB",
-    "CWE"
+    "CRC",
+    "RMR",
+    "EWE"
   ],
   "result": {
-    "item": "gregulvexpansion:ulv_cutter"
+    "item": "gregulvexpansion:ulv_gas_turbine"
   }
 }

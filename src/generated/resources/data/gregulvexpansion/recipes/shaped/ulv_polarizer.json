@@ -1,26 +1,26 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
-    "C": {
-      "item": "gregulvexpansion:cats_whisker_detector"
-    },
-    "E": {
-      "item": "gregulvexpansion:ulv_electric_motor"
-    },
     "M": {
       "item": "gtceu:ulv_machine_hull"
     },
+    "S": {
+      "item": "gtceu:iron_rod"
+    },
     "W": {
       "item": "gtceu:red_alloy_single_wire"
+    },
+    "Z": {
+      "item": "gtceu:tin_single_wire"
     }
   },
   "matchSize": false,
   "pattern": [
-    "EWE",
-    "CMC",
-    "EWE"
+    "ZSZ",
+    "WMW",
+    "ZSZ"
   ],
   "result": {
-    "item": "gregulvexpansion:ulv_wire_mill"
+    "item": "gregulvexpansion:ulv_polarizer"
   }
 }

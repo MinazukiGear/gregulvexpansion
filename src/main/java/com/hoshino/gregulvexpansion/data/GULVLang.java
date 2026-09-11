@@ -17,6 +17,8 @@ public final class GULVLang {
                 "A detachable crank. Right-click a hand-crank dynamo to install; wrench to detach.");
         add("gregulvexpansion.item.ulv_electric_motor.tooltip",
                 "A crude 8 EU motor. The common prerequisite of every ULV machine and generator.");
+        add("gregulvexpansion.item.ulv_electric_piston.tooltip",
+                "A crude electric piston. No cover on its own — the muscle inside robot arms and reciprocating mechanisms.");
 
         // ---- 手摇发电机 ----
         add("gregulvexpansion.machine.hand_crank_dynamo.tooltip.summary.0",
@@ -96,6 +98,18 @@ public final class GULVLang {
                 "Squeezes raw rubber from sticky resin and rubber tree parts at a mere 2 EU/t — the start of the rubber chain for your conveyors and pumps.");
         add("gregulvexpansion.machine.ulv_fluid_extractor.tooltip.summary.1",
                 "Runs a hand-picked subset only. 240 EU buffer.");
+
+        // ---- 超低压微型燃气轮机 ----
+        add("gregulvexpansion.machine.ulv_gas_turbine.tooltip.summary.0",
+                "The oil line's payoff: burn natural gas, sulfuric gas, methane or sulfuric naphtha for a steady 8 EU/t * 1 A — the distillation tower's byproducts finally pay rent.");
+        add("gregulvexpansion.machine.ulv_gas_turbine.tooltip.summary.1",
+                "Fuel heat values match the upstream gas turbine, just burned 4x slower. 4,000 mB tank; stacking units is the only way to scale.");
+
+        // ---- 超低压极化机 ----
+        add("gregulvexpansion.machine.ulv_polarizer.tooltip.summary.0",
+                "Electromagnetism, 1825: iron rod in, magnetized iron rod out — far cheaper than the 4-redstone hand recipe, and the new ingredient inside every ULV motor.");
+        add("gregulvexpansion.machine.ulv_polarizer.tooltip.summary.1",
+                "1,280 EU per rod (8 EU/t x 160t). Hook it to your microgrid to automate; hand-cranking works too (~54 cranks).");
     }
 
     private static void add(String key, String value) {

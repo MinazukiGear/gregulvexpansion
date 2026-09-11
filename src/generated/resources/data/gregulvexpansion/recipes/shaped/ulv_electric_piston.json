@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "gtceu:red_alloy_single_wire"
+    },
+    "G": {
+      "item": "gtceu:small_bronze_gear"
+    },
+    "M": {
+      "item": "gregulvexpansion:ulv_electric_motor"
+    },
+    "P": {
+      "item": "gtceu:wrought_iron_plate"
+    },
+    "R": {
+      "item": "gtceu:wrought_iron_rod"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "PPP",
+    "CRR",
+    "CMG"
+  ],
+  "result": {
+    "item": "gregulvexpansion:ulv_electric_piston"
+  }
+}

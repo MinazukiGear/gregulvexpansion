@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.hoshino.gregulvexpansion.GregULVExpansion;
 import com.hoshino.gregulvexpansion.machine.generator.HandCrankDynamoMachine;
+import com.hoshino.gregulvexpansion.machine.generator.ULVGasTurbineMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.generator.RedstoneGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.generator.ThermoelectricGeneratorMachine;
@@ -21,10 +22,12 @@ import com.hoshino.gregulvexpansion.machine.simple.ULVCutterMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVFluidExtractorMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVFluidSolidifierMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVLatheMachine;
+import com.hoshino.gregulvexpansion.machine.simple.ULVPolarizerMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVWireMillMachine;
 import com.hoshino.gregulvexpansion.machine.storage.LeadAcidBatteryWallMachine;
 
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.fluids.FluidType;
 
 /**
  * 本模组机器注册 (总纲 §7：独有机制机器不带层级前缀)。
@@ -246,6 +249,49 @@ public final class GULVMachines {
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_fluid_extractor.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_fluid_extractor.tooltip.summary.1"))
+            .register();
+
+    /**
+     * 超低压微型燃气轮机 — 气体燃料电（P2, gas-turbine.md）。
+     * 只烧白名单四种流体（天然气/含硫气体/甲烷/含硫石脑油），热值与上游一致、
+     * 恒定 8 EU/t · 1 A；闭合石油线天然气/含硫气体/甲烷死端。罐容 4,000 mB 定容
+     * （上游 genericGeneratorTankSizeFunction 在 tier 0 会算出负值，故自定义）。
+     */
+    public static final MachineDefinition ULV_GAS_TURBINE = GULVRegistration.REGISTRATE
+            .machine("ulv_gas_turbine",
+                    holder -> new ULVGasTurbineMachine(holder, GTValues.ULV,
+                            tier -> 4 * FluidType.BUCKET_VOLUME))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.ALL)
+            .recipeType(GULVRecipeTypes.ULV_GAS_TURBINE_FUELS)
+            .recipeModifier(SimpleGeneratorMachine::recipeModifier, true)
+            .addOutputLimit(ItemRecipeCapability.CAP, 0)
+            .addOutputLimit(FluidRecipeCapability.CAP, 0)
+            .langValue("ULV Micro Gas Turbine")
+            .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(
+                    GregULVExpansion.id("ulv_gas_turbine"), GULVRecipeTypes.ULV_GAS_TURBINE_FUELS))
+            .workableTieredHullModel(GTCEu.id("block/generators/ulv_gas_turbine"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.ulv_gas_turbine.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.ulv_gas_turbine.tooltip.summary.1"))
+            .register();
+
+    /** 超低压极化机 — 磁化铁杆电力磁化，双路线的自动化侧（P2, ulv-polarizer.md；马达 v0.5）。 */
+    public static final MachineDefinition ULV_POLARIZER = GULVRegistration.REGISTRATE
+            .machine("ulv_polarizer",
+                    holder -> new ULVPolarizerMachine(holder, GTValues.ULV,
+                            GTMachineUtils.defaultTankSizeFunction))
+            .tier(GTValues.ULV)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GULVRecipeTypes.ULV_POLARIZING)
+            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .langValue("ULV Polarizer")
+            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
+                    GregULVExpansion.id("ulv_polarizer"), GULVRecipeTypes.ULV_POLARIZING))
+            .workableTieredHullModel(GTCEu.id("block/machines/ulv_polarizer"))
+            .tooltips(
+                    Component.translatable("gregulvexpansion.machine.ulv_polarizer.tooltip.summary.0"),
+                    Component.translatable("gregulvexpansion.machine.ulv_polarizer.tooltip.summary.1"))
             .register();
 
     private GULVMachines() {}

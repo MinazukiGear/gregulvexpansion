@@ -49,6 +49,10 @@ public final class GULVRecipeTypes {
     public static GTRecipeType ULV_BENDING;
     /** ULV 车削：螺栓→螺丝、剥皮原木→长木杆（EUt ≤7，时长 ×2）。 */
     public static GTRecipeType ULV_TURNING;
+    /** ULV 极化：铁杆 → 磁化铁杆（白名单单项，时长 ×2 总能耗不变）。 */
+    public static GTRecipeType ULV_POLARIZING;
+    /** ULV 微型燃气轮机燃料：天然气/含硫气体/甲烷/含硫石脑油 → EU（GENERATOR 组，EUt 为负）。 */
+    public static GTRecipeType ULV_GAS_TURBINE_FUELS;
 
     private GULVRecipeTypes() {}
 
@@ -65,6 +69,35 @@ public final class GULVRecipeTypes {
         ULV_EXTRACTING = registerUlvExtracting(event);
         PRIMITIVE_DISTILLATION = registerPrimitiveDistillation(event);
         PRIMITIVE_CRACKING = registerPrimitiveCracking(event);
+        ULV_POLARIZING = registerUlvPolarizing(event);
+        ULV_GAS_TURBINE_FUELS = registerUlvGasTurbineFuels(event);
+    }
+
+    private static GTRecipeType registerUlvPolarizing(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        ResourceLocation id = GregULVExpansion.id("ulv_polarizing");
+        // IO 布局 (ulv-polarizer.md)：镜像上游极化机 1 进 1 出
+        ULV_POLARIZING = new GTRecipeType(id, GTRecipeTypes.ELECTRIC)
+                .setMaxIOSize(1, 1, 0, 0)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_MAGNET, LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.ARC)
+                .setXEIVisible(true);
+
+        return register(id, ULV_POLARIZING, event);
+    }
+
+    private static GTRecipeType registerUlvGasTurbineFuels(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
+        ResourceLocation id = GregULVExpansion.id("ulv_gas_turbine");
+        // IO 布局 (gas-turbine.md)：流体燃料 1 进；GENERATOR 组，EUt 为负（发电）
+        ULV_GAS_TURBINE_FUELS = new GTRecipeType(id, GTRecipeTypes.GENERATOR)
+                .setMaxIOSize(0, 0, 1, 0)
+                .setEUIO(IO.OUT)
+                .setSlotOverlay(false, true, true, GuiTextures.FURNACE_OVERLAY_2)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.COMBUSTION)
+                .setXEIVisible(true);
+
+        return register(id, ULV_GAS_TURBINE_FUELS, event);
     }
 
     private static GTRecipeType registerUlvBending(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {

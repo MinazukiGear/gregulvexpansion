@@ -37,6 +37,16 @@ import java.util.function.Consumer;
  * 剪线钳手工裁切；纯净方铅矿矿石 = 方铅矿经蒸汽磨机 + 蒸汽洗矿获得
  * （GTCEu 蒸汽磨机 / 姊妹项目 GSE 大型蒸汽洗矿机，实现期修订 2026-09-07
  * 所有者指定输入），橡胶/螺丝/铁杆均为蒸汽时代已有形态 —— 整条链无电力机器。
+ *
+ * <p>ULV 机器获取配方 (v0.10) 统一采用<b>上游机器样式</b>：图案逐字镜像上游
+ * 同型 LV 机器 (MetaTileEntityLoader 机器配方表)，组件按上游 CraftingComponent
+ * 的 tier-0 基准解析——机壳 = ULV 机械方块；电路 = 猫须探测器 (上游 CIRCUIT
+ * tier-0 为 circuits/ulv 标签，D14 后探测器为唯一成员故直引物品)；线缆 = 红合金
+ * 单线 (上游 CABLE tier-0 基准)；板材 = 铁板 (上游 PLATE tier-0 基准)；锯片 =
+ * 青铜圆锯头 (上游 SAWBLADE 显式 ULV 条目，工作台配方)；研磨件 = 钻石 (上游
+ * GRINDER tier-0 基准)；转子 = 锡转子 (上游 ROTOR tier-0 基准，工作台配方)；
+ * 反应管 = 玻璃 (上游 PIPE_REACTOR 全层级)；电动构件 (马达/活塞/泵/传送带) 为
+ * 本模组 ULV 构件 (上游无 tier-0 条目)。全材料工作台/蒸汽可达。
  */
 public final class GULVRecipes {
     private GULVRecipes() {}
@@ -48,6 +58,9 @@ public final class GULVRecipes {
         addMotorRecipe(provider);
         addConveyorModuleRecipe(provider);
         addPumpRecipe(provider);
+        addPistonRecipe(provider);
+        addRobotArmRecipe(provider);
+        addFluidRegulatorRecipe(provider);
         addPrimitiveElectrolyzerRecipe(provider);
         addLeadAcidCellRecipe(provider);
         addBatteryPackRecipe(provider);
@@ -57,6 +70,8 @@ public final class GULVRecipes {
         addWireMillRecipe(provider);
         addCutterRecipe(provider);
         addRedstoneGeneratorRecipe(provider);
+        addGasTurbineRecipe(provider);
+        addPolarizerRecipe(provider);
         addBenderRecipe(provider);
         addLatheRecipe(provider);
         addChemicalReactorRecipe(provider);
@@ -109,18 +124,25 @@ public final class GULVRecipes {
                 'H', GTMachines.HULL[0].asStack());
     }
 
-    /** 超低压电动马达：红合金单线 ×4 + 铁杆 ×2 + 铁板 ×2 + 猫须探测器。 */
+    /**
+     * 超低压电动马达：上游 LV 电动马达（铁变体）图案 (CWR/WMW/RWC)——红合金单线 ×2 +
+     * 铜单线 ×4 + 铁杆 ×2 + 磁化铁杆 ×1 (v0.6)。
+     * 线缆槽 = 红合金单线（上游 CABLE tier-0 基准）；绕组槽 = 铜单线（上游铜线圈原样）；
+     * 磁化铁杆 = 铁杆 + 红石粉 ×4 工作台（上游 iron_magnetic_stick 原配方），或极化机电力磁化。
+     * 上游马达本就无电路件，探测器不再入马达（D14/D15 语义不变：探测器仍是手摇机、
+     * 电解槽、机械臂与全部机器获取配方的电路入口）。
+     */
     private static void addMotorRecipe(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider,
                 GregULVExpansion.id("ulv_electric_motor"),
                 GULVItems.ULV_ELECTRIC_MOTOR.asStack(),
-                "WRW",
-                "PDP",
-                "WRW",
-                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                "CWR",
+                "WMW",
+                "RWC",
+                'C', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.Copper),
                 'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Iron),
-                'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
-                'D', GULVItems.CATS_WHISKER_DETECTOR);
+                'M', ChemicalHelper.get(TagPrefix.rod, GTMaterials.IronMagnetic));
     }
 
     /** 超低压传送带模块：马达 + 橡胶板 ×2 + 铁螺丝 ×2。 */
@@ -145,6 +167,60 @@ public final class GULVRecipes {
                 'G', Tags.Items.GLASS,
                 'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
                 'M', GULVItems.ULV_ELECTRIC_MOTOR);
+    }
+
+    /**
+     * 超低压电动活塞：马达 + 锻铁板 ×3 + 红合金单线 ×2 + 锻铁杆 ×2 + 小青铜齿轮 (v0.5.1)。
+     * 上游 LV 电动活塞工作台图案 (PPP/CRR/CMG) 下沉：钢→锻铁、锡线缆→红合金线。
+     * 锻铁 = 熔炉烧铁粒（煤火零电力）；齿轮槽取小青铜齿轮——锻铁无小齿轮物品形态
+     * （上游未启用 GENERATE_SMALL_GEAR），青铜与切割机锯片同族、工作台可达。
+     */
+    private static void addPistonRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_electric_piston"),
+                GULVItems.ULV_ELECTRIC_PISTON.asStack(),
+                "PPP",
+                "CRR",
+                "CMG",
+                'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.WroughtIron),
+                'C', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.WroughtIron),
+                'G', ChemicalHelper.get(TagPrefix.gearSmall, GTMaterials.Bronze),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR);
+    }
+
+    /**
+     * 超低压机械臂：红合金单线 ×3 + 锻铁杆 ×2 + 马达 + 电动活塞 + 猫须探测器 (v0.5.1)。
+     * 上游 LV 机械臂工作台图案 (CCC/MRM/PXR) 下沉；tier-0 电路件为猫须探测器 (D14)。
+     */
+    private static void addRobotArmRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_robot_arm"),
+                GULVItems.ULV_ROBOT_ARM.asStack(),
+                "CCC",
+                "MRM",
+                "PXR",
+                'C', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.WroughtIron),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'P', GULVItems.ULV_ELECTRIC_PISTON,
+                'X', GULVItems.CATS_WHISKER_DETECTOR);
+    }
+
+    /**
+     * 超低压流体调节器：泵 + 猫须探测器 ×2 + 玻璃 ×3 (v0.7)。
+     * 上游调节器为装配机专属（泵 + 电路 ×2），无工作台对标——工作台配方按其
+     * 材料清单自设计（泵 + tier-0 电路 + 玻璃壳体），零电力门槛不变。
+     */
+    private static void addFluidRegulatorRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_fluid_regulator"),
+                GULVItems.ULV_FLUID_REGULATOR.asStack(),
+                "DPD",
+                "GGG",
+                'D', GULVItems.CATS_WHISKER_DETECTOR,
+                'P', GULVItems.ULV_ELECTRIC_PUMP,
+                'G', Tags.Items.GLASS);
     }
 
     /**
@@ -357,34 +433,40 @@ public final class GULVRecipes {
                 'H', GTMachines.HULL[0].asStack());
     }
 
-    /** 超低压线材轧机：马达 + 红合金单线 ×2 + 铁板 ×3 + 钢杆 ×2 + ULV 机械方块。 */
+    /** 超低压线材轧机：上游 WIREMILL 图案 (EWE/CMC/EWE)——马达 ×4 + 探测器 ×2 + 红合金单线 ×2 + ULV 机械方块。 */
     private static void addWireMillRecipe(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider,
                 GregULVExpansion.id("ulv_wire_mill"),
                 GULVMachines.ULV_WIRE_MILL.asStack(),
-                "WRW",
-                "IMI",
-                "IHI",
+                "EWE",
+                "CMC",
+                "EWE",
+                'E', GULVItems.ULV_ELECTRIC_MOTOR,
+                'C', GULVItems.CATS_WHISKER_DETECTOR,
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
-                'T', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Steel),
-                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
-                'M', GULVItems.ULV_ELECTRIC_MOTOR,
-                'H', GTMachines.HULL[0].asStack());
+                'M', GTMachines.HULL[0].asStack());
     }
 
-    /** 超低压切割机：马达 + 红合金单线 ×2 + 铁板 ×4 + 锻铁锯片 + ULV 机械方块（D12）。 */
+    /**
+     * 超低压切割机：上游 CUTTER 图案 (WCG/VMB/CWE)——单线 ×2 + 探测器 ×2 + 玻璃 +
+     * 传送带 + 青铜圆锯头 + 马达 + ULV 机械方块。
+     * D12 实现修订（v0.10）：锯片由锻铁板改为上游 SAWBLADE 的 ULV 组件条目
+     * （青铜圆锯头，GTCEu 有独立物品且为工作台配方）。
+     */
     private static void addCutterRecipe(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider,
                 GregULVExpansion.id("ulv_cutter"),
                 GULVMachines.ULV_CUTTER.asStack(),
-                "ISI",
-                "IMI",
-                "WHW",
-                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
-                'S', ChemicalHelper.get(TagPrefix.plate, GTMaterials.WroughtIron),
-                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                "WCG",
+                "VMB",
+                "CWE",
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
-                'H', GTMachines.HULL[0].asStack());
+                'C', GULVItems.CATS_WHISKER_DETECTOR,
+                'G', Tags.Items.GLASS,
+                'V', GULVItems.ULV_CONVEYOR_MODULE,
+                'M', GTMachines.HULL[0].asStack(),
+                'B', ChemicalHelper.get(TagPrefix.toolHeadBuzzSaw, GTMaterials.Bronze),
+                'E', GULVItems.ULV_ELECTRIC_MOTOR);
     }
 
     /** 红石发电机：马达 + 红合金单线 ×2 + 铁板 ×4 + 活塞 ×1 + ULV 机械方块。 */
@@ -400,6 +482,42 @@ public final class GULVRecipes {
                 'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
                 'M', GULVItems.ULV_ELECTRIC_MOTOR,
                 'H', GTMachines.HULL[0].asStack());
+    }
+
+    /**
+     * 超低压微型燃气轮机：上游 GAS_TURBINE LV 图案 (CRC/RMR/EWE)——锡转子 ×4 +
+     * 探测器 ×2 + 马达 ×2 + 红合金单线 + ULV 机械方块 (gas-turbine.md)。
+     */
+    private static void addGasTurbineRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_gas_turbine"),
+                GULVMachines.ULV_GAS_TURBINE.asStack(),
+                "CRC",
+                "RMR",
+                "EWE",
+                'C', GULVItems.CATS_WHISKER_DETECTOR,
+                'R', ChemicalHelper.get(TagPrefix.rotor, GTMaterials.Tin),
+                'M', GTMachines.HULL[0].asStack(),
+                'E', GULVItems.ULV_ELECTRIC_MOTOR,
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy));
+    }
+
+    /**
+     * 超低压极化机：上游 POLARIZER LV 图案 (ZSZ/WMW/ZSZ)——铁杆 ×4（电磁杆基准）+
+     * 锡单线 ×4（线圈，上游 COIL_ELECTRIC tier-0 基准）+ 红合金单线 + ULV 机械方块。
+     * 上游本就无电路槽，忠实镜像 (ulv-polarizer.md)。
+     */
+    private static void addPolarizerRecipe(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_polarizer"),
+                GULVMachines.ULV_POLARIZER.asStack(),
+                "ZSZ",
+                "WMW",
+                "ZSZ",
+                'Z', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.Tin),
+                'S', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Iron),
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'M', GTMachines.HULL[0].asStack());
     }
 
 
@@ -543,8 +661,8 @@ public final class GULVRecipes {
 
         // ---- 石油线子集 (primitive-distillation-tower.md §6；2026-09-08 补录：
         // ---- 提交 2fda8e2 信息声称落地但代码缺失，本次按文档定稿值恢复) ----
-        // 脱硫 ×2：上游 desulfurizationRecipes（硫化油 12,000 + 氢 2,000 → 油 12,000 + H₂S 1,000，
-        // 30 EUt × 160t）；耗能不变：7 × 686t
+        // 脱硫（轻燃料/石脑油）：上游 desulfurizationRecipes（硫化油 12,000 + 氢 2,000 →
+        // 油 12,000 + H₂S 1,000，30 EUt × 160t）；耗能不变：7 × 686t
         GULVRecipeTypes.ULV_CHEMICAL_REACTING
                 .recipeBuilder(GregULVExpansion.id("desulfurize_light_fuel"))
                 .inputFluids(GTMaterials.SulfuricLightFuel.getFluid(12_000),
@@ -560,6 +678,20 @@ public final class GULVRecipes {
                 .inputFluids(GTMaterials.SulfuricNaphtha.getFluid(12_000),
                         GTMaterials.Hydrogen.getFluid(2_000))
                 .outputFluids(GTMaterials.Naphtha.getFluid(12_000),
+                        GTMaterials.HydrogenSulfide.getFluid(1_000))
+                .duration(686)
+                .EUt(7)
+                .save(provider);
+
+        // 脱硫（重燃料）——2026-09-09 补录：上游 desulfurizationRecipes 第三条 v1.1 漏抄，
+        // 蒸馏塔第一股馏分（含硫重燃料）由此闭合。口径同表：硫化重燃料 8,000（注意基数
+        // 与轻燃料/石脑油的 12,000 不同）+ 氢 2,000 → 重燃料 8,000 + H₂S 1,000：7 × 686t。
+        // 脱硫后重燃料为 LV 内燃机/锅炉燃料（GSE 锅炉白名单提案另议）。
+        GULVRecipeTypes.ULV_CHEMICAL_REACTING
+                .recipeBuilder(GregULVExpansion.id("desulfurize_heavy_fuel"))
+                .inputFluids(GTMaterials.SulfuricHeavyFuel.getFluid(8_000),
+                        GTMaterials.Hydrogen.getFluid(2_000))
+                .outputFluids(GTMaterials.HeavyFuel.getFluid(8_000),
                         GTMaterials.HydrogenSulfide.getFluid(1_000))
                 .duration(686)
                 .EUt(7)
@@ -750,6 +882,58 @@ public final class GULVRecipes {
     }
 
     /**
+     * 微型燃气轮机燃料表 (gas-turbine.md)：白名单四种流体全部来自本模组石油线/钻井。
+     * 热值与上游 GAS_TURBINE_FUELS 一致（总 EU 不变），输出降为 8 EU/t → 时长 ×4。
+     * 乙烯不上表（聚合叙事优先）；木煤气/煤气留待 GSE 侧联动扩展。
+     * 同样仅供运行时 addRecipes 调用。
+     */
+    public static void addGasTurbineFuels(Consumer<FinishedRecipe> provider) {
+        GULVRecipeTypes.ULV_GAS_TURBINE_FUELS
+                .recipeBuilder(GregULVExpansion.id("natural_gas"))
+                .inputFluids(GTMaterials.NaturalGas.getFluid(8))
+                .duration(20)
+                .EUt(-8)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_GAS_TURBINE_FUELS
+                .recipeBuilder(GregULVExpansion.id("sulfuric_gas"))
+                .inputFluids(GTMaterials.SulfuricGas.getFluid(32))
+                .duration(100)
+                .EUt(-8)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_GAS_TURBINE_FUELS
+                .recipeBuilder(GregULVExpansion.id("methane"))
+                .inputFluids(GTMaterials.Methane.getFluid(2))
+                .duration(28)
+                .EUt(-8)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_GAS_TURBINE_FUELS
+                .recipeBuilder(GregULVExpansion.id("sulfuric_naphtha"))
+                .inputFluids(GTMaterials.SulfuricNaphtha.getFluid(4))
+                .duration(20)
+                .EUt(-8)
+                .save(provider);
+    }
+
+    /**
+     * 极化白名单 (ulv-polarizer.md)：首批仅铁杆 → 磁化铁杆（马达 v0.5 前置）。
+     * 上游 16 EUt × 80t = 1,280 EU → 8 EUt × 160t（总能耗不变、时长 ×2）。
+     * 退磁由上游自带熔炉配方覆盖，不重复实现。
+     * 同样仅供运行时 addRecipes 调用。
+     */
+    public static void addPolarizingRecipes(Consumer<FinishedRecipe> provider) {
+        GULVRecipeTypes.ULV_POLARIZING
+                .recipeBuilder(GregULVExpansion.id("polarize_iron_rod"))
+                .inputItems(TagPrefix.rod, GTMaterials.Iron)
+                .outputItems(ChemicalHelper.get(TagPrefix.rod, GTMaterials.IronMagnetic))
+                .duration(160)
+                .EUt(8)
+                .save(provider);
+    }
+
+    /**
      * ULV 电路替代配方 (ulv-circuit-line.md，D14：探测器为 ULV 电路唯一入口)。
      * 原上游 6 条配方已经 removeRecipes 移除，本方法提供唯一制法。
      * 同样仅供运行时 addRecipes 调用。
@@ -822,79 +1006,84 @@ public final class GULVRecipes {
                 .save(GTDynamicDataPack::addRecipe);
     }
 
-    /** 超低压卷板机：马达 + 红合金单线 ×2 + 铁板 ×3 + 钢辊（钢杆）×2 + ULV 机械方块（v0.5）。 */
+    /** 超低压卷板机：上游 BENDER 图案 (PBP/CMC/EWE)——活塞 ×2 + 铁板 + 探测器 + ULV 机械方块 + 马达 ×2 + 单线。 */
     private static void addBenderRecipe(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider,
                 GregULVExpansion.id("ulv_bender"),
                 GULVMachines.ULV_BENDER.asStack(),
-                "WRW",
-                "IMI",
-                "IHI",
-                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
-                'T', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Steel),
-                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
-                'M', GULVItems.ULV_ELECTRIC_MOTOR,
-                'H', GTMachines.HULL[0].asStack());
+                "PBP",
+                "CMC",
+                "EWE",
+                'P', GULVItems.ULV_ELECTRIC_PISTON,
+                'B', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
+                'C', GULVItems.CATS_WHISKER_DETECTOR,
+                'M', GTMachines.HULL[0].asStack(),
+                'E', GULVItems.ULV_ELECTRIC_MOTOR,
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy));
     }
 
-    /** 超低压车床：马达 + 红合金单线 ×2 + 铁板 ×4 + 锻铁车刀（锻铁板）×1 + ULV 机械方块（v0.5）。 */
+    /** 超低压车床：上游 LATHE 图案 (WCW/EMD/CWP)——单线 ×3 + 探测器 ×2 + 马达 + ULV 机械方块 + 钻石 + 活塞。 */
     private static void addLatheRecipe(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider,
                 GregULVExpansion.id("ulv_lathe"),
                 GULVMachines.ULV_LATHE.asStack(),
-                "ISI",
-                "IMI",
-                "WHW",
-                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
-                'S', ChemicalHelper.get(TagPrefix.plate, GTMaterials.WroughtIron),
-                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                "WCW",
+                "EMD",
+                "CWP",
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
-                'H', GTMachines.HULL[0].asStack());
+                'C', GULVItems.CATS_WHISKER_DETECTOR,
+                'E', GULVItems.ULV_ELECTRIC_MOTOR,
+                'M', GTMachines.HULL[0].asStack(),
+                'D', ChemicalHelper.get(TagPrefix.gem, GTMaterials.Diamond),
+                'P', GULVItems.ULV_ELECTRIC_PISTON);
     }
 
-    /** 超低压化学反应釜：马达 + 红合金单线 ×2 + 铁板 ×2 + 玻璃 ×3 + ULV 机械方块（v0.8）。 */
+    /** 超低压化学反应釜：上游 CHEMICAL_REACTOR 图案 (GRG/WEW/CMC)——玻璃（反应管）×2 + 锡转子 ×2 + 单线 + 马达 + 探测器 ×2 + ULV 机械方块。 */
     private static void addChemicalReactorRecipe(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider,
                 GregULVExpansion.id("ulv_chemical_reactor"),
                 GULVMachines.ULV_CHEMICAL_REACTOR.asStack(),
-                "WGW",
-                "GMG",
-                "IHI",
+                "GRG",
+                "WEW",
+                "CMC",
+                'G', Tags.Items.GLASS,
+                'R', ChemicalHelper.get(TagPrefix.rotor, GTMaterials.Tin),
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
-                'G', net.minecraftforge.common.Tags.Items.GLASS,
-                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
-                'M', GULVItems.ULV_ELECTRIC_MOTOR,
-                'H', GTMachines.HULL[0].asStack());
+                'E', GULVItems.ULV_ELECTRIC_MOTOR,
+                'C', GULVItems.CATS_WHISKER_DETECTOR,
+                'M', GTMachines.HULL[0].asStack());
     }
 
-    /** 超低压流体固化器：马达 + 红合金单线 ×2 + 铁板 ×4 + 钢板 ×1 + ULV 机械方块（v0.8）。 */
+    /** 超低压流体固化器：上游 FLUID_SOLIDIFIER 图案 (PGP/WMW/CBC)——泵 ×2 + 玻璃 + 单线 + ULV 机械方块 + 探测器 ×2 + 木箱。 */
     private static void addFluidSolidifierRecipe(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider,
                 GregULVExpansion.id("ulv_fluid_solidifier"),
                 GULVMachines.ULV_FLUID_SOLIDIFIER.asStack(),
-                "ISI",
+                "PGP",
                 "WMW",
-                "IHI",
-                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
-                'S', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Steel),
+                "CBC",
+                'P', GULVItems.ULV_ELECTRIC_PUMP,
+                'G', Tags.Items.GLASS,
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
-                'M', GULVItems.ULV_ELECTRIC_MOTOR,
-                'H', GTMachines.HULL[0].asStack());
+                'M', GTMachines.HULL[0].asStack(),
+                'C', GULVItems.CATS_WHISKER_DETECTOR,
+                'B', Tags.Items.CHESTS_WOODEN);
     }
 
-    /** 超低压流体提取机：马达 + 红合金单线 ×2 + 铁板 ×4 + 玻璃 ×1 + ULV 机械方块（v0.9）。 */
+    /** 超低压流体提取机：上游 EXTRACTOR 图案 (GCG/EMP/WCW)——玻璃 ×2 + 探测器 ×2 + 活塞 + ULV 机械方块 + 泵 + 单线 ×2。 */
     private static void addFluidExtractorRecipe(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider,
                 GregULVExpansion.id("ulv_fluid_extractor"),
                 GULVMachines.ULV_FLUID_EXTRACTOR.asStack(),
-                "WGW",
-                "IMI",
-                "IHI",
-                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
-                'G', net.minecraftforge.common.Tags.Items.GLASS,
-                'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
-                'M', GULVItems.ULV_ELECTRIC_MOTOR,
-                'H', GTMachines.HULL[0].asStack());
+                "GCG",
+                "EMP",
+                "WCW",
+                'G', Tags.Items.GLASS,
+                'C', GULVItems.CATS_WHISKER_DETECTOR,
+                'E', GULVItems.ULV_ELECTRIC_PISTON,
+                'M', GTMachines.HULL[0].asStack(),
+                'P', GULVItems.ULV_ELECTRIC_PUMP,
+                'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy));
     }
 
     /** 铅室控制器：铅衬机壳 ×4(角) + 玻璃 ×2 + 猫须探测器 ×1 + 铅板 ×2。 */

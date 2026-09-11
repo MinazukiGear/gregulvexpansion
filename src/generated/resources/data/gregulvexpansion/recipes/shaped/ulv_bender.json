@@ -1,17 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
-    "H": {
-      "item": "gtceu:ulv_machine_hull"
-    },
-    "I": {
+    "B": {
       "item": "gtceu:iron_plate"
     },
-    "M": {
+    "C": {
+      "item": "gregulvexpansion:cats_whisker_detector"
+    },
+    "E": {
       "item": "gregulvexpansion:ulv_electric_motor"
     },
-    "T": {
-      "item": "gtceu:steel_rod"
+    "M": {
+      "item": "gtceu:ulv_machine_hull"
+    },
+    "P": {
+      "item": "gregulvexpansion:ulv_electric_piston"
     },
     "W": {
       "item": "gtceu:red_alloy_single_wire"
@@ -19,9 +22,9 @@
   },
   "matchSize": false,
   "pattern": [
-    "WRW",
-    "IMI",
-    "IHI"
+    "PBP",
+    "CMC",
+    "EWE"
   ],
   "result": {
     "item": "gregulvexpansion:ulv_bender"

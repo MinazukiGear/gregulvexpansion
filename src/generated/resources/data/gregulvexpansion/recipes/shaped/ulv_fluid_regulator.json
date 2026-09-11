@@ -1,32 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
-    "C": {
+    "D": {
       "item": "gregulvexpansion:cats_whisker_detector"
-    },
-    "E": {
-      "item": "gregulvexpansion:ulv_electric_piston"
     },
     "G": {
       "tag": "forge:glass"
     },
-    "M": {
-      "item": "gtceu:ulv_machine_hull"
-    },
     "P": {
       "item": "gregulvexpansion:ulv_electric_pump"
-    },
-    "W": {
-      "item": "gtceu:red_alloy_single_wire"
     }
   },
   "matchSize": false,
   "pattern": [
-    "GCG",
-    "EMP",
-    "WCW"
+    "DPD",
+    "GGG"
   ],
   "result": {
-    "item": "gregulvexpansion:ulv_fluid_extractor"
+    "item": "gregulvexpansion:ulv_fluid_regulator"
   }
 }

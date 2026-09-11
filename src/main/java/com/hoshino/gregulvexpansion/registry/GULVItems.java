@@ -74,6 +74,42 @@ public final class GULVItems {
             .tag(CustomTags.ELECTRIC_PUMPS)
             .register();
 
+    /**
+     * 超低压电动活塞 — 纯合成构件 (v0.4，所有者 2026-09-09 指示)。
+     * 上游活塞全层级即无 cover 形态，仅作机械臂等构件的合成前置，与上游一致。
+     */
+    public static final ItemEntry<ComponentItem> ULV_ELECTRIC_PISTON = GULVRegistration.REGISTRATE
+            .item("ulv_electric_piston", ComponentItem::create)
+            .lang("ULV Electric Piston")
+            .onRegister(GTItems.attach(new TooltipBehavior(lines -> lines.add(Component.translatable(
+                    "gregulvexpansion.item.ulv_electric_piston.tooltip")))))
+            .tag(CustomTags.ELECTRIC_PISTONS)
+            .register();
+
+    /** 超低压机械臂 — cover 物品，2 件/周期 (v0.4；原候选池 C13 提批)。 */
+    public static final ItemEntry<ComponentItem> ULV_ROBOT_ARM = GULVRegistration.REGISTRATE
+            .item("ulv_robot_arm", ComponentItem::create)
+            .lang("ULV Robot Arm")
+            .onRegister(GTItems.attach(new CoverPlaceBehavior(GULVCovers.ROBOT_ARM_ULV)))
+            .onRegister(GTItems.attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("item.gtceu.robot.arm.tooltip"));
+                lines.add(Component.translatable("gtceu.universal.tooltip.item_transfer_rate", 2));
+            })))
+            .tag(CustomTags.ROBOT_ARMS)
+            .register();
+
+    /** 超低压流体调节器 — cover 物品，16 mB/t 可调精度 (v0.7；原候选池 C13 提批，PUMP_SCALING tier 0)。 */
+    public static final ItemEntry<ComponentItem> ULV_FLUID_REGULATOR = GULVRegistration.REGISTRATE
+            .item("ulv_fluid_regulator", ComponentItem::create)
+            .lang("ULV Fluid Regulator")
+            .onRegister(GTItems.attach(new CoverPlaceBehavior(GULVCovers.FLUID_REGULATOR_ULV)))
+            .onRegister(GTItems.attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("item.gtceu.fluid.regulator.tooltip"));
+                lines.add(Component.translatable("gtceu.universal.tooltip.fluid_transfer_rate", 16));
+            })))
+            .tag(CustomTags.FLUID_REGULATORS)
+            .register();
+
     /** 铅酸单格电池 — 4,000 EU 可充电 (lead-acid-battery-line.md，×4 阶梯第一档)。 */
     public static final ItemEntry<ComponentItem> LEAD_ACID_CELL = GULVRegistration.REGISTRATE
             .item("lead_acid_cell", ComponentItem::create)

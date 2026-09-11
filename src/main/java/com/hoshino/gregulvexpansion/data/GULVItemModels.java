@@ -18,6 +18,9 @@ public final class GULVItemModels {
         generated(provider, "ulv_electric_motor");
         generated(provider, "ulv_conveyor_module");
         generated(provider, "ulv_electric_pump");
+        generated(provider, "ulv_electric_piston");
+        generated(provider, "ulv_robot_arm");
+        generated(provider, "ulv_fluid_regulator");
         generated(provider, "lead_acid_cell");
         generated(provider, "lead_acid_battery_pack");
     }

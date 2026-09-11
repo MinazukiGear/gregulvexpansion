@@ -1,17 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
-    "H": {
-      "item": "gtceu:ulv_machine_hull"
+    "C": {
+      "item": "gregulvexpansion:cats_whisker_detector"
     },
-    "I": {
-      "item": "gtceu:iron_plate"
+    "D": {
+      "item": "minecraft:diamond"
     },
-    "M": {
+    "E": {
       "item": "gregulvexpansion:ulv_electric_motor"
     },
-    "S": {
-      "item": "gtceu:wrought_iron_plate"
+    "M": {
+      "item": "gtceu:ulv_machine_hull"
+    },
+    "P": {
+      "item": "gregulvexpansion:ulv_electric_piston"
     },
     "W": {
       "item": "gtceu:red_alloy_single_wire"
@@ -19,9 +22,9 @@
   },
   "matchSize": false,
   "pattern": [
-    "ISI",
-    "IMI",
-    "WHW"
+    "WCW",
+    "EMD",
+    "CWP"
   ],
   "result": {
     "item": "gregulvexpansion:ulv_lathe"

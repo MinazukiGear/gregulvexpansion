@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "gregulvexpansion:block/machine/ulv_gas_turbine",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "gregulvexpansion:block/machine/ulv_gas_turbine",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gregulvexpansion:block/machine/ulv_gas_turbine"
+    },
+    "facing=south": {
+      "model": "gregulvexpansion:block/machine/ulv_gas_turbine",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "gregulvexpansion:block/machine/ulv_gas_turbine",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "gregulvexpansion:block/machine/ulv_gas_turbine",
+      "y": 270
+    }
+  }
+}
