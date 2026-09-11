@@ -29,7 +29,7 @@
 | **D9** | **不做**自放电 | `lead-acid-battery-line.md` |
 | **D10** | 储能方块命名 **「铅酸蓄电墙」/ Lead-Acid Battery Wall**，资源 ID 相应调整为 `lead_acid_battery_wall` | `lead-acid-battery-line.md` |
 | **D11** | 电解槽首批子集**只收水电解**，氯线整体后置候选池 | `primitive-electrolyzer.md`、候选清单 C14 |
-| **D12** | 切割机锯片用**锻铁** | `ulv-basic-machines.md` |
+| **D12** | 切割机锯片用**锻铁**（**v0.10 修订 2026-09-09**：获取配方改上游样式后，锯片改用上游 SAWBLADE 显式 ULV 条目**青铜圆锯头**——GTCEu 实有独立锯片物品且为工作台配方，零电门槛意图不变） | `ulv-basic-machines.md` |
 | **D13** | 探测器产出**保持 ×2**（对冲原配方禁用后的需求上涨） | `ulv-circuit-line.md` |
 | **D14** | 替代配方**提为 P2**，且**禁用上游真空管/NAND 原配方**——探测器路线成为 ULV 电路唯一入口；总纲 §3.5「不修改上游」原则相应修订（所有者明示裁决可移除上游配方） | `ulv-circuit-line.md`、`00-overview.md` §3 |
 | **D15** | **温差/红石发电机合成前置改为超低压电动马达**（与用电机器统一）；**手摇发电机例外**（保持探测器+零电门槛） | `thermal-generator.md`、`redstone-generator.md`、`ulv-components.md` |

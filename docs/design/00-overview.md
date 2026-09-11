@@ -45,10 +45,12 @@ Greg ULV Expansion 是 GregTech CEu Modern（下称 GTCEu，7.5.3）的附属模
 | 支柱 | 内容 | 文档 | 优先级 | 状态 |
 | --- | --- | --- | --- | --- |
 | A 第一桶电 | 手摇发电机（摇 10 秒 ≈ 跑 1 分钟，零电门槛） | [hand-crank-dynamo.md](hand-crank-dynamo.md) | P0 | **已实现**（待实测） |
-| B ULV 基础构件 | 超低压电动马达 / 传送带模块 / 电动泵 | [ulv-components.md](ulv-components.md) | **P0** | **已实现**（待实测） |
+| B ULV 基础构件 | 超低压电动马达 / 传送带模块 / 电动泵 / 电动活塞 / 机械臂 | [ulv-components.md](ulv-components.md) | **P0** | **已实现**（待实测，v0.4 扩容） |
 | C 电路与元件 | 猫须探测器 + 替代配方（禁用上游原配方，探测器为 ULV 电路唯一入口） | [ulv-circuit-line.md](ulv-circuit-line.md) | P0（探测器）/ P2（替代配方） | **已实现**（待实测） |
 | D 常设微电 | 温差发电机（环境热免维护电） | [thermal-generator.md](thermal-generator.md) | P1 | **已实现**（待实测） |
 | D 常设微电 | 红石发电机（可堆叠燃料电） | [redstone-generator.md](redstone-generator.md) | P2 | **已实现**（待实测） |
+| D 常设微电 | ULV 微型燃气轮机（气体燃料电：天然气/含硫气体/甲烷/含硫石脑油，闭合石油线死端） | [gas-turbine.md](gas-turbine.md) | P2 | **已实现**（待实测） |
+| B ULV 基础构件 | ULV 极化机（磁化铁杆电力磁化，蒸汽/电力双路线；含马达配方 v0.5） | [ulv-polarizer.md](ulv-polarizer.md) | P2 | **已实现**（待实测） |
 | E 储能阶梯 | 铅酸电池线（PbO₂ 新材料 + 单格/电池组 + 铅酸蓄电墙） | [lead-acid-battery-line.md](lead-acid-battery-line.md) | P1 | **已实现**（待实测） |
 | F 化学前置 | 铅室法制酸装置（无电多方块） | [lead-chamber-acid-plant.md](lead-chamber-acid-plant.md) | P1 | **已实现**（待实测） |
 | G ULV 机器 | 原型电解槽（水电解 + PbO₂ 氧化；储能链前置，P1 首位） | [primitive-electrolyzer.md](primitive-electrolyzer.md) | P1 | **已实现**（待实测） |
