@@ -7,6 +7,7 @@
 - [x] `runData` 成功，生成资源无漂移错误。
 - [x] `validateGeneratedResources` 通过：JSON 可解析、工作台有序配方符号完整、中英文键一致。
 - [x] `clean build` 成功，发布 JAR 可生成。
+- [x] 连续两次干净构建产物 SHA-256 一致；`verifyReleaseJar` 检查版本、许可证、署名和构建缓存泄漏。
 - [x] `runGameTestServer` 完成双端注册、数据包与配方加载。
 - [x] `runClient` 完成主菜单资源加载。
 

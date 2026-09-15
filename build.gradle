@@ -71,6 +71,9 @@ mixin {
 
 sourceSets.main.resources {
     srcDir 'src/generated/resources'
+    // Registrate writes incremental datagen state here. It is build metadata,
+    // not a runtime resource, and must not leak into the published mod jar.
+    exclude '.cache/**'
 }
 
 repositories {
@@ -240,6 +243,16 @@ tasks.named('processResources', ProcessResources).configure {
 }
 
 tasks.named('jar', Jar).configure {
+    from('LICENSE.txt') {
+        rename { "LICENSE_${mod_id}.txt" }
+    }
+    from('LICENSE-ASSETS.txt') {
+        rename { "LICENSE-ASSETS_${mod_id}.txt" }
+    }
+    from('CREDITS.txt') {
+        rename { "CREDITS_${mod_id}.txt" }
+    }
+
     manifest {
         attributes([
                 'Specification-Title'      : mod_id,
@@ -324,6 +337,43 @@ def validateGeneratedResources = tasks.register('validateGeneratedResources') {
     }
 }
 
+def verifyReleaseJar = tasks.register('verifyReleaseJar') {
+    group = 'verification'
+    description = 'Checks the reobfuscated release jar for required metadata and forbidden build artifacts.'
+    dependsOn tasks.named('reobfJar')
+    def archiveFile = tasks.named('jar', Jar).flatMap { it.archiveFile }
+    inputs.file(archiveFile)
+
+    doLast {
+        def archive = archiveFile.get().asFile
+        def requiredEntries = [
+                'META-INF/MANIFEST.MF',
+                'META-INF/mods.toml',
+                "LICENSE_${mod_id}.txt",
+                "LICENSE-ASSETS_${mod_id}.txt",
+                "CREDITS_${mod_id}.txt"
+        ] as Set
+
+        new java.util.jar.JarFile(archive).withCloseable { jarFile ->
+            def entries = java.util.Collections.list(jarFile.entries())*.name as Set
+            def missingEntries = requiredEntries - entries
+            def forbiddenEntries = entries.findAll { it == '.cache' || it.startsWith('.cache/') }
+            if (!missingEntries.isEmpty() || !forbiddenEntries.isEmpty()) {
+                throw new GradleException(
+                        "Release jar validation failed: missing=${missingEntries.sort()}, " +
+                                "forbidden=${forbiddenEntries.sort()}")
+            }
+
+            def attributes = jarFile.manifest.mainAttributes
+            if (attributes.getValue('Implementation-Version') != mod_version) {
+                throw new GradleException(
+                        "Release jar version mismatch: expected ${mod_version}, " +
+                                "found ${attributes.getValue('Implementation-Version')}")
+            }
+        }
+    }
+}
+
 tasks.named('check').configure {
-    dependsOn validateGeneratedResources
+    dependsOn validateGeneratedResources, verifyReleaseJar
 }
