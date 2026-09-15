@@ -1,3 +1,13 @@
+Greg ULV Expansion - Asset Credits
+
+The six ULV component item textures are palette-adjusted derivatives of the
+corresponding LV component textures from GregTech CEu Modern 7.5.3:
+https://github.com/GregTechCEu/GregTech-Modern
+The original pixel structure and shading are retained; the warm tier accents
+were replaced with GTCEu's ULV voltage color ramp.
+
+=========================================================================
+
 Minecraft Forge: Credits/Thank You
 
 Forge is a set of tools and modifications to the Minecraft base game code to assist 
@@ -62,4 +72,3 @@ with credit to it's authors.
 
 Forge Mod Loader downloads components from the Minecraft Coder Pack
 (http://mcp.ocean-labs.de/index.php/Main_Page) with kind permission from the MCP team.
-

@@ -335,12 +335,12 @@ def validateGeneratedResources = tasks.register('validateGeneratedResources') {
         // points at the wrong namespace. Pin every reused/custom visual to the resource
         // it is expected to contain so datagen catches that semantic failure.
         def expectedModelReferences = [
-                'models/item/ulv_electric_motor.json'                    : 'gtceu:item/lv_electric_motor',
-                'models/item/ulv_conveyor_module.json'                  : 'gtceu:item/lv_conveyor_module',
-                'models/item/ulv_electric_pump.json'                    : 'gtceu:item/lv_electric_pump',
-                'models/item/ulv_electric_piston.json'                  : 'gtceu:item/lv_electric_piston',
-                'models/item/ulv_robot_arm.json'                        : 'gtceu:item/lv_robot_arm',
-                'models/item/ulv_fluid_regulator.json'                  : 'gtceu:item/lv_fluid_regulator',
+                'models/item/ulv_electric_motor.json'                    : 'gregulvexpansion:item/ulv_electric_motor',
+                'models/item/ulv_conveyor_module.json'                  : 'gregulvexpansion:item/ulv_conveyor_module',
+                'models/item/ulv_electric_pump.json'                    : 'gregulvexpansion:item/ulv_electric_pump',
+                'models/item/ulv_electric_piston.json'                  : 'gregulvexpansion:item/ulv_electric_piston',
+                'models/item/ulv_robot_arm.json'                        : 'gregulvexpansion:item/ulv_robot_arm',
+                'models/item/ulv_fluid_regulator.json'                  : 'gregulvexpansion:item/ulv_fluid_regulator',
                 'models/block/machine/primitive_electrolyzer.json'      : 'gtceu:block/machines/electrolyzer/overlay_front',
                 'models/block/machine/ulv_wire_mill.json'               : 'gtceu:block/machines/wiremill/overlay_front',
                 'models/block/machine/ulv_cutter.json'                  : 'gtceu:block/machines/cutter/overlay_front',

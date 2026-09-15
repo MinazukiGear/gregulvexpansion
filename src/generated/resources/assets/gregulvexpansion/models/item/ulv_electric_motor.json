@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gtceu:item/lv_electric_motor"
+    "layer0": "gregulvexpansion:item/ulv_electric_motor"
   }
 }

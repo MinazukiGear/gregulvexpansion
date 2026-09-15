@@ -7,6 +7,10 @@ image or sound assets - is licensed under the Creative Commons
 Attribution-NonCommercial-ShareAlike 4.0 International Public License
 (SPDX: CC-BY-NC-SA-4.0), reproduced below in full.
 
+Exception: the six ulv_* component textures described in CREDITS.txt are
+palette-adjusted derivatives of GregTech CEu Modern assets and remain under
+that upstream project's LGPL-3.0 license.
+
 You are free to share and adapt this material for non-commercial
 purposes, provided you give appropriate credit and distribute your
 contributions under the same license, per the terms that follow.
