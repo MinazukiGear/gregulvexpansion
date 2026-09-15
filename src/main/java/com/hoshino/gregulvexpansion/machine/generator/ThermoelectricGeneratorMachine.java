@@ -46,6 +46,7 @@ public class ThermoelectricGeneratorMachine extends TieredEnergyMachine {
     private static final int HEAT_LAVA_SOURCE = 40, HEAT_FIRE = 20, HEAT_CAMPFIRE = 15, HEAT_TORCH = 10;
     /** 冷面系数（×100 定点表示）。 */
     private static final int COLD_NONE = 50, COLD_WATER = 100, COLD_ICE_SNOW = 125;
+    private static final Direction[] SCAN_DIRECTIONS = Direction.values();
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER =
             new ManagedFieldHolder(ThermoelectricGeneratorMachine.class, TieredEnergyMachine.MANAGED_FIELD_HOLDER);
@@ -127,12 +128,16 @@ public class ThermoelectricGeneratorMachine extends TieredEnergyMachine {
             return;
         }
         BlockPos pos = getPos();
+        BlockPos.MutableBlockPos neighborPos = new BlockPos.MutableBlockPos();
         int maxHeat = 0;
         int coldFactor = COLD_NONE;
-        for (Direction side : Direction.values()) {
-            BlockState state = level.getBlockState(pos.relative(side));
+        for (Direction side : SCAN_DIRECTIONS) {
+            BlockState state = level.getBlockState(neighborPos.setWithOffset(pos, side));
             maxHeat = Math.max(maxHeat, heatTier(state));
             coldFactor = Math.max(coldFactor, coldFactor(state));
+            if (maxHeat == HEAT_LAVA_SOURCE && coldFactor == COLD_ICE_SNOW) {
+                break;
+            }
         }
         // 定点数：heat(×10) × cold(×100) / 1000 = EU/t
         currentOutput = Math.min(maxHeat * (long) coldFactor / 1000, MAX_OUTPUT);

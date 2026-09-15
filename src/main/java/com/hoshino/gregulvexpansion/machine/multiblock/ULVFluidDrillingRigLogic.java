@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidVeinSavedData;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.FluidVeinWorldEntry;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FluidDrillMachine;
@@ -33,6 +32,11 @@ public class ULVFluidDrillingRigLogic extends FluidDrillLogic {
     @Nullable
     private Fluid veinFluid;
 
+    /** 仅缓存尚未匹配成功的配方，避免输出受阻时反复构造；产量仍在每次尝试时重新读取。 */
+    @Nullable
+    private GTRecipe pendingPumpRecipe;
+    private int pendingFluidAmount;
+
     public ULVFluidDrillingRigLogic(FluidDrillMachine machine) {
         super(machine);
     }
@@ -59,9 +63,7 @@ public class ULVFluidDrillingRigLogic extends FluidDrillLogic {
             }
             var match = getFluidPumpRecipe();
             if (match != null) {
-                if (RecipeHelper.matchContents(this.machine, match).isSuccess()) {
-                    setupRecipe(match);
-                }
+                setupRecipe(match);
             }
         }
     }
@@ -70,14 +72,21 @@ public class ULVFluidDrillingRigLogic extends FluidDrillLogic {
     private GTRecipe getFluidPumpRecipe() {
         if (getMachine().getLevel() instanceof ServerLevel serverLevel && veinFluid != null) {
             var data = BedrockFluidVeinSavedData.getOrCreate(serverLevel);
-            var recipe = GTRecipeBuilder.ofRaw()
-                    .duration(MAX_PROGRESS)
-                    .EUt(GTValues.VA[GTValues.ULV])
-                    .outputFluids(new FluidStack(veinFluid,
-                            getFluidToProduce(data.getFluidVeinWorldEntry(getChunkX(), getChunkZ()))))
-                    .buildRawRecipe();
-            if (RecipeHelper.matchContents(getMachine(), recipe).isSuccess()) {
-                return recipe;
+            int fluidAmount = getFluidToProduce(data.getFluidVeinWorldEntry(getChunkX(), getChunkZ()));
+            if (pendingPumpRecipe == null || pendingFluidAmount != fluidAmount) {
+                pendingPumpRecipe = GTRecipeBuilder.ofRaw()
+                        .duration(MAX_PROGRESS)
+                        .EUt(GTValues.VA[GTValues.ULV])
+                        .outputFluids(new FluidStack(veinFluid, fluidAmount))
+                        .buildRawRecipe();
+                pendingFluidAmount = fluidAmount;
+            }
+            // 容量和供电状态随时可变，缓存命中也必须重新匹配。
+            if (RecipeHelper.matchContents(getMachine(), pendingPumpRecipe).isSuccess()) {
+                var match = pendingPumpRecipe;
+                // 工作回调可能修改配方，不将交给 setupRecipe 的实例用于后续搜索。
+                pendingPumpRecipe = null;
+                return match;
             }
         }
         return null;
@@ -114,10 +123,8 @@ public class ULVFluidDrillingRigLogic extends FluidDrillLogic {
         depleteVein();
         var match = getFluidPumpRecipe();
         if (match != null) {
-            if (RecipeHelper.matchContents(this.machine, match).isSuccess()) {
-                setupRecipe(match);
-                return;
-            }
+            setupRecipe(match);
+            return;
         }
         if (suspendAfterFinish) {
             setStatus(Status.SUSPEND);
