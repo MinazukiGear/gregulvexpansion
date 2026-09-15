@@ -102,8 +102,8 @@ configurations {
 }
 
 def embeddedDependencyDir = layout.buildDirectory.dir('embedded-dependencies')
-def extractGtceuEmbeddedDependencies = tasks.register('extractGtceuEmbeddedDependencies', Copy) {
-    outputs.upToDateWhen { false }
+// Track the embedded jars as inputs and remove stale versions after GTCEu upgrades.
+def extractGtceuEmbeddedDependencies = tasks.register('extractGtceuEmbeddedDependencies', Sync) {
     from({ zipTree(configurations.gtceuEmbedded.singleFile) }) {
         include 'META-INF/jarjar/ldlib-forge-*.jar'
         include 'META-INF/jarjar/Registrate-*.jar'
@@ -149,9 +149,8 @@ dependencies {
 
     // The mod is required on dedicated servers too, so development server
     // runs must be able to boot. Client-only dev aids (EMI, JECh, Modern UI)
-    // crash a dedicated server during mod construction; mount them only when
-    // the invocation targets a client run. Jade has a common side and stays
-    // mounted everywhere.
+    // crash or pollute dedicated-server validation; mount all optional test
+    // tools only when the invocation targets a client run.
     def mountClientDevAids = gradle.startParameter.taskNames.any { it.toLowerCase().contains('client') }
 
     // EMI is only a development runtime aid for browsing content in test clients.
@@ -162,7 +161,9 @@ dependencies {
 
     // Jade is a development runtime aid for inspecting machines in client runs.
     // It remains optional for published builds and is not declared in mods.toml.
-    runtimeOnly(fg.deobf("curse.maven:jade-324717:${jade_file_id}")) { transitive = false }
+    if (mountClientDevAids) {
+        runtimeOnly(fg.deobf("curse.maven:jade-324717:${jade_file_id}")) { transitive = false }
+    }
 
     // JECh adds Chinese pinyin matching to search fields in the development client.
     // It is client-only tooling and is not included in published artifacts.
@@ -177,10 +178,12 @@ dependencies {
     // container checks against placeable backpacks and storage containers
     // in-game. They are not dependencies of the addon and are not declared in
     // mods.toml.
-    runtimeOnly(fg.deobf("curse.maven:puzzles-lib-495476:${puzzles_file_id}")) { transitive = false }
-    runtimeOnly(fg.deobf("curse.maven:sophisticated-core-618298:${sophisticated_core_file_id}")) { transitive = false }
-    runtimeOnly(fg.deobf("curse.maven:sophisticated-backpacks-422301:${sophisticated_backpacks_file_id}")) { transitive = false }
-    runtimeOnly(fg.deobf("curse.maven:sophisticated-storage-619320:${sophisticated_storage_file_id}")) { transitive = false }
+    if (mountClientDevAids) {
+        runtimeOnly(fg.deobf("curse.maven:puzzles-lib-495476:${puzzles_file_id}")) { transitive = false }
+        runtimeOnly(fg.deobf("curse.maven:sophisticated-core-618298:${sophisticated_core_file_id}")) { transitive = false }
+        runtimeOnly(fg.deobf("curse.maven:sophisticated-backpacks-422301:${sophisticated_backpacks_file_id}")) { transitive = false }
+        runtimeOnly(fg.deobf("curse.maven:sophisticated-storage-619320:${sophisticated_storage_file_id}")) { transitive = false }
+    }
 
     // Modern UI re-skins vanilla and modded GUIs in the development client so
     // machine screens can be checked under a global UI overhaul. It is not a
@@ -245,7 +248,6 @@ tasks.named('jar', Jar).configure {
                 'Implementation-Title'     : mod_name,
                 'Implementation-Version'   : archiveVersion.get(),
                 'Implementation-Vendor'    : mod_authors,
-                'Implementation-Timestamp' : new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 'MixinConfigs'             : "${mod_id}.mixins.json"
         ])
     }
@@ -266,4 +268,62 @@ tasks.withType(JavaCompile).configureEach {
 // classes without re-running the AP, so this task must never be cached.
 tasks.named('compileJava').configure {
     outputs.cacheIf { false }
+}
+
+def validateGeneratedResources = tasks.register('validateGeneratedResources') {
+    group = 'verification'
+    description = 'Validates generated JSON, shaped recipe symbols, and language-key parity.'
+    inputs.files(fileTree('src/generated/resources') { include '**/*.json' })
+    inputs.files(fileTree('src/main/resources') { include '**/*.json' })
+
+    doLast {
+        def slurper = new groovy.json.JsonSlurper()
+        def errors = []
+        def resourceJson = files(
+                fileTree('src/generated/resources') { include '**/*.json' },
+                fileTree('src/main/resources') { include '**/*.json' })
+
+        resourceJson.each { file ->
+            try {
+                slurper.parse(file)
+            } catch (Exception exception) {
+                errors << "${project.relativePath(file)}: invalid JSON (${exception.message})"
+            }
+        }
+
+        fileTree('src/generated/resources/data') { include '**/recipes/**/*.json' }.each { file ->
+            def recipe = slurper.parse(file)
+            if (recipe.type == 'minecraft:crafting_shaped') {
+                def usedSymbols = recipe.pattern
+                        .collectMany { row -> row.toList() }
+                        .findAll { symbol -> symbol != ' ' }
+                        .toSet()
+                def definedSymbols = recipe.key.keySet() as Set
+                def undefinedSymbols = usedSymbols - definedSymbols
+                def unusedSymbols = definedSymbols - usedSymbols
+                if (!undefinedSymbols.isEmpty()) {
+                    errors << "${project.relativePath(file)}: undefined pattern symbols ${undefinedSymbols.sort()}"
+                }
+                if (!unusedSymbols.isEmpty()) {
+                    errors << "${project.relativePath(file)}: unused key symbols ${unusedSymbols.sort()}"
+                }
+            }
+        }
+
+        def enFile = file('src/generated/resources/assets/gregulvexpansion/lang/en_us.json')
+        def zhFile = file('src/main/resources/assets/gregulvexpansion/lang/zh_cn.json')
+        def enKeys = slurper.parse(enFile).keySet() as Set
+        def zhKeys = slurper.parse(zhFile).keySet() as Set
+        if (enKeys != zhKeys) {
+            errors << "Language keys differ: missing zh_cn=${(enKeys - zhKeys).sort()}, extra zh_cn=${(zhKeys - enKeys).sort()}"
+        }
+
+        if (!errors.isEmpty()) {
+            throw new GradleException("Generated resource validation failed:\n - " + errors.join('\n - '))
+        }
+    }
+}
+
+tasks.named('check').configure {
+    dependsOn validateGeneratedResources
 }
