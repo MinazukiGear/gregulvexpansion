@@ -16,9 +16,9 @@
   },
   "matchSize": false,
   "pattern": [
-    "TFR",
-    "TMT",
-    "TFR"
+    "FTW",
+    "FMF",
+    "FTW"
   ],
   "result": {
     "item": "gregulvexpansion:ulv_fluid_drilling_rig"

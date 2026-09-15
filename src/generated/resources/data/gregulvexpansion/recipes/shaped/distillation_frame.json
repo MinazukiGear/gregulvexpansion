@@ -13,9 +13,9 @@
   },
   "matchSize": false,
   "pattern": [
-    "S S",
-    "GSG",
-    "S S"
+    "SRS",
+    "RGR",
+    "SRS"
   ],
   "result": {
     "count": 2,

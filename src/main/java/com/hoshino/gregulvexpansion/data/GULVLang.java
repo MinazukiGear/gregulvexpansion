@@ -24,7 +24,7 @@ public final class GULVLang {
         add("gregulvexpansion.machine.hand_crank_dynamo.tooltip.summary.0",
                 "Your first power source: right-click to crank it. No fuel, no steam, no prerequisites.");
         add("gregulvexpansion.machine.hand_crank_dynamo.tooltip.summary.1",
-                "Buffer: 480 EU. Each crank adds 24 EU (0.5 s cooldown); outputs 8 EU/t · 1 A on every side.");
+                "Buffer: 4,800 EU. Each crank adds 120 EU (0.5 s cooldown); 40 cranks power an 8 EU/t machine for 600 ticks.");
         add("gregulvexpansion.machine.hand_crank_dynamo.tooltip.crank",
                 "Right-click with a wooden crank (AE2's crank works too) to reinstall; wrench to detach.");
 
@@ -99,6 +99,12 @@ public final class GULVLang {
         add("gregulvexpansion.machine.ulv_fluid_extractor.tooltip.summary.1",
                 "Runs a hand-picked subset only. 240 EU buffer.");
 
+        // ---- 超低压流体钻井机 ----
+        add("gregulvexpansion.machine.ulv_fluid_drilling_rig.tooltip.summary.0",
+                "Pumps crude oil, light oil, heavy oil or natural gas from bedrock veins at half the LV rig's yield and twice its energy cost per unit. Veins gradually deplete.");
+        add("gregulvexpansion.machine.ulv_fluid_drilling_rig.tooltip.summary.1",
+                "Runs on ULV power (8 EU/t) and provides your first source of oil on the way into the electric age.");
+
         // ---- 超低压微型燃气轮机 ----
         add("gregulvexpansion.machine.ulv_gas_turbine.tooltip.summary.0",
                 "The oil line's payoff: burn natural gas, sulfuric gas, methane or sulfuric naphtha for a steady 8 EU/t * 1 A — the distillation tower's byproducts finally pay rent.");
@@ -109,7 +115,7 @@ public final class GULVLang {
         add("gregulvexpansion.machine.ulv_polarizer.tooltip.summary.0",
                 "Electromagnetism, 1825: iron rod in, magnetized iron rod out — far cheaper than the 4-redstone hand recipe, and the new ingredient inside every ULV motor.");
         add("gregulvexpansion.machine.ulv_polarizer.tooltip.summary.1",
-                "1,280 EU per rod (8 EU/t x 160t). Hook it to your microgrid to automate; hand-cranking works too (~54 cranks).");
+                "1,280 EU per rod (8 EU/t x 160t). Hook it to your microgrid to automate; hand-cranking works too (~11 cranks).");
     }
 
     private static void add(String key, String value) {

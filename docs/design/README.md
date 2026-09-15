@@ -11,7 +11,7 @@
 | 文档 | 内容 | 状态 |
 | --- | --- | --- |
 | [00-overview.md](00-overview.md) | 总纲：定位、上游调研结论、设计原则、内容支柱、进度曲线、数值基准、命名与 API 规范 | 已裁决草案 v0.3（§4 状态列已标记实现进度） |
-| [hand-crank-dynamo.md](hand-crank-dynamo.md) | 手摇发电机（第一桶 EU，P0；摇 10 秒 ≈ 跑 1 分钟） | 已实现 v0.3 |
+| [hand-crank-dynamo.md](hand-crank-dynamo.md) | 手摇发电机（第一桶 EU，P0；摇 400 tick ≈ 满功率运行 600 tick） | 已实现 v0.4 |
 | [ulv-components.md](ulv-components.md) | ULV 基础构件线：超低压电动马达/传送带模块/电动泵（P0 最高优先级） | 已实现 v0.3 |
 | [ulv-circuit-line.md](ulv-circuit-line.md) | ULV 元件线：猫须探测器 + 替代配方 P2（禁用上游原配方，探测器为 ULV 电路唯一入口） | 已实现 v0.4.3 |
 | [thermal-generator.md](thermal-generator.md) | 温差发电机（环境热免维护电，P1） | 已实现 v0.3.1 |

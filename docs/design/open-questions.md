@@ -13,7 +13,7 @@
 | **B1** | **PbO₂ 采用原型电解槽阳极氧化路线**；电解槽为储能链前置，优先级提至 P1 首位 | `lead-acid-battery-line.md` 化学链、`primitive-electrolyzer.md` 子集表 |
 | **B2 / B4 / B5** | 纯调研任务，无需决策：上游电解配方清单、硫副产实测、替代配方材料核对——实现前安排调研批次（B5 中替代配方已提为 P2，核实变为必做） | [open-questions.md](open-questions.md) 归档 |
 | **B3** | 作废（随 A2 洗矿机砍除） | — |
-| **C1** | 手摇节奏放宽为「**摇 10 秒 ≈ 跑 1 分钟**」±30%；建议参数：单击 24 EU / 冷却 10t / 缓存 480 EU | `hand-crank-dynamo.md` 数值表 |
+| **C1** | **2026-09-15 修订**：「摇 400 tick ≈ 满功率运行 600 tick」；参数：单击 120 EU / 冷却 10t / 缓存 4,800 EU | `hand-crank-dynamo.md` 数值表 |
 | **C2** | 接受贴岩浆源+贴水 = **5 EU/t** 封顶，实测过强再降 3 | `thermal-generator.md` |
 | **C3 / C4** | ULV 机器能量缓存统一定为 **240 EU**，电解槽/轧机/切割机**共用常量** | `primitive-electrolyzer.md`、`ulv-basic-machines.md` |
 | **C5** | 传送带 2 件/t、泵 16 mB/t **确认公式值**；实测体感 ±50% 内可调，不破坏「LV 一半」关系 | `ulv-components.md` |

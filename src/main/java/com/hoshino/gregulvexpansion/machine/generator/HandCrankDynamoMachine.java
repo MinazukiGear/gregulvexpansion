@@ -37,8 +37,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
  *
  * <p>零门槛第一桶 EU：不烧燃料、不接蒸汽、无配方表；玩家右键摇动向内置缓存
  * 注能，缓存以 8 EU/t · 1 A 自动向任意一面的 GT 电网输出（发射容器语义，
- * sideOutputCondition 默认全面允许）。节奏 (C1 已裁决)：单击 +24 EU、
- * 冷却 10 t ⇒ 摇 10 秒（缓存充满）≈ 供 1 台 ULV 机器运行 1 分钟。
+ * sideOutputCondition 默认全面允许）。节奏 (C1 已裁决)：单击 +120 EU、
+ * 冷却 10 t ⇒ 摇 400 t（缓存充满）≈ 供 1 台 ULV 机器满功率运行 600 t。
  *
  * <p>木质曲柄为独立物品 (D2)：工作台合成产物默认已安装；空机可用曲柄右键
  * 装回，扳手（非潜行，潜行+扳手仍是转向）拆下掉落。AE2 存在时其木质曲柄
@@ -48,10 +48,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class HandCrankDynamoMachine extends TieredEnergyMachine implements IInteractedMachine, IMachineLife {
 
-    /** 内置缓存 EU (草案 480，允许 ±30% 实测微调)。 */
-    public static final int CAPACITY = 480;
-    /** 单次摇动注入 EU (C1)。 */
-    public static final int EU_PER_CRANK = 24;
+    /** 内置缓存 EU（400 t 摇满后可供 8 EU/t 机器运行 600 t）。 */
+    public static final int CAPACITY = 4_800;
+    /** 单次摇动注入 EU（40 次摇满 4,800 EU）。 */
+    public static final int EU_PER_CRANK = 120;
     /** 摇动冷却 tick (C1，手速上限 ≈ 2 次/秒)。 */
     public static final int CRANK_COOLDOWN_TICKS = 10;
     /** AE2 木质曲柄的物品 ID (D2 软兼容)。 */

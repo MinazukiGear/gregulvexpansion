@@ -3,6 +3,10 @@
   "block.gregulvexpansion.primitive_electrolyzer": "原型电解槽",
   "block.gregulvexpansion.lead_acid_battery_wall": "铅酸蓄电墙",
   "block.gregulvexpansion.lead_lined_casing": "铅衬机壳",
+  "block.gregulvexpansion.lead_chamber": "铅室法制酸装置",
+  "block.gregulvexpansion.distillation_frame": "蒸馏塔框架",
+  "block.gregulvexpansion.primitive_distillation_tower": "原始蒸馏塔",
+  "block.gregulvexpansion.primitive_cracker": "原始裂化机",
   "material.gregulvexpansion.lead_dioxide": "二氧化铅",
   "item.gregulvexpansion.cats_whisker_detector": "猫须探测器",
   "item.gregulvexpansion.wood_crank": "木质曲柄",
@@ -19,7 +23,7 @@
   "gregulvexpansion.item.ulv_electric_motor.tooltip": "简陋的 8 EU 马达，一切超低压机器与发电机的公共前置。",
   "gregulvexpansion.item.ulv_electric_piston.tooltip": "简陋的电动活塞，自身无盖板形态——机械臂与往复机构的动力件。",
   "gregulvexpansion.machine.hand_crank_dynamo.tooltip.summary.0": "你的第一台电源：右键摇动发电。无需燃料、蒸汽或任何前置。",
-  "gregulvexpansion.machine.hand_crank_dynamo.tooltip.summary.1": "缓存 480 EU，每次摇动注入 24 EU（冷却 0.5 秒），任意一面 8 EU/t · 1 A 输出。",
+  "gregulvexpansion.machine.hand_crank_dynamo.tooltip.summary.1": "缓存 4,800 EU，每次摇动注入 120 EU（冷却 0.5 秒）；摇 40 次可供 8 EU/t 机器运行 600 tick。",
   "gregulvexpansion.machine.hand_crank_dynamo.tooltip.crank": "手持木质曲柄（AE2 曲柄亦可）右键可重新安装；扳手可拆下。",
   "gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.0": "电力化学的第一课：以 8 EU/t 电解水，产出氢气与氧气。",
   "gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.1": "仅运行人工审定的 ULV 反应白名单；缓存 240 EU，整流桥由一对猫须探测器构成。",
@@ -64,5 +68,5 @@
   "gregulvexpansion.machine.ulv_gas_turbine.tooltip.summary.0": "石油线的收官件：烧天然气、含硫气体、甲烷或含硫石脑油，以 8 EU/t · 1 A 稳定发电——蒸馏塔与裂化机的副产从此有了归宿。",
   "gregulvexpansion.machine.ulv_gas_turbine.tooltip.summary.1": "燃料热值与上游燃气轮机一致，只是烧得慢（时长 ×4）；4,000 mB 罐容。堆台数是唯一扩容方式。",
   "gregulvexpansion.machine.ulv_polarizer.tooltip.summary.0": "电磁铁 1825：铁杆进去，磁化铁杆出来——比红石粉 ×4 的手工磁化省料得多，也是超低压马达的新前置件来源。",
-  "gregulvexpansion.machine.ulv_polarizer.tooltip.summary.1": "每根 1,280 EU（8 EU/t × 160t）。挂上微电网即可自动化；手摇供电亦可（约 54 摇）。"
+  "gregulvexpansion.machine.ulv_polarizer.tooltip.summary.1": "每根 1,280 EU（8 EU/t × 160t）。挂上微电网即可自动化；手摇供电亦可（约 11 摇）。"
 }
