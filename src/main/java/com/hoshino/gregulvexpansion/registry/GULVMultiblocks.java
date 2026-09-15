@@ -148,6 +148,7 @@ public final class GULVMultiblocks {
                     .where('C', blocks(GULVBlocks.DISTILLATION_FRAME.get()))
                     .where('F', blocks(FluidDrillMachine.getFrameState(GTValues.ULV)))
                     .where('S', controller(blocks(definition.getBlock())))
+                    .where('#', air())
                     .build())
             .workableCasingModel(GregULVExpansion.id("block/casings/distillation_frame"),
                     GTCEu.id("block/multiblock/fluid_drilling_rig"))
