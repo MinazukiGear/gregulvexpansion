@@ -1,5 +1,6 @@
 package com.hoshino.gregulvexpansion.registry;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.ElectricStats;
@@ -46,6 +47,8 @@ public final class GULVItems {
     public static final ItemEntry<ComponentItem> ULV_ELECTRIC_MOTOR = GULVRegistration.REGISTRATE
             .item("ulv_electric_motor", ComponentItem::create)
             .lang("ULV Electric Motor")
+            .model((ctx, provider) -> provider.withExistingParent(ctx.getName(), "minecraft:item/generated")
+                    .texture("layer0", GTCEu.id("item/lv_electric_motor")))
             .onRegister(GTItems.attach(new TooltipBehavior(lines -> lines.add(Component.translatable(
                     "gregulvexpansion.item.ulv_electric_motor.tooltip")))))
             .register();
@@ -54,6 +57,8 @@ public final class GULVItems {
     public static final ItemEntry<ComponentItem> ULV_CONVEYOR_MODULE = GULVRegistration.REGISTRATE
             .item("ulv_conveyor_module", ComponentItem::create)
             .lang("ULV Conveyor Module")
+            .model((ctx, provider) -> provider.withExistingParent(ctx.getName(), "minecraft:item/generated")
+                    .texture("layer0", GTCEu.id("item/lv_conveyor_module")))
             .onRegister(GTItems.attach(new CoverPlaceBehavior(GULVCovers.CONVEYOR_ULV)))
             .onRegister(GTItems.attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.conveyor.module.tooltip"));
@@ -66,6 +71,8 @@ public final class GULVItems {
     public static final ItemEntry<ComponentItem> ULV_ELECTRIC_PUMP = GULVRegistration.REGISTRATE
             .item("ulv_electric_pump", ComponentItem::create)
             .lang("ULV Electric Pump")
+            .model((ctx, provider) -> provider.withExistingParent(ctx.getName(), "minecraft:item/generated")
+                    .texture("layer0", GTCEu.id("item/lv_electric_pump")))
             .onRegister(GTItems.attach(new CoverPlaceBehavior(GULVCovers.PUMP_ULV)))
             .onRegister(GTItems.attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.pump.module.tooltip"));
@@ -81,6 +88,8 @@ public final class GULVItems {
     public static final ItemEntry<ComponentItem> ULV_ELECTRIC_PISTON = GULVRegistration.REGISTRATE
             .item("ulv_electric_piston", ComponentItem::create)
             .lang("ULV Electric Piston")
+            .model((ctx, provider) -> provider.withExistingParent(ctx.getName(), "minecraft:item/generated")
+                    .texture("layer0", GTCEu.id("item/lv_electric_piston")))
             .onRegister(GTItems.attach(new TooltipBehavior(lines -> lines.add(Component.translatable(
                     "gregulvexpansion.item.ulv_electric_piston.tooltip")))))
             .tag(CustomTags.ELECTRIC_PISTONS)
@@ -90,6 +99,8 @@ public final class GULVItems {
     public static final ItemEntry<ComponentItem> ULV_ROBOT_ARM = GULVRegistration.REGISTRATE
             .item("ulv_robot_arm", ComponentItem::create)
             .lang("ULV Robot Arm")
+            .model((ctx, provider) -> provider.withExistingParent(ctx.getName(), "minecraft:item/generated")
+                    .texture("layer0", GTCEu.id("item/lv_robot_arm")))
             .onRegister(GTItems.attach(new CoverPlaceBehavior(GULVCovers.ROBOT_ARM_ULV)))
             .onRegister(GTItems.attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.robot.arm.tooltip"));
@@ -102,6 +113,8 @@ public final class GULVItems {
     public static final ItemEntry<ComponentItem> ULV_FLUID_REGULATOR = GULVRegistration.REGISTRATE
             .item("ulv_fluid_regulator", ComponentItem::create)
             .lang("ULV Fluid Regulator")
+            .model((ctx, provider) -> provider.withExistingParent(ctx.getName(), "minecraft:item/generated")
+                    .texture("layer0", GTCEu.id("item/lv_fluid_regulator")))
             .onRegister(GTItems.attach(new CoverPlaceBehavior(GULVCovers.FLUID_REGULATOR_ULV)))
             .onRegister(GTItems.attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.fluid.regulator.tooltip"));

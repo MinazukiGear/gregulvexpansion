@@ -1,5 +1,6 @@
 package com.hoshino.gregulvexpansion.registry;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -55,7 +56,7 @@ public final class GULVMultiblocks {
                     .where('Y', controller(blocks(definition.getBlock())))
                     .build())
             .workableCasingModel(GregULVExpansion.id("block/casings/lead_lined_casing"),
-                    GregULVExpansion.id("block/multiblock/lead_chamber"))
+                    GTCEu.id("block/multiblock/large_chemical_reactor"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.lead_chamber.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.lead_chamber.tooltip.summary.1"),
@@ -91,7 +92,7 @@ public final class GULVMultiblocks {
                     .where('S', controller(blocks(definition.getBlock())))
                     .build())
             .workableCasingModel(GregULVExpansion.id("block/casings/distillation_frame"),
-                    GregULVExpansion.id("block/multiblock/primitive_distillation_tower"))
+                    GTCEu.id("block/multiblock/distillation_tower"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.primitive_distillation_tower.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.primitive_distillation_tower.tooltip.summary.1"))
@@ -119,7 +120,7 @@ public final class GULVMultiblocks {
                     .where('O', controller(blocks(definition.getBlock())))
                     .build())
             .workableCasingModel(GregULVExpansion.id("block/casings/distillation_frame"),
-                    GregULVExpansion.id("block/multiblock/primitive_cracker"))
+                    GTCEu.id("block/multiblock/pyrolyse_oven"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.primitive_cracker.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.primitive_cracker.tooltip.summary.1"))
@@ -149,7 +150,7 @@ public final class GULVMultiblocks {
                     .where('S', controller(blocks(definition.getBlock())))
                     .build())
             .workableCasingModel(GregULVExpansion.id("block/casings/distillation_frame"),
-                    GregULVExpansion.id("block/multiblock/ulv_fluid_drilling_rig"))
+                    GTCEu.id("block/multiblock/fluid_drilling_rig"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_fluid_drilling_rig.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_fluid_drilling_rig.tooltip.summary.1"))

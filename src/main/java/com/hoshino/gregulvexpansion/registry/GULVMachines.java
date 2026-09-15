@@ -64,7 +64,7 @@ public final class GULVMachines {
             .langValue("Primitive Electrolyzer")
             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
                     GregULVExpansion.id("primitive_electrolyzer"), GULVRecipeTypes.PRIMITIVE_ELECTROLYSIS))
-            .workableTieredHullModel(GTCEu.id("block/machines/primitive_electrolyzer"))
+            .workableTieredHullModel(GTCEu.id("block/machines/electrolyzer"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.primitive_electrolyzer.tooltip.summary.1"))
@@ -114,7 +114,7 @@ public final class GULVMachines {
             .langValue("ULV Wire Mill")
             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
                     GregULVExpansion.id("ulv_wire_mill"), GULVRecipeTypes.ULV_WIRE_MILLING))
-            .workableTieredHullModel(GTCEu.id("block/machines/ulv_wire_mill"))
+            .workableTieredHullModel(GTCEu.id("block/machines/wiremill"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_wire_mill.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_wire_mill.tooltip.summary.1"))
@@ -132,7 +132,7 @@ public final class GULVMachines {
             .langValue("ULV Cutter")
             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
                     GregULVExpansion.id("ulv_cutter"), GULVRecipeTypes.ULV_CUTTING))
-            .workableTieredHullModel(GTCEu.id("block/machines/ulv_cutter"))
+            .workableTieredHullModel(GTCEu.id("block/machines/cutter"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_cutter.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_cutter.tooltip.summary.1"))
@@ -155,7 +155,7 @@ public final class GULVMachines {
             .langValue("Redstone Generator")
             .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(
                     GregULVExpansion.id("redstone_generator"), GULVRecipeTypes.REDSTONE_GENERATOR_FUELS))
-            .workableTieredHullModel(GTCEu.id("block/generators/redstone_generator"))
+            .workableTieredHullModel(GregULVExpansion.id("block/generators/redstone_generator"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.redstone_generator.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.redstone_generator.tooltip.summary.1"))
@@ -173,7 +173,7 @@ public final class GULVMachines {
             .langValue("ULV Bender")
             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
                     GregULVExpansion.id("ulv_bender"), GULVRecipeTypes.ULV_BENDING))
-            .workableTieredHullModel(GTCEu.id("block/machines/ulv_bender"))
+            .workableTieredHullModel(GTCEu.id("block/machines/bender"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_bender.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_bender.tooltip.summary.1"))
@@ -191,7 +191,7 @@ public final class GULVMachines {
             .langValue("ULV Lathe")
             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
                     GregULVExpansion.id("ulv_lathe"), GULVRecipeTypes.ULV_TURNING))
-            .workableTieredHullModel(GTCEu.id("block/machines/ulv_lathe"))
+            .workableTieredHullModel(GTCEu.id("block/machines/lathe"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_lathe.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_lathe.tooltip.summary.1"))
@@ -209,7 +209,7 @@ public final class GULVMachines {
             .langValue("ULV Chemical Reactor")
             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
                     GregULVExpansion.id("ulv_chemical_reactor"), GULVRecipeTypes.ULV_CHEMICAL_REACTING))
-            .workableTieredHullModel(GTCEu.id("block/machines/ulv_chemical_reactor"))
+            .workableTieredHullModel(GTCEu.id("block/machines/chemical_reactor"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_chemical_reactor.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_chemical_reactor.tooltip.summary.1"))
@@ -227,7 +227,7 @@ public final class GULVMachines {
             .langValue("ULV Fluid Solidifier")
             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
                     GregULVExpansion.id("ulv_fluid_solidifier"), GULVRecipeTypes.ULV_FLUID_SOLIDFICATION))
-            .workableTieredHullModel(GTCEu.id("block/machines/ulv_fluid_solidifier"))
+            .workableTieredHullModel(GTCEu.id("block/machines/fluid_solidifier"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_fluid_solidifier.tooltip.summary.1"))
@@ -245,7 +245,7 @@ public final class GULVMachines {
             .langValue("ULV Fluid Extractor")
             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
                     GregULVExpansion.id("ulv_fluid_extractor"), GULVRecipeTypes.ULV_EXTRACTING))
-            .workableTieredHullModel(GTCEu.id("block/machines/ulv_fluid_extractor"))
+            .workableTieredHullModel(GTCEu.id("block/machines/extractor"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_fluid_extractor.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_fluid_extractor.tooltip.summary.1"))
@@ -270,7 +270,7 @@ public final class GULVMachines {
             .langValue("ULV Micro Gas Turbine")
             .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(
                     GregULVExpansion.id("ulv_gas_turbine"), GULVRecipeTypes.ULV_GAS_TURBINE_FUELS))
-            .workableTieredHullModel(GTCEu.id("block/generators/ulv_gas_turbine"))
+            .workableTieredHullModel(GTCEu.id("block/generators/gas_turbine"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_gas_turbine.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_gas_turbine.tooltip.summary.1"))
@@ -288,7 +288,7 @@ public final class GULVMachines {
             .langValue("ULV Polarizer")
             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
                     GregULVExpansion.id("ulv_polarizer"), GULVRecipeTypes.ULV_POLARIZING))
-            .workableTieredHullModel(GTCEu.id("block/machines/ulv_polarizer"))
+            .workableTieredHullModel(GTCEu.id("block/machines/polarizer"))
             .tooltips(
                     Component.translatable("gregulvexpansion.machine.ulv_polarizer.tooltip.summary.0"),
                     Component.translatable("gregulvexpansion.machine.ulv_polarizer.tooltip.summary.1"))
@@ -300,4 +300,3 @@ public final class GULVMachines {
         // 仅为触发上方静态初始化
     }
 }
-

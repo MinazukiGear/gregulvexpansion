@@ -331,6 +331,42 @@ def validateGeneratedResources = tasks.register('validateGeneratedResources') {
             errors << "Language keys differ: missing zh_cn=${(enKeys - zhKeys).sort()}, extra zh_cn=${(zhKeys - enKeys).sort()}"
         }
 
+        // A valid machine model can still render as a bare hull when its overlay path
+        // points at the wrong namespace. Pin every reused/custom visual to the resource
+        // it is expected to contain so datagen catches that semantic failure.
+        def expectedModelReferences = [
+                'models/item/ulv_electric_motor.json'                    : 'gtceu:item/lv_electric_motor',
+                'models/item/ulv_conveyor_module.json'                  : 'gtceu:item/lv_conveyor_module',
+                'models/item/ulv_electric_pump.json'                    : 'gtceu:item/lv_electric_pump',
+                'models/item/ulv_electric_piston.json'                  : 'gtceu:item/lv_electric_piston',
+                'models/item/ulv_robot_arm.json'                        : 'gtceu:item/lv_robot_arm',
+                'models/item/ulv_fluid_regulator.json'                  : 'gtceu:item/lv_fluid_regulator',
+                'models/block/machine/primitive_electrolyzer.json'      : 'gtceu:block/machines/electrolyzer/overlay_front',
+                'models/block/machine/ulv_wire_mill.json'               : 'gtceu:block/machines/wiremill/overlay_front',
+                'models/block/machine/ulv_cutter.json'                  : 'gtceu:block/machines/cutter/overlay_front',
+                'models/block/machine/ulv_bender.json'                  : 'gtceu:block/machines/bender/overlay_front',
+                'models/block/machine/ulv_lathe.json'                   : 'gtceu:block/machines/lathe/overlay_front',
+                'models/block/machine/ulv_chemical_reactor.json'        : 'gtceu:block/machines/chemical_reactor/overlay_front',
+                'models/block/machine/ulv_fluid_solidifier.json'        : 'gtceu:block/machines/fluid_solidifier/overlay_front',
+                'models/block/machine/ulv_fluid_extractor.json'         : 'gtceu:block/machines/extractor/overlay_front',
+                'models/block/machine/ulv_gas_turbine.json'             : 'gtceu:block/generators/gas_turbine/overlay_side',
+                'models/block/machine/ulv_polarizer.json'               : 'gtceu:block/machines/polarizer/overlay_front',
+                'models/block/machine/redstone_generator.json'          : 'gregulvexpansion:block/generators/redstone_generator/overlay_front',
+                'models/block/machine/lead_chamber.json'                 : 'gtceu:block/multiblock/large_chemical_reactor/overlay_front',
+                'models/block/machine/primitive_distillation_tower.json': 'gtceu:block/multiblock/distillation_tower/overlay_front',
+                'models/block/machine/primitive_cracker.json'           : 'gtceu:block/multiblock/pyrolyse_oven/overlay_front',
+                'models/block/machine/ulv_fluid_drilling_rig.json'      : 'gtceu:block/multiblock/fluid_drilling_rig/overlay_front'
+        ]
+        def generatedAssetRoot = file('src/generated/resources/assets/gregulvexpansion')
+        expectedModelReferences.each { relativePath, reference ->
+            def modelFile = new File(generatedAssetRoot, relativePath)
+            if (!modelFile.isFile()) {
+                errors << "${project.relativePath(modelFile)}: missing generated model"
+            } else if (!modelFile.getText('UTF-8').contains(reference)) {
+                errors << "${project.relativePath(modelFile)}: missing visual reference ${reference}"
+            }
+        }
+
         if (!errors.isEmpty()) {
             throw new GradleException("Generated resource validation failed:\n - " + errors.join('\n - '))
         }

@@ -56,7 +56,7 @@
 
 - `ULVGasTurbineMachine extends SimpleGeneratorMachine`（同红石发电机骨架），`recipeModifier(SimpleGeneratorMachine::recipeModifier)`，物品/流体输出位上限 0。
 - 燃料配方经 `addRecipes` 运行时注入（GT 配方图，同红石燃料表手法）。
-- 模型 `workableTieredHullModel(block/generators/ulv_gas_turbine)`，贴图沿用模组 ULV 调色板。
+- 模型直接复用上游 `workableTieredHullModel(gtceu:block/generators/gas_turbine)`，由 ULV 机壳表达电压等级并保持 GTCEu 原生视觉。
 
 ## 开放问题
 

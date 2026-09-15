@@ -1,11 +1,11 @@
-Greg Steam Expansion
+Greg ULV Expansion
 Copyright (C) 2026 Hoshino
 
 License scope:
 - All source code, data files and functional resources of this mod are
   licensed under the GNU Lesser General Public License, version 3 only
   (SPDX: LGPL-3.0-only). The complete license text follows this notice.
-- Artwork (image files under src/main/resources/assets/gregsteamexpansion/textures/
+- Artwork (image files under src/main/resources/assets/gregulvexpansion/textures/
   and any other image or sound assets) is licensed separately under the
   Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
   license (SPDX: CC-BY-NC-SA-4.0). See LICENSE-ASSETS.txt.
