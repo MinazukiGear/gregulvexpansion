@@ -47,6 +47,7 @@ public final class GregULVExpansionAddon implements IGTAddon {
         // GT 配方图配方（配方类型注册表里的反应）统一走运行时动态包：
         // 上游 7.5.3 自身零配方 JSON，datagen 路径会在 toJson 处 NPE。
         // 工作台配方仍在 datagen（GULVRecipes，ProviderType.RECIPE）。
+        GULVRecipes.addComponentAssemblerRecipes(provider);
         GULVRecipes.addElectrolysisRecipes(provider);
         GULVRecipes.addLeadChamberRecipe(provider);
         GULVRecipes.addUlvMachineRecipes(provider);

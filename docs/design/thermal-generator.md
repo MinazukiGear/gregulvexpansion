@@ -1,4 +1,4 @@
-# 温差发电机（Thermoelectric Generator）设计规格
+# 原始温差发电机（Primitive Thermoelectric Generator）设计规格
 
 > 状态：**已实现（v0.3 + v0.3.1，2026-09-08）** · 优先级：**P1** · 类型：发电机（单方块，无燃料消耗、环境交互）
 >
@@ -22,8 +22,8 @@
 | 项目 | 值 |
 | --- | --- |
 | 资源 ID | `gregulvexpansion:thermoelectric_generator` |
-| 中文名 | 温差发电机 |
-| 英文名 | Thermoelectric Generator |
+| 中文名 | 原始温差发电机 |
+| 英文名 | Primitive Thermoelectric Generator |
 | 机器类 | `com.hoshino.gregulvexpansion.machine.generator.ThermoelectricGeneratorMachine` |
 | 注册字段 | `GULVMachines.THERMOELECTRIC_GENERATOR` |
 

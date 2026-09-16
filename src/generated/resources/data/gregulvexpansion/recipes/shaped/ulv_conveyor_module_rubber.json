@@ -5,22 +5,19 @@
       "item": "gtceu:red_alloy_single_cable"
     },
     "M": {
-      "item": "gtceu:magnetic_iron_rod"
+      "item": "gregulvexpansion:ulv_electric_motor"
     },
     "R": {
-      "item": "gtceu:iron_rod"
-    },
-    "W": {
-      "item": "gtceu:copper_single_wire"
+      "item": "gtceu:rubber_plate"
     }
   },
   "matchSize": false,
   "pattern": [
-    "CWR",
-    "WMW",
-    "RWC"
+    "RRR",
+    "MCM",
+    "RRR"
   ],
   "result": {
-    "item": "gregulvexpansion:ulv_electric_motor"
+    "item": "gregulvexpansion:ulv_conveyor_module"
   }
 }

@@ -2,7 +2,7 @@
 
 > 状态：**已实现（v0.3.1，2026-09-08）** · 优先级：**P1** · 类型：储能（新材料的物品电池 + 储能方块）
 >
-> 变更记录：v0.3 依据首轮裁决——PbO₂ 路线定为**原型电解槽阳极氧化**（B1）；储能方块命名定为**「铅酸蓄电墙」/ Lead-Acid Battery Wall**，资源 ID 相应调整为 `lead_acid_battery_wall`（D10）；蓄电墙**只做 1A**（D8）；**不做自放电**（D9）。**v0.3.1 实现期修订（2026-09-08）**：硫酸消耗以**流体容器配料**实现（`FluidContainerIngredient`：GT 单元盛酸、精确抽 100 mB、返还余量容器）；PbO₂ 材料增加 GENERATE_PLATE 旗标（板由蒸汽压缩机从尘压制）；「木盒」落地为木箱标签；GUI 与手摇发电机同口径后置（Jade/比较器可见缓存）。
+> 变更记录：v0.3 依据首轮裁决——PbO₂ 路线定为**原始电解机阳极氧化**（B1）；储能方块资源 ID 定为 `lead_acid_battery_wall`（D10）；蓄电墙**只做 1A**（D8）；**不做自放电**（D9）。**v0.3.1 实现期修订（2026-09-08）**：硫酸消耗以**流体容器配料**实现（`FluidContainerIngredient`：GT 单元盛酸、精确抽 100 mB、返还余量容器）；PbO₂ 材料增加 GENERATE_PLATE 旗标（板由蒸汽压缩机从尘压制）；「木盒」落地为木箱标签；GUI 与原始手摇发电机同口径后置（Jade/比较器可见缓存）。
 
 ## 定位
 
@@ -25,7 +25,7 @@
 | 新材料 | `lead_dioxide` | 二氧化铅 | Lead Dioxide |
 | 物品：单格电池 | `lead_acid_cell` | 铅酸单格电池 | Lead-Acid Cell |
 | 物品：电池组 | `lead_acid_battery_pack` | 铅酸电池组 | Lead-Acid Battery Pack |
-| 方块：蓄电墙 | `lead_acid_battery_wall` | 铅酸蓄电墙 | Lead-Acid Battery Wall |
+| 方块：蓄电墙 | `lead_acid_battery_wall` | 原始铅酸蓄电墙 | Primitive Lead-Acid Battery Wall |
 
 - 电池物品用 GTCEu `ElectricStats.createRechargeableBattery(capacity, ULV)`（与钽电容同一入口，调研 F4）。
 - 类与注册字段：`GULVItems.LEAD_ACID_CELL / LEAD_ACID_BATTERY_PACK`，`GULVMachines.LEAD_ACID_BATTERY_WALL`。
@@ -55,7 +55,7 @@
 
 ```text
 铅锭 ──氧气──▶ Massicot (PbO，上游已有)
-Massicot + 水 ──原型电解槽阳极氧化──▶ 二氧化铅 PbO2（本模组新配方，见 primitive-electrolyzer.md 子集表）
+Massicot + 水 ──原始电解机阳极氧化──▶ 二氧化铅 PbO2（本模组新配方，见 primitive-electrolyzer.md 子集表）
 硫粉 + 水 + 蒸汽 ──铅室──▶ 硫酸（见 lead-chamber-acid-plant.md）
 
 铅酸单格电池 = 二氧化铅板 ×1 + 铅板 ×1 + 硫酸 100 mB（消耗）+ 木盒 ×1
@@ -63,7 +63,7 @@ Massicot + 水 ──原型电解槽阳极氧化──▶ 二氧化铅 PbO2（�
 铅酸蓄电墙   = 铅酸电池组 ×1 + 铅板 ×4 + ULV 机械方块 ×1 + 红合金单线 ×2
 ```
 
-- 能量闭环（B1 裁决后的完整路径）：手摇发电机（零门槛）→ 原型电解槽（本体零电可造）→ PbO₂ → 铅酸电池——储能链的每一环都在 ULV 时代内闭环。
+- 能量闭环（B1 裁决后的完整路径）：原始手摇发电机（零门槛）→ 原始电解机（本体零电可造）→ PbO₂ → 铅酸电池——储能链的每一环都在 ULV 时代内闭环。
 - 硫酸来源：铅室法制酸装置（无电，见 [lead-chamber-acid-plant.md](lead-chamber-acid-plant.md)），本线与铅室互为供需。
 
 ### 实现期补充（v0.3.1）

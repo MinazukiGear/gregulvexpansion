@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidContainerIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
@@ -42,7 +43,7 @@ import java.util.function.Consumer;
  * 同型 LV 机器 (MetaTileEntityLoader 机器配方表)，组件按上游 CraftingComponent
  * 的 tier-0 基准解析——机壳 = ULV 机械方块；电路 = 猫须探测器 (上游 CIRCUIT
  * tier-0 为 circuits/ulv 标签，D14 后探测器为唯一成员故直引物品)；线缆 = 红合金
- * 单线 (上游 CABLE tier-0 基准)；板材 = 铁板 (上游 PLATE tier-0 基准)；锯片 =
+ * 单股线缆 (上游 CABLE tier-0 基准)；板材 = 铁板 (上游 PLATE tier-0 基准)；锯片 =
  * 青铜圆锯头 (上游 SAWBLADE 显式 ULV 条目，工作台配方)；研磨件 = 钻石 (上游
  * GRINDER tier-0 基准)；转子 = 锡转子 (上游 ROTOR tier-0 基准，工作台配方)；
  * 反应管 = 玻璃 (上游 PIPE_REACTOR 全层级)；电动构件 (马达/活塞/泵/传送带) 为
@@ -60,7 +61,6 @@ public final class GULVRecipes {
         addPumpRecipe(provider);
         addPistonRecipe(provider);
         addRobotArmRecipe(provider);
-        addFluidRegulatorRecipe(provider);
         addPrimitiveElectrolyzerRecipe(provider);
         addLeadAcidCellRecipe(provider);
         addBatteryPackRecipe(provider);
@@ -107,27 +107,26 @@ public final class GULVRecipes {
     }
 
     /**
-     * 手摇发电机：木质曲柄 + 猫须探测器 + 红合金单线 ×2 + 铁板 ×4 + ULV 机械方块。
-     * 曲柄为合成材料 → 合成产物默认已安装 (hand-crank-dynamo.md)。
+     * 手摇发电机本体：猫须探测器 + 红合金单线 ×2 + 铁板 ×4 + ULV 机械方块。
+     * 曲柄独立合成，放置机器后右键安装 (hand-crank-dynamo.md)。
      */
     private static void addHandCrankDynamoRecipe(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider,
                 GregULVExpansion.id("hand_crank_dynamo"),
                 com.hoshino.gregulvexpansion.registry.GULVMachines.HAND_CRANK_DYNAMO.asStack(),
-                "WCW",
+                "W W",
                 "IDI",
                 "IHI",
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
-                'C', GULVItems.WOOD_CRANK,
                 'D', GULVItems.CATS_WHISKER_DETECTOR,
                 'I', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
                 'H', GTMachines.HULL[0].asStack());
     }
 
     /**
-     * 超低压电动马达：上游 LV 电动马达（铁变体）图案 (CWR/WMW/RWC)——红合金单线 ×2 +
+     * 超低压电动马达：上游 LV 电动马达（铁变体）图案 (CWR/WMW/RWC)——红合金单股线缆 ×2 +
      * 铜单线 ×4 + 铁杆 ×2 + 磁化铁杆 ×1 (v0.6)。
-     * 线缆槽 = 红合金单线（上游 CABLE tier-0 基准）；绕组槽 = 铜单线（上游铜线圈原样）；
+     * 线缆槽 = 红合金单股线缆（上游 CABLE tier-0 基准）；绕组槽 = 铜单线（上游铜线圈原样）；
      * 磁化铁杆 = 铁杆 + 红石粉 ×4 工作台（上游 iron_magnetic_stick 原配方），或极化机电力磁化。
      * 上游马达本就无电路件，探测器不再入马达（D14/D15 语义不变：探测器仍是手摇机、
      * 电解槽、机械臂与全部机器获取配方的电路入口）。
@@ -139,39 +138,59 @@ public final class GULVRecipes {
                 "CWR",
                 "WMW",
                 "RWC",
-                'C', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'C', ChemicalHelper.get(TagPrefix.cableGtSingle, GTMaterials.RedAlloy),
                 'W', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.Copper),
                 'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.Iron),
                 'M', ChemicalHelper.get(TagPrefix.rod, GTMaterials.IronMagnetic));
+
     }
 
-    /** 超低压传送带模块：马达 + 橡胶板 ×2 + 铁螺丝 ×2。 */
+    /** 超低压传送带模块：逐项下沉上游工作台与装配机配方，并保留三种橡胶变体。 */
     private static void addConveyorModuleRecipe(Consumer<FinishedRecipe> provider) {
-        VanillaRecipeHelper.addShapedRecipe(provider,
-                GregULVExpansion.id("ulv_conveyor_module"),
-                GULVItems.ULV_CONVEYOR_MODULE.asStack(),
-                "SMS",
-                "RR ",
-                'S', ChemicalHelper.get(TagPrefix.screw, GTMaterials.Iron),
-                'M', GULVItems.ULV_ELECTRIC_MOTOR,
-                'R', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Rubber));
+        addConveyorModuleRecipe(provider, "rubber", GTMaterials.Rubber);
+        addConveyorModuleRecipe(provider, "silicone_rubber", GTMaterials.SiliconeRubber);
+        addConveyorModuleRecipe(provider, "styrene_butadiene_rubber", GTMaterials.StyreneButadieneRubber);
     }
 
-    /** 超低压电动泵：马达 + 铁板 ×2 + 玻璃 ×2。 */
-    private static void addPumpRecipe(Consumer<FinishedRecipe> provider) {
+    private static void addConveyorModuleRecipe(Consumer<FinishedRecipe> provider, String name, Material rubber) {
         VanillaRecipeHelper.addShapedRecipe(provider,
-                GregULVExpansion.id("ulv_electric_pump"),
+                GregULVExpansion.id("ulv_conveyor_module_" + name),
+                GULVItems.ULV_CONVEYOR_MODULE.asStack(),
+                "RRR",
+                "MCM",
+                "RRR",
+                'R', ChemicalHelper.get(TagPrefix.plate, rubber),
+                'M', GULVItems.ULV_ELECTRIC_MOTOR,
+                'C', ChemicalHelper.get(TagPrefix.cableGtSingle, GTMaterials.RedAlloy));
+
+    }
+
+    /** 超低压电动泵：逐项下沉上游工作台与装配机配方，并保留三种橡胶变体。 */
+    private static void addPumpRecipe(Consumer<FinishedRecipe> provider) {
+        addPumpRecipe(provider, "rubber", GTMaterials.Rubber);
+        addPumpRecipe(provider, "silicone_rubber", GTMaterials.SiliconeRubber);
+        addPumpRecipe(provider, "styrene_butadiene_rubber", GTMaterials.StyreneButadieneRubber);
+    }
+
+    private static void addPumpRecipe(Consumer<FinishedRecipe> provider, String name, Material rubber) {
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GregULVExpansion.id("ulv_electric_pump_" + name),
                 GULVItems.ULV_ELECTRIC_PUMP.asStack(),
-                "G G",
-                "PMP",
-                'G', Tags.Items.GLASS,
-                'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.Iron),
+                "SXR",
+                "dPw",
+                "RMC",
+                'S', ChemicalHelper.get(TagPrefix.screw, GTMaterials.Tin),
+                'X', ChemicalHelper.get(TagPrefix.rotor, GTMaterials.Tin),
+                'P', ChemicalHelper.get(TagPrefix.pipeNormalFluid, GTMaterials.Bronze),
+                'R', ChemicalHelper.get(TagPrefix.ring, rubber),
+                'C', ChemicalHelper.get(TagPrefix.cableGtSingle, GTMaterials.RedAlloy),
                 'M', GULVItems.ULV_ELECTRIC_MOTOR);
+
     }
 
     /**
-     * 超低压电动活塞：马达 + 锻铁板 ×3 + 红合金单线 ×2 + 锻铁杆 ×2 + 小青铜齿轮 (v0.5.1)。
-     * 上游 LV 电动活塞工作台图案 (PPP/CRR/CMG) 下沉：钢→锻铁、锡线缆→红合金线。
+     * 超低压电动活塞：马达 + 锻铁板 ×3 + 红合金单股线缆 ×2 + 锻铁杆 ×2 + 小青铜齿轮 (v0.5.1)。
+     * 上游 LV 电动活塞工作台图案 (PPP/CRR/CMG) 下沉：钢→锻铁、锡线缆→红合金线缆。
      * 锻铁 = 熔炉烧铁粒（煤火零电力）；齿轮槽取小青铜齿轮——锻铁无小齿轮物品形态
      * （上游未启用 GENERATE_SMALL_GEAR），青铜与切割机锯片同族、工作台可达。
      */
@@ -183,14 +202,15 @@ public final class GULVRecipes {
                 "CRR",
                 "CMG",
                 'P', ChemicalHelper.get(TagPrefix.plate, GTMaterials.WroughtIron),
-                'C', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'C', ChemicalHelper.get(TagPrefix.cableGtSingle, GTMaterials.RedAlloy),
                 'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.WroughtIron),
                 'G', ChemicalHelper.get(TagPrefix.gearSmall, GTMaterials.Bronze),
                 'M', GULVItems.ULV_ELECTRIC_MOTOR);
+
     }
 
     /**
-     * 超低压机械臂：红合金单线 ×3 + 锻铁杆 ×2 + 马达 + 电动活塞 + 猫须探测器 (v0.5.1)。
+     * 超低压机械臂：红合金单股线缆 ×3 + 锻铁杆 ×2 + 马达 + 电动活塞 + 猫须探测器 (v0.5.1)。
      * 上游 LV 机械臂工作台图案 (CCC/MRM/PXR) 下沉；tier-0 电路件为猫须探测器 (D14)。
      */
     private static void addRobotArmRecipe(Consumer<FinishedRecipe> provider) {
@@ -200,27 +220,99 @@ public final class GULVRecipes {
                 "CCC",
                 "MRM",
                 "PXR",
-                'C', ChemicalHelper.get(TagPrefix.wireGtSingle, GTMaterials.RedAlloy),
+                'C', ChemicalHelper.get(TagPrefix.cableGtSingle, GTMaterials.RedAlloy),
                 'R', ChemicalHelper.get(TagPrefix.rod, GTMaterials.WroughtIron),
                 'M', GULVItems.ULV_ELECTRIC_MOTOR,
                 'P', GULVItems.ULV_ELECTRIC_PISTON,
                 'X', GULVItems.CATS_WHISKER_DETECTOR);
+
     }
 
     /**
-     * 超低压流体调节器：泵 + 猫须探测器 ×2 + 玻璃 ×3 (v0.7)。
-     * 上游调节器为装配机专属（泵 + 电路 ×2），无工作台对标——工作台配方按其
-     * 材料清单自设计（泵 + tier-0 电路 + 玻璃壳体），零电力门槛不变。
+     * 基础构件装配机配方：输入结构、时长和电路配置与上游 LV 配方一致，
+     * 仅将层级材料与工作电压下沉到 ULV。
      */
-    private static void addFluidRegulatorRecipe(Consumer<FinishedRecipe> provider) {
-        VanillaRecipeHelper.addShapedRecipe(provider,
-                GregULVExpansion.id("ulv_fluid_regulator"),
-                GULVItems.ULV_FLUID_REGULATOR.asStack(),
-                "DPD",
-                "GGG",
-                'D', GULVItems.CATS_WHISKER_DETECTOR,
-                'P', GULVItems.ULV_ELECTRIC_PUMP,
-                'G', Tags.Items.GLASS);
+    public static void addComponentAssemblerRecipes(Consumer<FinishedRecipe> provider) {
+        GTRecipeTypes.ASSEMBLER_RECIPES
+                .recipeBuilder(GregULVExpansion.id("ulv_electric_motor"))
+                .inputItems(TagPrefix.cableGtSingle, GTMaterials.RedAlloy, 2)
+                .inputItems(TagPrefix.rod, GTMaterials.Iron, 2)
+                .inputItems(TagPrefix.rod, GTMaterials.IronMagnetic)
+                .inputItems(TagPrefix.wireGtSingle, GTMaterials.Copper, 4)
+                .outputItems(GULVItems.ULV_ELECTRIC_MOTOR.asStack())
+                .duration(100)
+                .EUt(GTValues.VA[GTValues.ULV])
+                .save(provider);
+
+        addConveyorAssemblerRecipe(provider, "rubber", GTMaterials.Rubber);
+        addConveyorAssemblerRecipe(provider, "silicone_rubber", GTMaterials.SiliconeRubber);
+        addConveyorAssemblerRecipe(provider, "styrene_butadiene_rubber", GTMaterials.StyreneButadieneRubber);
+
+        addPumpAssemblerRecipe(provider, "rubber", GTMaterials.Rubber);
+        addPumpAssemblerRecipe(provider, "silicone_rubber", GTMaterials.SiliconeRubber);
+        addPumpAssemblerRecipe(provider, "styrene_butadiene_rubber", GTMaterials.StyreneButadieneRubber);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES
+                .recipeBuilder(GregULVExpansion.id("ulv_electric_piston"))
+                .inputItems(TagPrefix.rod, GTMaterials.WroughtIron, 2)
+                .inputItems(TagPrefix.cableGtSingle, GTMaterials.RedAlloy, 2)
+                .inputItems(TagPrefix.plate, GTMaterials.WroughtIron, 3)
+                .inputItems(TagPrefix.gearSmall, GTMaterials.Bronze)
+                .inputItems(GULVItems.ULV_ELECTRIC_MOTOR)
+                .outputItems(GULVItems.ULV_ELECTRIC_PISTON.asStack())
+                .duration(100)
+                .EUt(GTValues.VA[GTValues.ULV])
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES
+                .recipeBuilder(GregULVExpansion.id("ulv_robot_arm"))
+                .inputItems(TagPrefix.cableGtSingle, GTMaterials.RedAlloy, 3)
+                .inputItems(TagPrefix.rod, GTMaterials.WroughtIron, 2)
+                .inputItems(GULVItems.ULV_ELECTRIC_MOTOR, 2)
+                .inputItems(GULVItems.ULV_ELECTRIC_PISTON)
+                .inputItems(GULVItems.CATS_WHISKER_DETECTOR)
+                .outputItems(GULVItems.ULV_ROBOT_ARM.asStack())
+                .duration(100)
+                .EUt(GTValues.VA[GTValues.ULV])
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES
+                .recipeBuilder(GregULVExpansion.id("ulv_fluid_regulator"))
+                .inputItems(GULVItems.ULV_ELECTRIC_PUMP)
+                .inputItems(GULVItems.CATS_WHISKER_DETECTOR, 2)
+                .circuitMeta(1)
+                .outputItems(GULVItems.ULV_FLUID_REGULATOR.asStack())
+                .duration(400)
+                .EUt(GTValues.VA[GTValues.ULV])
+                .save(provider);
+    }
+
+    private static void addConveyorAssemblerRecipe(Consumer<FinishedRecipe> provider, String name, Material rubber) {
+        GTRecipeTypes.ASSEMBLER_RECIPES
+                .recipeBuilder(GregULVExpansion.id("ulv_conveyor_module_" + name))
+                .inputItems(TagPrefix.cableGtSingle, GTMaterials.RedAlloy)
+                .inputItems(GULVItems.ULV_ELECTRIC_MOTOR, 2)
+                .inputFluids(rubber.getFluid(GTValues.L * 6))
+                .circuitMeta(1)
+                .outputItems(GULVItems.ULV_CONVEYOR_MODULE.asStack())
+                .duration(100)
+                .EUt(GTValues.VA[GTValues.ULV])
+                .save(provider);
+    }
+
+    private static void addPumpAssemblerRecipe(Consumer<FinishedRecipe> provider, String name, Material rubber) {
+        GTRecipeTypes.ASSEMBLER_RECIPES
+                .recipeBuilder(GregULVExpansion.id("ulv_electric_pump_" + name))
+                .inputItems(TagPrefix.cableGtSingle, GTMaterials.RedAlloy)
+                .inputItems(TagPrefix.pipeNormalFluid, GTMaterials.Bronze)
+                .inputItems(TagPrefix.screw, GTMaterials.Tin)
+                .inputItems(TagPrefix.rotor, GTMaterials.Tin)
+                .inputItems(TagPrefix.ring, rubber, 2)
+                .inputItems(GULVItems.ULV_ELECTRIC_MOTOR)
+                .outputItems(GULVItems.ULV_ELECTRIC_PUMP.asStack())
+                .duration(100)
+                .EUt(GTValues.VA[GTValues.ULV])
+                .save(provider);
     }
 
     /**
@@ -406,7 +498,7 @@ public final class GULVRecipes {
                 'C', GULVItems.LEAD_ACID_BATTERY_PACK);
     }
 
-    /** 铅衬机壳：铅板 ×6 + 石材基座，每次产出 2 个（铅室法 3×4×3 结构约需 22 块）。 */
+    /** 铅衬机壳：铅板 ×6 + 石材基座，每次产出 2 个（铅室结构至少需要 10 块）。 */
     private static void addLeadLinedCasingRecipe(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider,
                 GregULVExpansion.id("lead_lined_casing"),
@@ -629,8 +721,9 @@ public final class GULVRecipes {
 
 
     /**
-     * ULV 化学反应釜配方子集 (ulv-basic-machines.md v0.8 子集表，酸链三条)。
-     * 上游 AcidRecipes（EUt VA[ULV]=7 原样直录）；硫化氢路线不收录。
+     * ULV 化学反应釜配方子集（ulv-basic-machines.md v0.11）：酸链、石油脱硫、
+     * 聚乙烯聚合及橡胶聚合/硫化。
+     * 上游 ULV 配方原样直录；高于 ULV 的配方按总能耗不降低原则换算为 7 EU/t。
      * 编程电路省略（单一职能无歧义）。同样仅供运行时 addRecipes 调用。
      */
     public static void addUlvChemicalReactorRecipes(Consumer<FinishedRecipe> provider) {
@@ -726,10 +819,39 @@ public final class GULVRecipes {
                 .duration(686)
                 .EUt(7)
                 .save(provider);
+
+        // 橡胶化学链：完整下放上游化学反应釜中直接生成生橡胶/橡胶的三条配方。
+        // 生橡胶聚合：30 EU/t × 160t → 7 EU/t × 686t；氧气路线保持 3 倍产出。
+        GULVRecipeTypes.ULV_CHEMICAL_REACTING
+                .recipeBuilder(GregULVExpansion.id("raw_rubber_from_air"))
+                .inputFluids(GTMaterials.Isoprene.getFluid(144), GTMaterials.Air.getFluid(2_000))
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.RawRubber))
+                .duration(686)
+                .EUt(7)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_CHEMICAL_REACTING
+                .recipeBuilder(GregULVExpansion.id("raw_rubber_from_oxygen"))
+                .inputFluids(GTMaterials.Isoprene.getFluid(144), GTMaterials.Oxygen.getFluid(2_000))
+                .outputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.RawRubber, 3))
+                .duration(686)
+                .EUt(7)
+                .save(provider);
+
+        // 硫化：16 EU/t × 600t → 7 EU/t × 1,372t（向上取整，避免降低总能耗）。
+        GULVRecipeTypes.ULV_CHEMICAL_REACTING
+                .recipeBuilder(GregULVExpansion.id("rubber"))
+                .inputItems(ChemicalHelper.get(TagPrefix.dust, GTMaterials.RawRubber, 9),
+                        ChemicalHelper.get(TagPrefix.dust, GTMaterials.Sulfur))
+                .outputFluids(GTMaterials.Rubber.getFluid(1_296))
+                .duration(1_372)
+                .EUt(7)
+                .save(provider);
     }
 
     /**
-     * ULV 流体固化器配方子集 (ulv-basic-machines.md v0.8 子集表)。
+     * ULV 流体固化器配方子集（ulv-basic-machines.md v0.11）：基础冷却配方，
+     * 以及聚乙烯/橡胶的全部上游可固化形态。
      * 雪球/雪块（EUt 4 原样直录）；黑曜石（上游 EUt 16、1024t，总 EU 16,384
      * → EUt 7、2,341t，v0.7 耗能不变）。模具 notConsumable 不消耗。
      * 同样仅供运行时 addRecipes 调用。
@@ -771,6 +893,80 @@ public final class GULVRecipes {
                 .outputItems(ChemicalHelper.get(TagPrefix.plate, GTMaterials.Polyethylene))
                 .duration(40)
                 .EUt(7)
+                .save(provider);
+
+        // 聚乙烯与橡胶完整固化覆盖：锭、粒、块、板；聚乙烯另含其全部五档流体管。
+        addPolymerSolidificationRecipes(provider, GTMaterials.Polyethylene, "polyethylene", false);
+        addPolymerSolidificationRecipes(provider, GTMaterials.Rubber, "rubber", true);
+
+        addPolyethylenePipeSolidificationRecipes(provider);
+    }
+
+    private static void addPolymerSolidificationRecipes(Consumer<FinishedRecipe> provider, Material material,
+                                                         String recipePrefix, boolean includePlate) {
+        GULVRecipeTypes.ULV_FLUID_SOLIDFICATION
+                .recipeBuilder(GregULVExpansion.id(recipePrefix + "_ingot"))
+                .inputFluids(material.getFluid(144))
+                .notConsumable(GTItems.SHAPE_MOLD_INGOT)
+                .outputItems(ChemicalHelper.get(TagPrefix.ingot, material))
+                .duration(20)
+                .EUt(7)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_FLUID_SOLIDFICATION
+                .recipeBuilder(GregULVExpansion.id(recipePrefix + "_nuggets"))
+                .inputFluids(material.getFluid(144))
+                .notConsumable(GTItems.SHAPE_MOLD_NUGGET)
+                .outputItems(ChemicalHelper.get(TagPrefix.nugget, material, 9))
+                .duration((int) material.getMass())
+                .EUt(7)
+                .save(provider);
+
+        GULVRecipeTypes.ULV_FLUID_SOLIDFICATION
+                .recipeBuilder(GregULVExpansion.id(recipePrefix + "_block"))
+                .inputFluids(material.getFluid(1_296))
+                .notConsumable(GTItems.SHAPE_MOLD_BLOCK)
+                .outputItems(ChemicalHelper.get(TagPrefix.block, material))
+                .duration((int) material.getMass())
+                .EUt(7)
+                .save(provider);
+
+        if (includePlate) {
+            GULVRecipeTypes.ULV_FLUID_SOLIDFICATION
+                    .recipeBuilder(GregULVExpansion.id(recipePrefix + "_plate"))
+                    .inputFluids(material.getFluid(144))
+                    .notConsumable(GTItems.SHAPE_MOLD_PLATE)
+                    .outputItems(ChemicalHelper.get(TagPrefix.plate, material))
+                    .duration(40)
+                    .EUt(7)
+                    .save(provider);
+        }
+    }
+
+    private static void addPolyethylenePipeSolidificationRecipes(Consumer<FinishedRecipe> provider) {
+        addPolyethylenePipeSolidificationRecipe(provider, "tiny", GTItems.SHAPE_MOLD_TINY_PIPE,
+                TagPrefix.pipeTinyFluid, 72, 14);
+        addPolyethylenePipeSolidificationRecipe(provider, "small", GTItems.SHAPE_MOLD_SMALL_PIPE,
+                TagPrefix.pipeSmallFluid, 144, 28);
+        addPolyethylenePipeSolidificationRecipe(provider, "normal", GTItems.SHAPE_MOLD_NORMAL_PIPE,
+                TagPrefix.pipeNormalFluid, 432, 84);
+        addPolyethylenePipeSolidificationRecipe(provider, "large", GTItems.SHAPE_MOLD_LARGE_PIPE,
+                TagPrefix.pipeLargeFluid, 864, 168);
+        addPolyethylenePipeSolidificationRecipe(provider, "huge", GTItems.SHAPE_MOLD_HUGE_PIPE,
+                TagPrefix.pipeHugeFluid, 1_728, 672);
+    }
+
+    private static void addPolyethylenePipeSolidificationRecipe(Consumer<FinishedRecipe> provider, String size,
+                                                                 com.tterrag.registrate.util.entry.ItemEntry<?> mold,
+                                                                 TagPrefix outputPrefix, int fluidAmount,
+                                                                 int duration) {
+        GULVRecipeTypes.ULV_FLUID_SOLIDFICATION
+                .recipeBuilder(GregULVExpansion.id("polyethylene_" + size + "_fluid_pipe"))
+                .inputFluids(GTMaterials.Polyethylene.getFluid(fluidAmount))
+                .notConsumable(mold)
+                .outputItems(ChemicalHelper.get(outputPrefix, GTMaterials.Polyethylene))
+                .duration(duration)
+                .EUt(6)
                 .save(provider);
     }
 

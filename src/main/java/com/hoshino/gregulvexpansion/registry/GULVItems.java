@@ -30,16 +30,12 @@ public final class GULVItems {
     public static final ItemEntry<ComponentItem> CATS_WHISKER_DETECTOR = GULVRegistration.REGISTRATE
             .item("cats_whisker_detector", ComponentItem::create)
             .lang("Cat's-Whisker Detector")
-            .onRegister(GTItems.attach(new TooltipBehavior(lines -> lines.add(Component.translatable(
-                    "gregulvexpansion.item.cats_whisker_detector.tooltip")))))
             .register();
 
     /** 木质曲柄 — 独立物品 (D2)，可扳手拆装，兼容 AE2 曲柄驱动 (hand-crank-dynamo.md)。 */
     public static final ItemEntry<ComponentItem> WOOD_CRANK = GULVRegistration.REGISTRATE
             .item("wood_crank", ComponentItem::create)
             .lang("Wooden Crank")
-            .onRegister(GTItems.attach(new TooltipBehavior(lines -> lines.add(Component.translatable(
-                    "gregulvexpansion.item.wood_crank.tooltip")))))
             .register();
 
     /** 超低压电动马达 — 全部 ULV 机器与温差/红石发电机的公共前置 (D15)。 */
@@ -48,8 +44,7 @@ public final class GULVItems {
             .lang("ULV Electric Motor")
             .model((ctx, provider) -> provider.withExistingParent(ctx.getName(), "minecraft:item/generated")
                     .texture("layer0", GregULVExpansion.id("item/ulv_electric_motor")))
-            .onRegister(GTItems.attach(new TooltipBehavior(lines -> lines.add(Component.translatable(
-                    "gregulvexpansion.item.ulv_electric_motor.tooltip")))))
+            .tag(CustomTags.ELECTRIC_MOTORS)
             .register();
 
     /** 超低压传送带模块 — cover 物品，2 件/t (C5 公式值)。 */
@@ -74,8 +69,8 @@ public final class GULVItems {
                     .texture("layer0", GregULVExpansion.id("item/ulv_electric_pump")))
             .onRegister(GTItems.attach(new CoverPlaceBehavior(GULVCovers.PUMP_ULV)))
             .onRegister(GTItems.attach(new TooltipBehavior(lines -> {
-                lines.add(Component.translatable("item.gtceu.pump.module.tooltip"));
-                lines.add(Component.translatable("gtceu.universal.tooltip.pump_rate", 16));
+                lines.add(Component.translatable("item.gtceu.electric.pump.tooltip"));
+                lines.add(Component.translatable("gtceu.universal.tooltip.fluid_transfer_rate", 16));
             })))
             .tag(CustomTags.ELECTRIC_PUMPS)
             .register();
@@ -89,8 +84,6 @@ public final class GULVItems {
             .lang("ULV Electric Piston")
             .model((ctx, provider) -> provider.withExistingParent(ctx.getName(), "minecraft:item/generated")
                     .texture("layer0", GregULVExpansion.id("item/ulv_electric_piston")))
-            .onRegister(GTItems.attach(new TooltipBehavior(lines -> lines.add(Component.translatable(
-                    "gregulvexpansion.item.ulv_electric_piston.tooltip")))))
             .tag(CustomTags.ELECTRIC_PISTONS)
             .register();
 

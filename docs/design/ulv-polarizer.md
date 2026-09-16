@@ -1,4 +1,4 @@
-# ULV 极化机（ULV Polarizer）设计规格
+# 原始两极磁化机（Primitive Polarizer）设计规格
 
 > 状态：**已实现（v1.0，2026-09-09）** · 优先级：**P2** · 类型：单方块 ULV 机器 + 构件线深化（马达配方 v0.5）
 >
@@ -20,7 +20,7 @@
 
 | 项目 | 资源 ID | 中文名 | 英文名 |
 | --- | --- | --- | --- |
-| 机器 | `gregulvexpansion:ulv_polarizer` | 超低压极化机 | ULV Polarizer |
+| 机器 | `gregulvexpansion:ulv_polarizer` | 原始两极磁化机 | Primitive Polarizer |
 
 - 配方类型 `gregulvexpansion:ulv_polarizing`（ELECTRIC 组），Java：`GULVRecipeTypes.ULV_POLARIZING`；机器类 `ULVPolarizerMachine`（`ULVSimpleMachine` 子类）。
 

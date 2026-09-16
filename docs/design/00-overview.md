@@ -1,6 +1,6 @@
 # 总纲：Greg ULV Expansion 内容设计总览
 
-> 状态：**已裁决草案（v0.3，2026-09-07）；v0.5–v1.2 实现期修订（2026-09-08，全线已实现待实测）**——首批范围与全部开放问题已经项目所有者逐项裁决（裁决记录见 [open-questions.md](open-questions.md)）；数值仍可在标注区间内实测微调，结构性变更需新一轮裁决。
+> 状态：**已裁决草案（v0.3，2026-09-07）；实现期修订至 v1.3（2026-09-16，全线已实现，待整线回归）**——首批范围与全部开放问题已经项目所有者逐项裁决（裁决记录见 [open-questions.md](open-questions.md)）；数值仍可在标注区间内实测微调，结构性变更需新一轮裁决。
 > v0.2 变更：移除硒材料路线；ULV 基础构件线立项为最高优先级 P0；铅室法依据上游硫酸路线调研定稿；锗路线冻结。
 > v0.3 变更（首轮裁决）：**小型蒸汽轮机砍除**（A1）；**ULV 洗矿机砍除**（A2）；PbO₂ 定为电解槽阳极氧化路线（B1）；替代配方提为 P2 并禁用上游真空管/NAND 原配方（D14，§3.5 原则相应修订）；储能方块定名「铅酸蓄电墙」（D10）；马达成为温差/红石发电机公共前置（D15）；其余数值与取舍裁决见 open-questions.md。
 
@@ -44,18 +44,18 @@ Greg ULV Expansion 是 GregTech CEu Modern（下称 GTCEu，7.5.3）的附属模
 
 | 支柱 | 内容 | 文档 | 优先级 | 状态 |
 | --- | --- | --- | --- | --- |
-| A 第一桶电 | 手摇发电机（摇 400 tick ≈ 满功率运行 600 tick，零电门槛） | [hand-crank-dynamo.md](hand-crank-dynamo.md) | P0 | **已实现**（待实测） |
-| B ULV 基础构件 | 超低压电动马达 / 传送带模块 / 电动泵 / 电动活塞 / 机械臂 | [ulv-components.md](ulv-components.md) | **P0** | **已实现**（待实测，v0.4 扩容） |
+| A 第一桶电 | 手摇发电机（曲柄独立安装；摇 400 tick ≈ 满功率运行 600 tick，零电门槛） | [hand-crank-dynamo.md](hand-crank-dynamo.md) | P0 | **已实现并完成运行时复测**（v0.5） |
+| B ULV 基础构件 | ULV 电动马达 / 传送带 / 电动泵 / 电力活塞 / 机械臂 / 流体校准器 | [ulv-components.md](ulv-components.md) | **P0** | **已实现**（v0.8.1） |
 | C 电路与元件 | 猫须探测器 + 替代配方（禁用上游原配方，探测器为 ULV 电路唯一入口） | [ulv-circuit-line.md](ulv-circuit-line.md) | P0（探测器）/ P2（替代配方） | **已实现**（待实测） |
-| D 常设微电 | 温差发电机（环境热免维护电） | [thermal-generator.md](thermal-generator.md) | P1 | **已实现**（待实测） |
-| D 常设微电 | 红石发电机（可堆叠燃料电） | [redstone-generator.md](redstone-generator.md) | P2 | **已实现**（待实测） |
-| D 常设微电 | ULV 微型燃气轮机（气体燃料电：天然气/含硫气体/甲烷/含硫石脑油，闭合石油线死端） | [gas-turbine.md](gas-turbine.md) | P2 | **已实现**（待实测） |
-| B ULV 基础构件 | ULV 极化机（磁化铁杆电力磁化，蒸汽/电力双路线；含马达配方 v0.5） | [ulv-polarizer.md](ulv-polarizer.md) | P2 | **已实现**（待实测） |
+| D 常设微电 | 原始温差发电机（环境热免维护电） | [thermal-generator.md](thermal-generator.md) | P1 | **已实现**（待实测） |
+| D 常设微电 | 原始红石发电机（可堆叠燃料电） | [redstone-generator.md](redstone-generator.md) | P2 | **已实现**（待实测） |
+| D 常设微电 | 原始燃气轮机（气体燃料电：天然气/含硫气体/甲烷/含硫石脑油，闭合石油线死端） | [gas-turbine.md](gas-turbine.md) | P2 | **已实现**（待实测） |
+| B ULV 基础构件 | 原始两极磁化机（磁化铁杆电力磁化，蒸汽/电力双路线；含马达配方 v0.5） | [ulv-polarizer.md](ulv-polarizer.md) | P2 | **已实现**（待实测） |
 | E 储能阶梯 | 铅酸电池线（PbO₂ 新材料 + 单格/电池组 + 铅酸蓄电墙） | [lead-acid-battery-line.md](lead-acid-battery-line.md) | P1 | **已实现**（待实测） |
 | F 化学前置 | 铅室法制酸装置（无电多方块） | [lead-chamber-acid-plant.md](lead-chamber-acid-plant.md) | P1 | **已实现**（待实测） |
-| G ULV 机器 | 原型电解槽（水电解 + PbO₂ 氧化；储能链前置，P1 首位） | [primitive-electrolyzer.md](primitive-electrolyzer.md) | P1 | **已实现**（待实测） |
-| G ULV 机器 | ULV 线材轧机 / 切割机 / 卷板机 / 车床 / 化学反应釜 / 流体固化器 / 流体提取机（配方子集下沉） | [ulv-basic-machines.md](ulv-basic-machines.md) | P1 | **已实现**（待实测） |
-| H 石油线 | 原始蒸馏塔 / 原始裂化机 / ULV 流体钻井机（无电多方块，含聚乙烯链） | [primitive-distillation-tower.md](primitive-distillation-tower.md) | v1.1 新增 | **已实现**（待实测） |
+| G ULV 机器 | 原始电解机（水电解 + PbO₂ 氧化；储能链前置，P1 首位） | [primitive-electrolyzer.md](primitive-electrolyzer.md) | P1 | **已实现**（待实测） |
+| G ULV 机器 | 原始线材轧机 / 切割机 / 卷板机 / 车床 / 化学反应釜 / 流体固化器 / 提取机（配方子集下沉） | [ulv-basic-machines.md](ulv-basic-machines.md) | P1 | **已实现**（v0.11，待整线回归） |
+| H 石油线 | 原始蒸馏塔 / 原始裂化机 / ULV 流体钻井机（无电多方块，含聚乙烯链） | [primitive-distillation-tower.md](primitive-distillation-tower.md) | v1.1 新增 | **已实现**（v1.3，待整线回归） |
 | — | 开放问题裁决追踪表（34 项，首轮全部裁决） | [open-questions.md](open-questions.md) | — | 首轮裁决完成 |
 | — | 未定案候选总表与负面清单 | [next-machine-candidates.md](next-machine-candidates.md) | — | 候选 |
 
@@ -66,8 +66,8 @@ Greg ULV Expansion 是 GregTech CEu Modern（下称 GTCEu，7.5.3）的附属模
 1. **蒸汽中期——第一次触电**：以铜+红石造出红合金线，把方铅矿磨洗成纯净矿石后做出猫须探测器（v0.3.1 实现期修订），合成手摇发电机；摇 400 tick（约 20 秒）≈ 让 1 台 ULV 机器以 8 EU/t 满功率运行 600 tick（约 30 秒）。玩家在这里学会 EU/t、安培、缓存、电池四个概念。
 2. **蒸汽中期——第一台马达**：用红合金线与铁件造出超低压电动马达（零电门槛），再接上传送带/泵覆盖板，蒸汽时代的产线第一次自己动起来——每秒两件，但确确实实在动。
 3. **蒸汽后期——微电常设化**：把温差发电机贴在岩浆/锅炉边上获得免维护基础负荷，红石发电机把红石农场变现成燃料电；夜间靠铅酸电池顶班。
-4. **电力前夜——化学开蒙**：原型电解槽电解水出氢氧、阳极氧化出 PbO₂；铅室法装置投产，硫酸不再依赖 LV；铅酸电池线铺开，储能从 1k EU 跳到 4k/16k/24k。
-5. **ULV 产线——试运行**：ULV 线材轧机把电线产能提上来，切割机出齿轮与杆件；整条产线由传送带与泵串成一条微电网流水线，真空管与 NAND 芯片全部产自自己的探测器线。
+4. **电力前夜——化学开蒙**：原始电解机电解水出氢氧、阳极氧化出 PbO₂；铅室法装置投产，硫酸不再依赖 LV；铅酸电池线铺开，储能从 1k EU 跳到 4k/16k/24k。
+5. **ULV 产线——试运行**：原始线材轧机把电线产能提上来，切割机出齿轮与杆件；整条产线由传送带与泵串成一条微电网流水线，真空管与 NAND 芯片全部产自自己的探测器线。
 6. **跨入 LV**：GTCEu 的 LV 发电机与机器上线后，ULV 设备退居二线——继续当应急电源、细分产线与偏远区块的微电网，而不是被拆除。
 
 ## 6. 数值基准（草案推导依据）
@@ -105,7 +105,8 @@ Greg ULV Expansion 是 GregTech CEu Modern（下称 GTCEu，7.5.3）的附属模
 ## 7. 命名与 ID 规范
 
 - **资源 ID**：小写下划线。独有机制机器不带层级前缀（`hand_crank_dynamo`）；上游机器/物品的 ULV 变体带 `ulv_` 前缀（`ulv_ore_washer`、`ulv_electric_motor`）；覆盖板定义 ID 沿用上游 `<name>.<vn>` 规则（`conveyor.ulv`）；一律不含具体材料名（存档兼容考虑，沿用姊妹项目约定）。
-- **显示名**：独有机器不加层级字样（手摇发电机 / Hand-Crank Dynamo）；ULV 变体加「超低压 / ULV」（超低压洗矿机 / ULV Ore Washer）。
+- **显示名**：单方块机器统一使用上游 tier-0 模板，中文为“原始<机器>”，英文为 `Primitive <Machine>`；多方块独有机器维持各自专名。ULV 基础构件使用上游层级前缀模板（灰色 `ULV` + 构件名）。
+- **Tooltip**：单方块配方机器复用上游 `GTMachineUtils.workableTiered` 模板，发电与储能设备复用上游通用电压、安培、容量文本；只代入 ULV 电压、缓存、罐容与传输速率等实际数值。EMI/JEI 配方分类必须为每个自定义配方类型提供中英文翻译键。
 - **Java**：包 `com.hoshino.gregulvexpansion.machine.{generator,simple,multiblock}` 与 `...registry`；类名 `XxxMachine`；注册字段全大写蛇形；注册中心沿用 `GULVRegistration.REGISTRATE`。
 - **本地化键**：`gregulvexpansion.machine.<id>.<key>`（模式/状态文本），物品方块用 Registrate 自动键。
 - **新材料**：经 `MaterialRegistryEvent` 注册（GTCEu 7.5.3 已弃用 `registerMaterials()` 钩子），ID 如 `lead_dioxide`。

@@ -1,4 +1,4 @@
-# 红石发电机（Redstone Generator）设计规格
+# 原始红石发电机（Primitive Redstone Generator）设计规格
 
 > 状态：**已实现（v0.4，2026-09-08，待实测）** · 优先级：**P2** · 类型：发电机（单方块，固体燃料，配方驱动）
 >
@@ -22,8 +22,8 @@
 | 项目 | 值 |
 | --- | --- |
 | 资源 ID | `gregulvexpansion:redstone_generator` |
-| 中文名 | 红石发电机 |
-| 英文名 | Redstone Generator |
+| 中文名 | 原始红石发电机 |
+| 英文名 | Primitive Redstone Generator |
 | 机器类 | `com.hoshino.gregulvexpansion.machine.generator.RedstoneGeneratorMachine`（基于 `SimpleGeneratorMachine`） |
 | 注册字段 | `GULVMachines.REDSTONE_GENERATOR` |
 | 配方类型 | `GULVRecipeTypes.REDSTONE_GENERATOR_FUELS`（新注册，group `GENERATOR`） |

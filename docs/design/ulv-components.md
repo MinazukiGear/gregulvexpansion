@@ -1,10 +1,12 @@
 # ULV 基础构件线（ULV Component Line）设计规格
 
-> 状态：**已实现（v0.7，2026-09-09）** · 优先级：**P0（最高优先级，项目所有者 2026-09-07 指定）** · 类型：构件物品 + 覆盖板（cover）
+> 状态：**已实现（v0.8，2026-09-16）** · 优先级：**P0（最高优先级，项目所有者 2026-09-07 指定）** · 类型：构件物品 + 覆盖板（cover）
 >
 > 变更记录：
+> - v0.8.1（2026-09-16）：显示名与 Tooltip 模板改为直接沿用上游同层级构件格式，仅保留 ULV 速率差异；中文显示采用灰色 `ULV` 层级前缀，传送带与流体校准器名称对齐上游术语。
+> - v0.8（2026-09-16，所有者指示）：**基础构件配方形式全面对齐上游**。马达、传送带、泵、活塞与机械臂均同时提供上游同图案工作台配方和同输入结构装配机配方；传送带与泵补齐橡胶、硅橡胶、丁苯橡胶三种变体；流体调节器删除自设计工作台配方，改为与上游一致的装配机专属配方。层级差异仅体现在 ULV 材料与 `VA[ULV]` 电压。
 > - v0.7（2026-09-09，所有者指示）：**流体调节器提批进首批**（原候选池 C13 余量收窄为发射器/传感器）——cover 物品，PUMP_SCALING tier 0 = 16 mB/t 可调精度，上游泵族渲染器复用；上游调节器为装配机专属（泵 + 电路 ×2），工作台配方按其材料清单自设计（泵 + 探测器 ×2 + 玻璃 ×3）。另补录石油线重燃料脱硫（见 primitive-distillation-tower.md）。
-> - v0.6（2026-09-09，所有者指示）：**马达配方整体对齐上游 LV 电动马达（铁变体）图案 `CWR/WMW/RWC`**——红合金单线 ×2（线缆基准）+ 铜单线 ×4（铜绕组）+ 铁杆 ×2 + 磁化铁杆 ×1；上游马达本就无电路件，探测器不再入马达（D14/D15 语义不变：探测器仍是手摇机、电解槽、机械臂与全部机器的电路入口）。
+> - v0.6（2026-09-09，所有者指示）：**马达配方整体对齐上游 LV 电动马达（铁变体）图案 `CWR/WMW/RWC`**——红合金线缆 ×2（线缆基准）+ 铜单线 ×4（铜绕组）+ 铁杆 ×2 + 磁化铁杆 ×1；上游马达本就无电路件，探测器不再入马达（D14/D15 语义不变：探测器仍是手摇机、电解槽、机械臂与全部机器的电路入口）。
 > - v0.5.1（2026-09-09，所有者指示）：**钢的下沉基准改为锻铁**——活塞（锻铁板 ×3/锻铁杆 ×2）与机械臂（锻铁杆 ×2）材料更新；锻铁 = 熔炉烧铁粒（煤火零电力），门槛自检不破。活塞齿轮槽取**小青铜齿轮**（锻铁无小齿轮物品形态，青铜与切割机锯片同族）；并修正图案计数：活塞红合金线 ×2、机械臂马达 ×2（图案 MRM 两处马达，与上游装配机配方一致）。
 > - v0.5（2026-09-09，所有者立项指示）：**马达配方追加磁化铁杆 ×1**（对齐上游马达「磁杆 M 槽」语义；铁板 2→1 平衡成本，D15 探测器槽保留）。磁化铁杆双来源：工作台红石粉 ×4 手工磁化（上游 `iron_magnetic_stick` 原配方，零电力兜底）/ **ULV 极化机**电力磁化（见 [ulv-polarizer.md](ulv-polarizer.md)）。
 > - v0.4（2026-09-09，所有者指示）：**电动活塞与机械臂提批进首批**（机械臂原候选池 C13）；上游构件清单补正——电动活塞亦注册于 `LV..UV`（F12 原清单漏列）。活塞为纯合成构件（上游活塞全层级无 cover 形态），机械臂以 cover 形态加入。
@@ -29,16 +31,17 @@
 
 | 项目 | 资源 ID | 中文名 | 英文名 |
 | --- | --- | --- | --- |
-| 构件物品 | `gregulvexpansion:ulv_electric_motor` | 超低压电动马达 | ULV Electric Motor |
-| cover 物品 | `gregulvexpansion:ulv_conveyor_module` | 超低压传送带模块 | ULV Conveyor Module |
-| cover 物品 | `gregulvexpansion:ulv_electric_pump` | 超低压电动泵 | ULV Electric Pump |
-| 构件物品 | `gregulvexpansion:ulv_electric_piston` | 超低压电动活塞 | ULV Electric Piston |
-| cover 物品 | `gregulvexpansion:ulv_robot_arm` | 超低压机械臂 | ULV Robot Arm |
-| cover 物品 | `gregulvexpansion:ulv_fluid_regulator` | 超低压流体调节器 | ULV Fluid Regulator |
+| 构件物品 | `gregulvexpansion:ulv_electric_motor` | `ULV` 电动马达 | ULV Electric Motor |
+| cover 物品 | `gregulvexpansion:ulv_conveyor_module` | `ULV` 传送带 | ULV Conveyor Module |
+| cover 物品 | `gregulvexpansion:ulv_electric_pump` | `ULV` 电动泵 | ULV Electric Pump |
+| 构件物品 | `gregulvexpansion:ulv_electric_piston` | `ULV` 电力活塞 | ULV Electric Piston |
+| cover 物品 | `gregulvexpansion:ulv_robot_arm` | `ULV` 机械臂 | ULV Robot Arm |
+| cover 物品 | `gregulvexpansion:ulv_fluid_regulator` | `ULV` 流体校准器 | ULV Fluid Regulator |
 
 - 覆盖板定义 ID 沿用上游层级命名规则：`gregulvexpansion:conveyor.ulv` / `pump.ulv` / `robot_arm.ulv`。
 - Java：`GULVItems.ULV_ELECTRIC_MOTOR / ULV_CONVEYOR_MODULE / ULV_ELECTRIC_PUMP / ULV_ELECTRIC_PISTON / ULV_ROBOT_ARM / ULV_FLUID_REGULATOR`；新注册中心 `GULVCovers`。
 - 构件物品不带 ElectricStats（与上游构件一致，速率由 cover 层级闭包决定，见上）。
+- 中文 `ULV` 使用上游层级灰色格式；传送带、泵、机械臂与流体校准器复用上游 Tooltip 翻译键，附加的传输速率仅代入 ULV 数值（2 件/t 或 16 mB/t）。
 - 标签：传送带/泵/机械臂/活塞/流体调节器分别加入上游全层级标签 `conveyor_modules` / `electric_pumps` / `robot_arms` / `electric_pistons` / `fluid_regulators`。
 
 ## 数值草案
@@ -56,14 +59,16 @@
 
 | 构件 | 材料 |
 | --- | --- |
-| 超低压电动马达 | 红合金单线 ×2 + 铜单线 ×4 + 铁杆 ×2 + 磁化铁杆 ×1（工作台，v0.6 上游图案 `CWR/WMW/RWC`；磁化铁杆 = 铁杆 + 红石粉 ×4 工作台，或极化机电力磁化） |
-| 超低压传送带模块 | 超低压电动马达 ×1 + 橡胶板 ×2 + 铁螺丝 ×2（工作台） |
-| 超低压电动泵 | 超低压电动马达 ×1 + 铁板 ×2 + 玻璃 ×2（工作台） |
-| 超低压电动活塞 | 超低压电动马达 ×1 + 锻铁板 ×3 + 红合金单线 ×2 + 锻铁杆 ×2 + 小青铜齿轮 ×1（工作台） |
-| 超低压机械臂 | 红合金单线 ×3 + 锻铁杆 ×2 + 超低压电动马达 ×2 + 超低压电动活塞 ×1 + 猫须探测器 ×1（工作台） |
-| 超低压流体调节器 | 超低压电动泵 ×1 + 猫须探测器 ×2 + 玻璃 ×3（工作台，v0.7 自设计——上游为装配机专属配方，按其材料清单下沉） |
+| 超低压电动马达 | 红合金单股线缆 ×2 + 铜单线 ×4 + 铁杆 ×2 + 磁化铁杆 ×1；工作台图案 `CWR/WMW/RWC`，另有同材料装配机配方（100 t，`VA[ULV]`） |
+| 超低压传送带模块 | 橡胶类板 ×6 + 超低压电动马达 ×2 + 红合金单股线缆 ×1；工作台图案 `RRR/MCM/RRR`。装配机以对应橡胶流体 864 mB 替代板，配置 1（100 t，`VA[ULV]`） |
+| 超低压电动泵 | 锡螺丝 ×1 + 锡转子 ×1 + 青铜普通流体管 ×1 + 橡胶类环 ×2 + 红合金单股线缆 ×1 + 马达 ×1；工作台图案 `SXR/dPw/RMC`，另有同材料装配机配方（100 t，`VA[ULV]`） |
+| 超低压电动活塞 | 超低压电动马达 ×1 + 锻铁板 ×3 + 红合金单股线缆 ×2 + 锻铁杆 ×2 + 小青铜齿轮 ×1；工作台图案 `PPP/CRR/CMG`，另有同材料装配机配方（100 t，`VA[ULV]`） |
+| 超低压机械臂 | 红合金单股线缆 ×3 + 锻铁杆 ×2 + 超低压电动马达 ×2 + 超低压电动活塞 ×1 + 猫须探测器 ×1；工作台图案 `CCC/MRM/PXR`，另有同材料装配机配方（100 t，`VA[ULV]`） |
+| 超低压流体调节器 | 超低压电动泵 ×1 + 猫须探测器 ×2；仅装配机，配置 1（400 t，`VA[ULV]`） |
 
-- 活塞/机械臂镜像上游 LV 工作台图案（`PPP/CRR/CMG`、`CCC/MRM/PXR`）下沉：钢→锻铁、锡线缆→红合金线、LV 电路→猫须探测器（D14 tier-0 电路件）；活塞小齿轮因锻铁无该形态取青铜（`GENERATE_SMALL_GEAR` 旗标核实，2026-09-09）。
+- 传送带与泵和上游一样支持橡胶、硅橡胶、丁苯橡胶三种材料；普通橡胶仍是最低门槛。
+- 所有上游线缆槽使用 `cableGtSingle`，ULV 对应红合金单股线缆；铜绕组仍使用 `wireGtSingle`。
+- 活塞/机械臂镜像上游 LV 工作台图案（`PPP/CRR/CMG`、`CCC/MRM/PXR`）下沉：钢→锻铁、锡线缆→红合金线缆、LV 电路→猫须探测器（D14 tier-0 电路件）；活塞小齿轮因锻铁无该形态取青铜（`GENERATE_SMALL_GEAR` 旗标核实，2026-09-09）。
 - 小铁齿轮为上游自带工作台配方（铁杆 ×2 + 铁板 ×1 + 锤/锉工具动作，PartsRecipeHandler），零电力可达。
 - 门槛自检：全部材料不需要任何电力机器（红合金线 = 铜+红石蒸汽合金炉，猫须探测器见 [ulv-circuit-line.md](ulv-circuit-line.md)），与手摇发电机构成「探测器 → 手摇 → 马达 → 活塞 → 机械臂」的零电力起步链。
 

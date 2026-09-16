@@ -354,7 +354,7 @@ def validateGeneratedResources = tasks.register('validateGeneratedResources') {
                 'models/block/machine/redstone_generator.json'          : 'gregulvexpansion:block/generators/redstone_generator/overlay_front',
                 'models/block/machine/lead_chamber.json'                 : 'gtceu:block/multiblock/large_chemical_reactor/overlay_front',
                 'models/block/machine/primitive_distillation_tower.json': 'gtceu:block/multiblock/distillation_tower/overlay_front',
-                'models/block/machine/primitive_cracker.json'           : 'gtceu:block/multiblock/pyrolyse_oven/overlay_front',
+                'models/block/machine/primitive_cracker.json'           : 'gtceu:block/multiblock/cracking_unit/overlay_front',
                 'models/block/machine/ulv_fluid_drilling_rig.json'      : 'gtceu:block/multiblock/fluid_drilling_rig/overlay_front'
         ]
         def generatedAssetRoot = file('src/generated/resources/assets/gregulvexpansion')

@@ -1,22 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
-    "G": {
-      "tag": "forge:glass"
+    "C": {
+      "item": "gtceu:red_alloy_single_cable"
     },
     "M": {
       "item": "gregulvexpansion:ulv_electric_motor"
     },
-    "P": {
-      "item": "gtceu:iron_plate"
+    "R": {
+      "item": "gtceu:silicone_rubber_plate"
     }
   },
   "matchSize": false,
   "pattern": [
-    "G G",
-    "PMP"
+    "RRR",
+    "MCM",
+    "RRR"
   ],
   "result": {
-    "item": "gregulvexpansion:ulv_electric_pump"
+    "item": "gregulvexpansion:ulv_conveyor_module"
   }
 }

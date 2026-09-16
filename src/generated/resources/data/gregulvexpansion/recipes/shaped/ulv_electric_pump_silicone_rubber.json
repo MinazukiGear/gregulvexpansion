@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "gtceu:red_alloy_single_cable"
+    },
+    "M": {
+      "item": "gregulvexpansion:ulv_electric_motor"
+    },
+    "P": {
+      "item": "gtceu:bronze_normal_fluid_pipe"
+    },
+    "R": {
+      "item": "gtceu:silicone_rubber_ring"
+    },
+    "S": {
+      "item": "gtceu:tin_screw"
+    },
+    "X": {
+      "item": "gtceu:tin_rotor"
+    },
+    "d": {
+      "tag": "gtceu:tools/crafting_screwdrivers"
+    },
+    "w": {
+      "tag": "gtceu:tools/crafting_wrenches"
+    }
+  },
+  "matchSize": false,
+  "pattern": [
+    "SXR",
+    "dPw",
+    "RMC"
+  ],
+  "result": {
+    "item": "gregulvexpansion:ulv_electric_pump"
+  }
+}

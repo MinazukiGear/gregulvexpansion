@@ -1,9 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
-    "C": {
-      "item": "gregulvexpansion:wood_crank"
-    },
     "D": {
       "item": "gregulvexpansion:cats_whisker_detector"
     },
@@ -19,7 +16,7 @@
   },
   "matchSize": false,
   "pattern": [
-    "WCW",
+    "W W",
     "IDI",
     "IHI"
   ],

@@ -1,4 +1,4 @@
-# 原型电解槽（Primitive Electrolyzer）设计规格
+# 原始电解机（Primitive Electrolyzer）设计规格
 
 > 状态：**已实现（v0.3.1，2026-09-08）** · 优先级：**P1（首位，B1 裁决：储能链前置）** · 类型：单方块 ULV 机器（独立配方类型，配方子集）
 >
@@ -6,7 +6,7 @@
 
 ## 定位
 
-原型电解槽是「电力化学的第一课」：用 8 EU/t 的电流做最基础、最安全的电解反应，让玩家在 LV 之前就理解电解的产物逻辑。
+原始电解机是「电力化学的第一课」：用 8 EU/t 的电流做最基础、最安全的电解反应，让玩家在 LV 之前就理解电解的产物逻辑。
 
 - 历史锚点：伏打电堆（1800 年）电解水是电化学的起点——水电解恰好是 ULV 电解的语义本体。
 - 配方子集策略：上游电解机最低 LV，其配方表普遍按 LV+ 标定（调研 F2）；本机**不运行上游配方**，而是维护一份显式收录的 ULV 配方集（新配方类型），每条都经人工列入。
@@ -22,7 +22,7 @@
 | 项目 | 值 |
 | --- | --- |
 | 资源 ID | `gregulvexpansion:primitive_electrolyzer` |
-| 中文名 | 原型电解槽 |
+| 中文名 | 原始电解机 |
 | 英文名 | Primitive Electrolyzer |
 | 机器类 | `com.hoshino.gregulvexpansion.machine.simple.PrimitiveElectrolyzerMachine`（基于 `SimpleTieredMachine`，tier 固定 ULV） |
 | 注册字段 | `GULVMachines.PRIMITIVE_ELECTROLYZER` |

@@ -8,8 +8,8 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * 原始裂化机 (primitive-distillation-tower.md v1.1)：无电多方块（5×3×3，
- * 仿上游裂化机结构原始化，蒸汽驱动），乙烯产量为上游裂化+蒸馏全链的 1/6。
+ * 原始裂化机：无电多方块（完整沿用上游裂化机的 5×3×3
+ * 机壳/燃烧室交错结构，蒸汽驱动），乙烯产量为上游裂化+蒸馏全链的 1/6。
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault

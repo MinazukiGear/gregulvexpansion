@@ -1,4 +1,4 @@
-# ULV 微型燃气轮机（ULV Micro Gas Turbine）设计规格
+# 原始燃气轮机（Primitive Gas Turbine Generator）设计规格
 
 > 状态：**已实现（v1.0，2026-09-09）** · 优先级：**P2** · 类型：单方块 ULV 发电机 + 流体燃料表
 >
@@ -21,7 +21,7 @@
 
 | 项目 | 资源 ID | 中文名 | 英文名 |
 | --- | --- | --- | --- |
-| 发电机 | `gregulvexpansion:ulv_gas_turbine` | 超低压微型燃气轮机 | ULV Micro Gas Turbine |
+| 发电机 | `gregulvexpansion:ulv_gas_turbine` | 原始燃气轮机 | Primitive Gas Turbine Generator |
 
 - 配方类型 `gregulvexpansion:ulv_gas_turbine`（GENERATOR 组，EUt 为负），Java：`GULVRecipeTypes.ULV_GAS_TURBINE_FUELS`；机器类 `ULVGasTurbineMachine`（`SimpleGeneratorMachine` 子类）。
 

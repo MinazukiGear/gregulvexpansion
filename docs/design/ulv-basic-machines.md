@@ -1,47 +1,53 @@
-# ULV 机器下沉（ULV 线材轧机 / 切割机 / 卷板机 / 车床 / 化学反应釜 / 流体固化器 / 流体提取机）设计规格
+# ULV 机器下沉（原始线材轧机 / 切割机 / 卷板机 / 车床 / 化学反应釜 / 流体固化器 / 提取机）设计规格
 
-> 状态：**已实现（v0.10，2026-09-09）；v0.5–v0.9 扩表增补卷板机/车床/化学反应釜/流体固化器/流体提取机（v0.6 挤出机增补后于 v0.6.2 删除）** · 优先级：**P1** · 类型：单方块 ULV 机器（上游机器的层级变体，配方子集）
+> 状态：**已实现（v0.11，2026-09-16）；v0.5–v0.9 扩表增补卷板机/车床/化学反应釜/流体固化器/流体提取机（v0.6 挤出机增补后于 v0.6.2 删除）** · 优先级：**P1** · 类型：单方块 ULV 机器（上游机器的层级变体，配方子集）
 >
-> 变更记录：v0.2 移除硒整流器前置，三机前置改为超低压电动马达。v0.3 依据首轮裁决：**超低压洗矿机砍除**（越级判定 A2，移入负面清单），本批收缩为两机；切割机锯片定为**锻铁**（D12）；能量缓存统一定为 **240 EU** 并抽共用常量（C3/C4）。**v0.3.1 实现期修订（2026-09-08）**：工作台配方收纳为 3×3（轧机铁板 4→3）；锯片落地为锻铁板（GTCEu 无独立锯片物品，锻铁板即锯片坯，D12 门槛意图不变）；轧机子集配方省略上游的编程电路（单一职能无档位歧义）；240 EU 缓存抽 `ULVSimpleMachine` 公共基类（与电解槽共享）。**v0.5 扩表（2026-09-08，所有者指示「增加能提升产能的单方块机器」）**：新增 **ULV 卷板机**与 **ULV 车床**，四机共用本文档约定（子集准入 / 240 EU / ×2 时长 / 终身不做 II 档）。**v0.6 扩表（2026-09-08，所有者指示「加入挤出机」）**：新增 **ULV 挤出机**，四机共用本文档约定。**v0.8 扩表（2026-09-08，所有者指示「加入化学反应釜和流体固化器」）**：新增 **ULV 化学反应釜**与 **ULV 流体固化器**，六机共用本文档约定。**v0.9 扩表（2026-09-08，所有者指示「加入流体提取机」，指电力版提取机）**：新增 **ULV 流体提取机**，七机共用本文档约定。~~v0.6 挤出机章节~~ → **v0.6.2 删除（2026-09-08，所有者指示「将挤出机删除」）**：车床「锭→杆+小撮粉」（32×mass EU）相对挤出机（84×mass EU + 需模具）具备能耗与副产双重优势，金属杆产线统一归车床；挤出模具链（空模具/各形状模具，工作台钢链可造）随之移除。**v0.10 获取配方改版（2026-09-09，所有者指示「按上游机器样式」）**：七机工作台配方整体重写为上游同型 LV 机器的配方图案，组件按上游 CraftingComponent tier-0 基准解析、电动构件由本模组 ULV 构件填补（见「合成草案」章节解析表）；切割机锯片随之由锻铁板改为上游 SAWBLADE 显式 ULV 条目青铜圆锯头（**D12 修订**：v0.3.1「GTCEu 无独立锯片物品」的前提不成立，实有 toolHeadBuzzSaw 且为工作台配方，门槛意图不变）；另修复轧机/卷板机旧配方图案字符 R 无键映射的损坏 JSON。
+> 变更记录：v0.2 移除硒整流器前置，三机前置改为超低压电动马达。v0.3 依据首轮裁决：**超低压洗矿机砍除**（越级判定 A2，移入负面清单），本批收缩为两机；切割机锯片定为**锻铁**（D12）；能量缓存统一定为 **240 EU** 并抽共用常量（C3/C4）。**v0.3.1 实现期修订（2026-09-08）**：工作台配方收纳为 3×3（轧机铁板 4→3）；锯片落地为锻铁板（GTCEu 无独立锯片物品，锻铁板即锯片坯，D12 门槛意图不变）；轧机子集配方省略上游的编程电路（单一职能无档位歧义）；240 EU 缓存抽 `ULVSimpleMachine` 公共基类（与电解槽共享）。**v0.5–v0.9** 依次加入卷板机、车床、化学反应釜、流体固化器与电力版提取机；中途加入的挤出机于 v0.6.2 删除。**v0.10（2026-09-09）**：七机工作台配方整体改为上游同型 LV 机器的图案，tier-0 电动构件由本模组 ULV 构件填补；切割机采用上游 SAWBLADE 的 ULV 青铜圆锯头。**v0.11（2026-09-16）**：全部单方块机器的显示名和 Tooltip 模板与上游保持一致，名称统一采用“原始”前缀，仅保留 ULV 电压、缓存、槽位容量等数值差异；补齐 EMI/JEI 配方分类汉化；化学反应釜完整收录聚乙烯与橡胶反应，流体固化器完整收录两种材料的可固化形态。
 
 ## 定位
 
-把上游 LV 机器中「语义上并不高压」的两种，以**显式配方子集**的方式下沉到 ULV，让微电网有活干，同时保住 LV 的升级诱惑。
+把上游 LV 机器中「语义上并不高压」的七种，以**显式配方子集**的方式下沉到 ULV，让微电网有活干，同时保住 LV 的升级诱惑。
 
-- 统一机制：两台机器全部使用**独立配方类型**（各自的新 RecipeMap），只收录本文档明确列入的配方；不挂上游配方表。
+- 统一机制：七台机器全部使用**独立配方类型**（各自的新 RecipeMap），只收录本文档明确列入的配方；不挂上游配方表。
 - 统一速度规则（v0.7 修订，对齐总纲 §6.1）：子集配方按**总能耗与上游一致**标定——功率上限 8 EU/t（EUt = 7），上游 EUt ≤ 8 者原样直录，超出者时长 = 上游总 EU ÷ 7。ULV = 慢速释放同额电力，LV = 快而全。
 - 统一外观：ULV 机壳 + 各自的工作贴图（`workableTieredHullModel`），与上游同型机器视觉血缘明显。
-- 统一能量缓存：**240 EU**（约 30 t 缓冲），与原型电解槽共用同一常量（C3/C4 裁决）。
+- 统一能量缓存：**240 EU**（约 30 t 缓冲），与原始电解机共用同一常量（C3/C4 裁决）。
 - 为什么是这两台：蒸汽时代没有对应物（调研 F10 已排除磨/炉/压/锻/合金/碎石），语义上又不需要高压（拉丝与切割靠机械力）；洗矿机因越级争议在首轮裁决中砍除（A2，见 [next-machine-candidates.md](next-machine-candidates.md) 负面清单）；电解槽单独成文（[primitive-electrolyzer.md](primitive-electrolyzer.md)）。
 
-## 注册与命名（两机共用约定）
+## 注册、命名与 Tooltip（七机共用约定）
 
 | 机器 | 资源 ID | 中文名 | 英文名 | 机器类（`machine.simple` 包） | 注册字段 |
 | --- | --- | --- | --- | --- | --- |
-| 拉丝 | `gregulvexpansion:ulv_wire_mill` | 超低压线材轧机 | ULV Wire Mill | `ULVWireMillMachine` | `GULVMachines.ULV_WIRE_MILL` |
-| 切割 | `gregulvexpansion:ulv_cutter` | 超低压切割机 | ULV Cutter | `ULVCutterMachine` | `GULVMachines.ULV_CUTTER` |
-| 卷板 | `gregulvexpansion:ulv_bender` | 超低压卷板机 | ULV Bender | `ULVBenderMachine` | `GULVMachines.ULV_BENDER` |
-| 车削 | `gregulvexpansion:ulv_lathe` | 超低压车床 | ULV Lathe | `ULVLatheMachine` | `GULVMachines.ULV_LATHE` |
+| 拉丝 | `gregulvexpansion:ulv_wire_mill` | 原始线材轧机 | Primitive Wiremill | `ULVWireMillMachine` | `GULVMachines.ULV_WIRE_MILL` |
+| 切割 | `gregulvexpansion:ulv_cutter` | 原始切割机 | Primitive Cutter | `ULVCutterMachine` | `GULVMachines.ULV_CUTTER` |
+| 卷板 | `gregulvexpansion:ulv_bender` | 原始卷板机 | Primitive Bender | `ULVBenderMachine` | `GULVMachines.ULV_BENDER` |
+| 车削 | `gregulvexpansion:ulv_lathe` | 原始车床 | Primitive Lathe | `ULVLatheMachine` | `GULVMachines.ULV_LATHE` |
+| 化学 | `gregulvexpansion:ulv_chemical_reactor` | 原始化学反应釜 | Primitive Chemical Reactor | `ULVChemicalReactorMachine` | `GULVMachines.ULV_CHEMICAL_REACTOR` |
+| 固化 | `gregulvexpansion:ulv_fluid_solidifier` | 原始流体固化器 | Primitive Fluid Solidifier | `ULVFluidSolidifierMachine` | `GULVMachines.ULV_FLUID_SOLIDIFIER` |
+| 提取 | `gregulvexpansion:ulv_fluid_extractor` | 原始提取机 | Primitive Extractor | `ULVFluidExtractorMachine` | `GULVMachines.ULV_FLUID_EXTRACTOR` |
 
-配方类型：`GULVRecipeTypes.ULV_WIRE_MILLING / ULV_CUTTING / ULV_BENDING / ULV_TURNING`（各新注册，group `ELECTRIC`）。
+配方类型：`GULVRecipeTypes.ULV_WIRE_MILLING / ULV_CUTTING / ULV_BENDING / ULV_TURNING / ULV_CHEMICAL_REACTING / ULV_FLUID_SOLIDFICATION / ULV_EXTRACTING`（各自注册于 `ELECTRIC` 分组）。EMI/JEI 分类名称使用独立翻译键并提供中英文文本。
+
+- 显示名使用上游 tier-0 机器命名模板（`Primitive <Machine>` / `原始<机器>`），不再使用“超低压<机器>”。
+- Tooltip 直接调用上游 `GTMachineUtils.workableTiered` 模板，配方类型、输入能力、电压、240 EU 缓存和槽位容量由本机参数代入。
 
 ## 各机配方子集
 
-### 超低压线材轧机
+### 原始线材轧机
 
 | 子集 | 收录 | 明确排除 |
 | --- | --- | --- |
 | **收录** | 常用金属板 → 线（红合金、铜、铁、锡、铅、锌等逐条列入），替代「剪线钳手工裁板」的手工线 | 合金线材需先有对应板材，规则同上游；线圈 16 线打包产物保持与上游一致 |
 | 语义 | 把「1 板 → 2 线」的手工苦役变成 8 EU/t 的慢速自动化，ULV 电线铺设量的产能保障 | 无 |
 
-### 超低压切割机
+### 原始切割机
 
 | 子集 | 收录 | 明确排除 |
 | --- | --- | --- |
 | **收录** | 板 → 杆/栓/齿轮坯等基础切割件（逐条列入，与上游同配方同产出、仅降档换算） | 晶圆、宝石切割等精密语义（MV+） |
 | 语义 | 早期自动化小件（齿轮、杆）的产能件，替代锻锤手工路线 | 无 |
 
-### 超低压卷板机（v0.5 新增，所有者指示「能提升产能的机器」）
+### 原始卷板机（v0.5 新增，所有者指示「能提升产能的机器」）
 
 | 子集 | 收录 | 明确排除 |
 | --- | --- | --- |
@@ -50,7 +56,7 @@
 
 - 上游同源：`bend_<m>_to_plate`（EUt 24，时长 mass）。换算（v0.7 耗能不变）：总 EU 24×mass 不变 → **EUt 7、时长 24×mass÷7**。编程电路省略（同轧机口径）。
 
-### 超低压车床（v0.5 新增）
+### 原始车床（v0.5 新增）
 
 | 子集 | 收录 | 明确排除 |
 | --- | --- | --- |
@@ -60,30 +66,37 @@
 - 上游同源（v0.7 耗能不变，原样直录）：`lathe_<m>_bolt_to_screw`（EUt 4，时长 mass/8）；`lathe_stripped_<wood>_log`（EUt 7，160 t）。上游配方本就是 ULV/LV 低功率档，功率与时长均不变。
 - ③ 锭→杆：上游 `lathe_<m>_to_rod`（PartsRecipeHandler.processRod，EUt 16、时长 mass×2）。**跟随上游 harderRods 配置**：true（默认）= 杆 ×1 + 小撮粉 ×2；false = 杆 ×2。换算（v0.7 耗能不变）：两形态总 EU 同为 32×mass → **EUt 7、时长 32×mass÷7**。此前记录「上游车床无金属杆配方」系调研遗漏，特此更正。（v0.6.2 删除挤出机后，**金属杆产线统一归本车床**。）
 
-### 超低压化学反应釜（v0.8 新增，所有者指示）
+### 原始化学反应釜（v0.8 新增，所有者指示）
 
 | 子集 | 输入 → 产出 | EUt | 时长 |
 | --- | --- | ---: | ---: |
 | 硫氧化 | 硫粉 ×1 + 氧 2,000 mB → 二氧化硫 1,000 mB | 7 | 60 |
 | 三氧化硫 | 二氧化硫 1,000 mB + 氧 1,000 mB → 三氧化硫 1,000 mB | 7 | 200 |
 | 成酸 | 三氧化硫 1,000 mB + 水 1,000 mB → 硫酸 1,000 mB | 7 | 160 |
+| 聚乙烯（空气） | 乙烯 144 mB + 空气 1,000 mB → 聚乙烯 144 mB | 7 | 686 |
+| 聚乙烯（氧气） | 乙烯 144 mB + 氧 1,000 mB → 聚乙烯 216 mB | 7 | 686 |
+| 生橡胶（空气） | 异戊二烯 144 mB + 空气 2,000 mB → 生橡胶粉 ×1 | 7 | 686 |
+| 生橡胶（氧气） | 异戊二烯 144 mB + 氧 2,000 mB → 生橡胶粉 ×3 | 7 | 686 |
+| 橡胶硫化 | 生橡胶粉 ×9 + 硫粉 ×1 → 橡胶 1,296 mB | 7 | 1,372 |
 
 - 上游同源：AcidRecipes.java 三条酸链配方（EUt VA[ULV]=7，原样直录，§6.1）。编程电路（circuit 2）省略——本机单一职能与硫粉进料无歧义。
 - **与铅室法的分工（关键边界）**：反应釜产酸快 4 倍（420 t vs 1,600 t / 1,000 mB）但需 3,000 mB 氧气——氧气只能来自水电解（ULV 电解槽，8 EU/t），实际产能被电解供氧与电力双重锁死；铅室无电无氧仍是起步首选，反应釜是「电气化提效」的第二级。
 - 硫化氢路线（EUt 30，LV 级别）不收录：H₂S 在 ULV 层无获取途径。
 
-### 超低压流体固化器（v0.8 新增，所有者指示）
+### 原始流体固化器（v0.8 新增，所有者指示）
 
 | 子集 | 输入 → 产出 | EUt | 时长 |
 | --- | --- | ---: | ---: |
 | 雪球 | 水 250 mB + 球模具 → 雪球 ×1 | 4 | 128 |
 | 雪块 | 水 1,000 mB + 块模具 → 雪块 ×1 | 4 | 512 |
 | 黑曜石 | 岩浆 1,000 mB + 块模具 → 黑曜石 ×1 | 7 | 2,341 |
+| 聚乙烯/橡胶基础形态 | 对应流体 + 锭/粒/块/板模具 → 对应材料形态 | 7 | 跟随上游 |
+| 聚乙烯流体管 | 聚乙烯流体 + 微型/小型/普通/大型/巨型流体管模具 → 对应流体管 | 6 | 跟随上游 |
 
 - 上游同源（VanillaStandardRecipes/MachineRecipeLoader）：雪球（EUt 4/128t）、雪块（EUt 4/512t）原样直录；黑曜石（EUt 16、1,024t，总 EU 16,384）→ **EUt 7、时长 2,341 t**（v0.7 耗能不变）。
 - 模具（球/块）不消耗，工作台钢链可造。玻璃瓶（需玻璃流体，ULV 无稳定来源）不收录。
 
-### 超低压流体提取机（v0.9 新增，所有者指示，指电力版提取机）
+### 原始提取机（v0.9 新增，所有者指示，指电力版提取机）
 
 | 子集 | 输入 → 产出 | EUt | 时长 |
 | --- | --- | ---: | ---: |
@@ -149,7 +162,7 @@ tier-0 组件解析表：
 
 ## 实现要点（API 映射）
 
-- 两机均为 `SimpleTieredMachine` + `tier(GTValues.ULV)` + 各自 `GTRecipeType`；GUI 沿用上游可编辑 UI 模板。
+- 七机均为 `SimpleTieredMachine` + `tier(GTValues.ULV)` + 各自 `GTRecipeType`；GUI、名称与 Tooltip 均沿用上游模板，仅代入本机数值。
 - 子集配方的数据生成器中逐条注释对应的上游配方 ID，保证换算可审计。
 
 ## 开放问题
