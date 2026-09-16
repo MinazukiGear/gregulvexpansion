@@ -16,6 +16,15 @@ java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
+sourceSets {
+    gameTest {
+        java.setSrcDirs(['src/gametest/java'])
+        resources.setSrcDirs(['src/gametest/resources'])
+        compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath = sourceSets.main.runtimeClasspath + output
+    }
+}
+
 minecraft {
     mappings channel: mapping_channel, version: mapping_version
     copyIdeResources = true
@@ -48,6 +57,12 @@ minecraft {
         }
 
         gameTestServer {
+            workingDirectory project.file('build/gametest')
+            mods {
+                "${mod_id}" {
+                    source sourceSets.gameTest
+                }
+            }
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
@@ -412,4 +427,27 @@ def verifyReleaseJar = tasks.register('verifyReleaseJar') {
 
 tasks.named('check').configure {
     dependsOn validateGeneratedResources, verifyReleaseJar
+}
+
+// Forge can exit successfully when no tests were discovered. Make the Gradle
+// task prove that this addon's required GameTests actually ran and passed.
+tasks.matching { it.name == 'runGameTestServer' }.configureEach { gameTestTask ->
+    doFirst {
+        gameTestTask.ext.gameplayStartedAt = System.currentTimeMillis()
+    }
+    doLast {
+        def log = file('build/gametest/logs/latest.log')
+        def body = log.isFile() ? log.getText('UTF-8') : ''
+        if (!log.isFile() || log.lastModified() < gameTestTask.ext.gameplayStartedAt ||
+                !(body =~ /[1-9][0-9]* GAME TESTS COMPLETE/) ||
+                !(body =~ /All [1-9][0-9]* required tests passed/)) {
+            throw new GradleException(
+                    'GameTest did not complete successfully; inspect build/gametest/logs/latest.log')
+        }
+        def report = file('build/reports/gametest.txt')
+        report.parentFile.mkdirs()
+        report.setText(body.readLines().findAll {
+            it.contains('GAME TESTS COMPLETE') || it.contains('required tests passed')
+        }.join('\n') + '\n', 'UTF-8')
+    }
 }

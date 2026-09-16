@@ -24,6 +24,8 @@ import com.hoshino.gregulvexpansion.GregULVExpansion;
  * 先于 GTItems.init 与 initializeAddon)，物品侧引用本类字段安全。
  */
 public final class GULVCovers {
+    /** The upstream tier formula truncates 4^-1 before multiplying at ULV, so use the intended value directly. */
+    public static final int ULV_FLUID_TRANSFER_RATE = 16;
     /** 超低压传送带覆盖板 gregulvexpansion:conveyor.ulv — 2 件/t。 */
     public static CoverDefinition CONVEYOR_ULV;
     /** 超低压电动泵覆盖板 gregulvexpansion:pump.ulv — 16 mB/t。 */
@@ -49,7 +51,8 @@ public final class GULVCovers {
         PUMP_ULV = GTCovers.register(
                 GregULVExpansion.id("pump.ulv"),
                 (definition, coverable, attachedSide) ->
-                        new PumpCover(definition, coverable, attachedSide, GTValues.ULV),
+                        new PumpCover(definition, coverable, attachedSide, GTValues.ULV,
+                                ULV_FLUID_TRANSFER_RATE),
                 // 上游泵全层级共用常量渲染器
                 () -> () -> IOCoverRenderer.PUMP_LIKE_COVER_RENDERER);
         // 机械臂为 ConveyorCover 子类，速率同样取 CONVEYOR_SCALING：tier 0 → 2 件/周期。
@@ -68,7 +71,8 @@ public final class GULVCovers {
         FLUID_REGULATOR_ULV = GTCovers.register(
                 GregULVExpansion.id("fluid_regulator.ulv"),
                 (definition, coverable, attachedSide) ->
-                        new FluidRegulatorCover(definition, coverable, attachedSide, GTValues.ULV),
+                        new FluidRegulatorCover(definition, coverable, attachedSide, GTValues.ULV,
+                                ULV_FLUID_TRANSFER_RATE),
                 // 上游 FLUID_REGULATORS 全层级共用泵族常量渲染器
                 () -> () -> IOCoverRenderer.PUMP_LIKE_COVER_RENDERER);
     }
