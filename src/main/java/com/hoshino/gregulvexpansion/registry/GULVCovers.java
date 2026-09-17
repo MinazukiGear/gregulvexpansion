@@ -24,6 +24,8 @@ import com.hoshino.gregulvexpansion.GregULVExpansion;
  * 先于 GTItems.init 与 initializeAddon)，物品侧引用本类字段安全。
  */
 public final class GULVCovers {
+    /** ULV 传送带与机械臂的物品传输速率。 */
+    public static final int ULV_ITEM_TRANSFER_RATE = 2;
     /** The upstream tier formula truncates 4^-1 before multiplying at ULV, so use the intended value directly. */
     public static final int ULV_FLUID_TRANSFER_RATE = 16;
     /** 超低压传送带覆盖板 gregulvexpansion:conveyor.ulv — 2 件/t。 */

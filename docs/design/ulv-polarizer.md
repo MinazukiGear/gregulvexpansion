@@ -22,7 +22,7 @@
 | --- | --- | --- | --- |
 | 机器 | `gregulvexpansion:ulv_polarizer` | 原始两极磁化机 | Primitive Polarizer |
 
-- 配方类型 `gregulvexpansion:ulv_polarizing`（ELECTRIC 组），Java：`GULVRecipeTypes.ULV_POLARIZING`；机器类 `ULVPolarizerMachine`（`ULVSimpleMachine` 子类）。
+- 配方类型 `gregulvexpansion:ulv_polarizing`（ELECTRIC 组），Java：`GULVRecipeTypes.ULV_POLARIZING`；机器实现复用 `ULVSimpleMachine`。
 
 ## 数值草案
 
@@ -59,7 +59,7 @@
 
 ## 实现要点（API 映射）
 
-- `ULVPolarizerMachine extends ULVSimpleMachine`，`recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)`，240 EU 缓存（C3/C4 公共基类自带）。
+- `ULVSimpleMachine` 配合 `recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)`，提供 240 EU 缓存（C3/C4 公共实现自带）。
 - 配方类型 1 进 1 出，进度条 `PROGRESS_BAR_MAGNET`、音效 `ARC`（镜像上游极化机）。
 - 配方经 `addRecipes` 运行时注入；获取配方走 datagen（上游样式）。
 - 模型 `workableTieredHullModel(block/machines/ulv_polarizer)`。

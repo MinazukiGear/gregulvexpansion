@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
-import com.hoshino.gregulvexpansion.data.GULVItemModels;
 import com.hoshino.gregulvexpansion.data.GULVRecipes;
 import com.hoshino.gregulvexpansion.registry.GULVMachines;
 import com.hoshino.gregulvexpansion.registry.GULVMaterials;
@@ -32,7 +31,6 @@ public final class GregULVExpansion {
         GULVRegistration.REGISTRATE.registerEventListeners(modEventBus);
         GULVRegistration.REGISTRATE.creativeModeTab(GTCreativeModeTabs.MACHINE);
         GULVRegistration.REGISTRATE.addDataGenerator(ProviderType.RECIPE, GULVRecipes::init);
-        GULVRegistration.REGISTRATE.addDataGenerator(ProviderType.ITEM_MODEL, GULVItemModels::init);
         // GTCEu 注册阶段钩子（时序见 CommonProxy：covers → 配方类型 → 机器 → 物品 → 材料）
         modEventBus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         modEventBus.addGenericListener(MachineDefinition.class, this::registerMachines);

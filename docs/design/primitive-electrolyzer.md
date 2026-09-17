@@ -24,7 +24,7 @@
 | 资源 ID | `gregulvexpansion:primitive_electrolyzer` |
 | 中文名 | 原始电解机 |
 | 英文名 | Primitive Electrolyzer |
-| 机器类 | `com.hoshino.gregulvexpansion.machine.simple.PrimitiveElectrolyzerMachine`（基于 `SimpleTieredMachine`，tier 固定 ULV） |
+| 机器类 | `com.hoshino.gregulvexpansion.machine.simple.ULVSimpleMachine`（基于 `SimpleTieredMachine`，tier 固定 ULV） |
 | 注册字段 | `GULVMachines.PRIMITIVE_ELECTROLYZER` |
 | 配方类型 | `GULVRecipeTypes.PRIMITIVE_ELECTROLYSIS`（新注册，group `ELECTRIC`，JEI 独立分页） |
 

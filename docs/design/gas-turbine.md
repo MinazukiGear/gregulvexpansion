@@ -23,7 +23,7 @@
 | --- | --- | --- | --- |
 | 发电机 | `gregulvexpansion:ulv_gas_turbine` | 原始燃气轮机 | Primitive Gas Turbine Generator |
 
-- 配方类型 `gregulvexpansion:ulv_gas_turbine`（GENERATOR 组，EUt 为负），Java：`GULVRecipeTypes.ULV_GAS_TURBINE_FUELS`；机器类 `ULVGasTurbineMachine`（`SimpleGeneratorMachine` 子类）。
+- 配方类型 `gregulvexpansion:ulv_gas_turbine`（GENERATOR 组，EUt 为负），Java：`GULVRecipeTypes.ULV_GAS_TURBINE_FUELS`；机器实现直接复用 `SimpleGeneratorMachine`。
 
 ## 数值草案
 
@@ -54,7 +54,7 @@
 
 ## 实现要点（API 映射）
 
-- `ULVGasTurbineMachine extends SimpleGeneratorMachine`（同红石发电机骨架），`recipeModifier(SimpleGeneratorMachine::recipeModifier)`，物品/流体输出位上限 0。
+- `SimpleGeneratorMachine` 与红石发电机共用注册骨架，`recipeModifier(SimpleGeneratorMachine::recipeModifier)`，物品/流体输出位上限 0。
 - 燃料配方经 `addRecipes` 运行时注入（GT 配方图，同红石燃料表手法）。
 - 模型直接复用上游 `workableTieredHullModel(gtceu:block/generators/gas_turbine)`，由 ULV 机壳表达电压等级并保持 GTCEu 原生视觉。
 

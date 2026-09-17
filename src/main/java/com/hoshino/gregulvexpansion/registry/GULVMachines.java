@@ -6,30 +6,23 @@ import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.hoshino.gregulvexpansion.GregULVExpansion;
 import com.hoshino.gregulvexpansion.machine.generator.HandCrankDynamoMachine;
-import com.hoshino.gregulvexpansion.machine.generator.ULVGasTurbineMachine;
-import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
-import com.hoshino.gregulvexpansion.machine.generator.RedstoneGeneratorMachine;
 import com.hoshino.gregulvexpansion.machine.generator.ThermoelectricGeneratorMachine;
-import com.hoshino.gregulvexpansion.machine.simple.PrimitiveElectrolyzerMachine;
-import com.hoshino.gregulvexpansion.machine.simple.ULVBenderMachine;
-import com.hoshino.gregulvexpansion.machine.simple.ULVChemicalReactorMachine;
-import com.hoshino.gregulvexpansion.machine.simple.ULVCutterMachine;
-import com.hoshino.gregulvexpansion.machine.simple.ULVFluidExtractorMachine;
-import com.hoshino.gregulvexpansion.machine.simple.ULVFluidSolidifierMachine;
-import com.hoshino.gregulvexpansion.machine.simple.ULVLatheMachine;
-import com.hoshino.gregulvexpansion.machine.simple.ULVPolarizerMachine;
 import com.hoshino.gregulvexpansion.machine.simple.ULVSimpleMachine;
-import com.hoshino.gregulvexpansion.machine.simple.ULVWireMillMachine;
 import com.hoshino.gregulvexpansion.machine.storage.LeadAcidBatteryWallMachine;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidType;
+
+import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 
 /**
  * 本模组机器注册 (总纲 §7：独有机制机器不带层级前缀)。
@@ -54,20 +47,8 @@ public final class GULVMachines {
      * 原型电解槽 — 电力化学的第一课，P1 首位 (B1: 储能链前置)。
      * 仅运行 {@link GULVRecipeTypes#PRIMITIVE_ELECTROLYSIS} 白名单表内反应。
      */
-    public static final MachineDefinition PRIMITIVE_ELECTROLYZER = GULVRegistration.REGISTRATE
-            .machine("primitive_electrolyzer",
-                    holder -> new PrimitiveElectrolyzerMachine(holder, GTValues.ULV,
-                            GTMachineUtils.defaultTankSizeFunction))
-            .tier(GTValues.ULV)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GULVRecipeTypes.PRIMITIVE_ELECTROLYSIS)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
-            .langValue(simpleMachineName("Electrolyzer"))
-            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
-                    GregULVExpansion.id("primitive_electrolyzer"), GULVRecipeTypes.PRIMITIVE_ELECTROLYSIS))
-            .workableTieredHullModel(GTCEu.id("block/machines/electrolyzer"))
-            .tooltips(workableTooltip(GULVRecipeTypes.PRIMITIVE_ELECTROLYSIS, true))
-            .register();
+    public static final MachineDefinition PRIMITIVE_ELECTROLYZER = registerUlvSimpleMachine(
+            "primitive_electrolyzer", "Electrolyzer", GULVRecipeTypes.PRIMITIVE_ELECTROLYSIS, "electrolyzer");
 
     /**
      * 铅酸蓄电墙 — 自含 24,000 EU 储能方块，六面接线 1A 进出（D8/D10），
@@ -104,139 +85,40 @@ public final class GULVMachines {
             .register();
 
     /** 超低压线材轧机 — 金属锭→单线子集下沉（P1, ulv-basic-machines.md）。 */
-    public static final MachineDefinition ULV_WIRE_MILL = GULVRegistration.REGISTRATE
-            .machine("ulv_wire_mill",
-                    holder -> new ULVWireMillMachine(holder, GTValues.ULV,
-                            GTMachineUtils.defaultTankSizeFunction))
-            .tier(GTValues.ULV)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GULVRecipeTypes.ULV_WIRE_MILLING)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
-            .langValue(simpleMachineName("Wiremill"))
-            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
-                    GregULVExpansion.id("ulv_wire_mill"), GULVRecipeTypes.ULV_WIRE_MILLING))
-            .workableTieredHullModel(GTCEu.id("block/machines/wiremill"))
-            .tooltips(workableTooltip(GULVRecipeTypes.ULV_WIRE_MILLING, true))
-            .register();
+    public static final MachineDefinition ULV_WIRE_MILL = registerUlvSimpleMachine(
+            "ulv_wire_mill", "Wiremill", GULVRecipeTypes.ULV_WIRE_MILLING, "wiremill");
 
     /** 原始切割机 — 基础切割件子集下沉，配方使用 ULV 青铜圆锯头（P1, D12）。 */
-    public static final MachineDefinition ULV_CUTTER = GULVRegistration.REGISTRATE
-            .machine("ulv_cutter",
-                    holder -> new ULVCutterMachine(holder, GTValues.ULV,
-                            GTMachineUtils.defaultTankSizeFunction))
-            .tier(GTValues.ULV)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GULVRecipeTypes.ULV_CUTTING)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
-            .langValue(simpleMachineName("Cutter"))
-            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
-                    GregULVExpansion.id("ulv_cutter"), GULVRecipeTypes.ULV_CUTTING))
-            .workableTieredHullModel(GTCEu.id("block/machines/cutter"))
-            .tooltips(workableTooltip(GULVRecipeTypes.ULV_CUTTING, true))
-            .register();
+    public static final MachineDefinition ULV_CUTTER = registerUlvSimpleMachine(
+            "ulv_cutter", "Cutter", GULVRecipeTypes.ULV_CUTTING, "cutter");
 
     /**
      * 红石发电机 — 可堆叠燃料电（P2, redstone-generator.md，C6 基准联动）。
      * 单台恒定 8 EU/t，只烧红石系燃料；堆台数是唯一扩容方式。
      */
-    public static final MachineDefinition REDSTONE_GENERATOR = GULVRegistration.REGISTRATE
-            .machine("redstone_generator",
-                    holder -> new RedstoneGeneratorMachine(holder, GTValues.ULV,
-                            GTMachineUtils.defaultTankSizeFunction))
-            .tier(GTValues.ULV)
-            .rotationState(RotationState.ALL)
-            .recipeType(GULVRecipeTypes.REDSTONE_GENERATOR_FUELS)
-            .recipeModifier(SimpleGeneratorMachine::recipeModifier, true)
-            .addOutputLimit(ItemRecipeCapability.CAP, 0)
-            .addOutputLimit(FluidRecipeCapability.CAP, 0)
-            .langValue(generatorName("Redstone"))
-            .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(
-                    GregULVExpansion.id("redstone_generator"), GULVRecipeTypes.REDSTONE_GENERATOR_FUELS))
-            .workableTieredHullModel(GregULVExpansion.id("block/generators/redstone_generator"))
-            .tooltips(GTMachineUtils.workableTiered(GTValues.ULV, GTValues.V[GTValues.ULV],
-                    GTValues.V[GTValues.ULV] * 64, GULVRecipeTypes.REDSTONE_GENERATOR_FUELS,
-                    GTMachineUtils.defaultTankSizeFunction.applyAsInt(GTValues.ULV), false))
-            .register();
+    public static final MachineDefinition REDSTONE_GENERATOR = registerUlvGenerator(
+            "redstone_generator", "Redstone", GULVRecipeTypes.REDSTONE_GENERATOR_FUELS,
+            GregULVExpansion.id("block/generators/redstone_generator"), GTMachineUtils.defaultTankSizeFunction);
 
     /** 超低压卷板机 — 锭→板 1:1，对比锻锤 0.67 板/锭 +50% 产能（v0.5）。 */
-    public static final MachineDefinition ULV_BENDER = GULVRegistration.REGISTRATE
-            .machine("ulv_bender",
-                    holder -> new ULVBenderMachine(holder, GTValues.ULV,
-                            GTMachineUtils.defaultTankSizeFunction))
-            .tier(GTValues.ULV)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GULVRecipeTypes.ULV_BENDING)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
-            .langValue(simpleMachineName("Bender"))
-            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
-                    GregULVExpansion.id("ulv_bender"), GULVRecipeTypes.ULV_BENDING))
-            .workableTieredHullModel(GTCEu.id("block/machines/bender"))
-            .tooltips(workableTooltip(GULVRecipeTypes.ULV_BENDING, true))
-            .register();
+    public static final MachineDefinition ULV_BENDER = registerUlvSimpleMachine(
+            "ulv_bender", "Bender", GULVRecipeTypes.ULV_BENDING, "bender");
 
     /** 超低压车床 — 螺栓→螺丝自动化与木材链（剥皮原木→长木杆），（v0.5）。 */
-    public static final MachineDefinition ULV_LATHE = GULVRegistration.REGISTRATE
-            .machine("ulv_lathe",
-                    holder -> new ULVLatheMachine(holder, GTValues.ULV,
-                            GTMachineUtils.defaultTankSizeFunction))
-            .tier(GTValues.ULV)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GULVRecipeTypes.ULV_TURNING)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
-            .langValue(simpleMachineName("Lathe"))
-            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
-                    GregULVExpansion.id("ulv_lathe"), GULVRecipeTypes.ULV_TURNING))
-            .workableTieredHullModel(GTCEu.id("block/machines/lathe"))
-            .tooltips(workableTooltip(GULVRecipeTypes.ULV_TURNING, true))
-            .register();
+    public static final MachineDefinition ULV_LATHE = registerUlvSimpleMachine(
+            "ulv_lathe", "Lathe", GULVRecipeTypes.ULV_TURNING, "lathe");
 
     /** 原始化学反应釜 — 酸链、石油脱硫、聚乙烯与橡胶反应子集（v0.11）。 */
-    public static final MachineDefinition ULV_CHEMICAL_REACTOR = GULVRegistration.REGISTRATE
-            .machine("ulv_chemical_reactor",
-                    holder -> new ULVChemicalReactorMachine(holder, GTValues.ULV,
-                            GTMachineUtils.defaultTankSizeFunction))
-            .tier(GTValues.ULV)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GULVRecipeTypes.ULV_CHEMICAL_REACTING)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
-            .langValue(simpleMachineName("Chemical Reactor"))
-            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
-                    GregULVExpansion.id("ulv_chemical_reactor"), GULVRecipeTypes.ULV_CHEMICAL_REACTING))
-            .workableTieredHullModel(GTCEu.id("block/machines/chemical_reactor"))
-            .tooltips(workableTooltip(GULVRecipeTypes.ULV_CHEMICAL_REACTING, true))
-            .register();
+    public static final MachineDefinition ULV_CHEMICAL_REACTOR = registerUlvSimpleMachine(
+            "ulv_chemical_reactor", "Chemical Reactor", GULVRecipeTypes.ULV_CHEMICAL_REACTING, "chemical_reactor");
 
     /** 原始流体固化器 — 水、岩浆、聚乙烯与橡胶的模具固化子集（v0.11）。 */
-    public static final MachineDefinition ULV_FLUID_SOLIDIFIER = GULVRegistration.REGISTRATE
-            .machine("ulv_fluid_solidifier",
-                    holder -> new ULVFluidSolidifierMachine(holder, GTValues.ULV,
-                            GTMachineUtils.defaultTankSizeFunction))
-            .tier(GTValues.ULV)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GULVRecipeTypes.ULV_FLUID_SOLIDFICATION)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
-            .langValue(simpleMachineName("Fluid Solidifier"))
-            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
-                    GregULVExpansion.id("ulv_fluid_solidifier"), GULVRecipeTypes.ULV_FLUID_SOLIDFICATION))
-            .workableTieredHullModel(GTCEu.id("block/machines/fluid_solidifier"))
-            .tooltips(workableTooltip(GULVRecipeTypes.ULV_FLUID_SOLIDFICATION, true))
-            .register();
+    public static final MachineDefinition ULV_FLUID_SOLIDIFIER = registerUlvSimpleMachine(
+            "ulv_fluid_solidifier", "Fluid Solidifier", GULVRecipeTypes.ULV_FLUID_SOLIDFICATION, "fluid_solidifier");
 
     /** 超低压流体提取机 — 橡胶链子集（树脂/橡胶树部件→生橡胶粉），电力版（v0.9）。 */
-    public static final MachineDefinition ULV_FLUID_EXTRACTOR = GULVRegistration.REGISTRATE
-            .machine("ulv_fluid_extractor",
-                    holder -> new ULVFluidExtractorMachine(holder, GTValues.ULV,
-                            GTMachineUtils.defaultTankSizeFunction))
-            .tier(GTValues.ULV)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GULVRecipeTypes.ULV_EXTRACTING)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
-            .langValue(simpleMachineName("Extractor"))
-            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
-                    GregULVExpansion.id("ulv_fluid_extractor"), GULVRecipeTypes.ULV_EXTRACTING))
-            .workableTieredHullModel(GTCEu.id("block/machines/extractor"))
-            .tooltips(workableTooltip(GULVRecipeTypes.ULV_EXTRACTING, true))
-            .register();
+    public static final MachineDefinition ULV_FLUID_EXTRACTOR = registerUlvSimpleMachine(
+            "ulv_fluid_extractor", "Extractor", GULVRecipeTypes.ULV_EXTRACTING, "extractor");
 
     /**
      * 超低压微型燃气轮机 — 气体燃料电（P2, gas-turbine.md）。
@@ -244,40 +126,52 @@ public final class GULVMachines {
      * 恒定 8 EU/t · 1 A；闭合石油线天然气/含硫气体/甲烷死端。罐容 4,000 mB 定容
      * （上游 genericGeneratorTankSizeFunction 在 tier 0 会算出负值，故自定义）。
      */
-    public static final MachineDefinition ULV_GAS_TURBINE = GULVRegistration.REGISTRATE
-            .machine("ulv_gas_turbine",
-                    holder -> new ULVGasTurbineMachine(holder, GTValues.ULV,
-                            tier -> 4 * FluidType.BUCKET_VOLUME))
-            .tier(GTValues.ULV)
-            .rotationState(RotationState.ALL)
-            .recipeType(GULVRecipeTypes.ULV_GAS_TURBINE_FUELS)
-            .recipeModifier(SimpleGeneratorMachine::recipeModifier, true)
-            .addOutputLimit(ItemRecipeCapability.CAP, 0)
-            .addOutputLimit(FluidRecipeCapability.CAP, 0)
-            .langValue(generatorName("Gas Turbine"))
-            .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(
-                    GregULVExpansion.id("ulv_gas_turbine"), GULVRecipeTypes.ULV_GAS_TURBINE_FUELS))
-            .workableTieredHullModel(GTCEu.id("block/generators/gas_turbine"))
-            .tooltips(GTMachineUtils.workableTiered(GTValues.ULV, GTValues.V[GTValues.ULV],
-                    GTValues.V[GTValues.ULV] * 64, GULVRecipeTypes.ULV_GAS_TURBINE_FUELS,
-                    4 * FluidType.BUCKET_VOLUME, false))
-            .register();
+    public static final MachineDefinition ULV_GAS_TURBINE = registerUlvGenerator(
+            "ulv_gas_turbine", "Gas Turbine", GULVRecipeTypes.ULV_GAS_TURBINE_FUELS,
+            GTCEu.id("block/generators/gas_turbine"), tier -> 4 * FluidType.BUCKET_VOLUME);
 
     /** 超低压极化机 — 磁化铁杆电力磁化，双路线的自动化侧（P2, ulv-polarizer.md；马达 v0.5）。 */
-    public static final MachineDefinition ULV_POLARIZER = GULVRegistration.REGISTRATE
-            .machine("ulv_polarizer",
-                    holder -> new ULVPolarizerMachine(holder, GTValues.ULV,
-                            GTMachineUtils.defaultTankSizeFunction))
-            .tier(GTValues.ULV)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GULVRecipeTypes.ULV_POLARIZING)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
-            .langValue(simpleMachineName("Polarizer"))
-            .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
-                    GregULVExpansion.id("ulv_polarizer"), GULVRecipeTypes.ULV_POLARIZING))
-            .workableTieredHullModel(GTCEu.id("block/machines/polarizer"))
-            .tooltips(workableTooltip(GULVRecipeTypes.ULV_POLARIZING, true))
-            .register();
+    public static final MachineDefinition ULV_POLARIZER = registerUlvSimpleMachine(
+            "ulv_polarizer", "Polarizer", GULVRecipeTypes.ULV_POLARIZING, "polarizer");
+
+    private static MachineDefinition registerUlvSimpleMachine(String id, String name,
+                                                              GTRecipeType recipeType, String model) {
+        return GULVRegistration.REGISTRATE
+                .machine(id, holder -> new ULVSimpleMachine(holder, GTValues.ULV,
+                        GTMachineUtils.defaultTankSizeFunction))
+                .tier(GTValues.ULV)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeType(recipeType)
+                .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+                .langValue(simpleMachineName(name))
+                .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
+                        GregULVExpansion.id(id), recipeType))
+                .workableTieredHullModel(GTCEu.id("block/machines/" + model))
+                .tooltips(workableTooltip(recipeType))
+                .register();
+    }
+
+    private static MachineDefinition registerUlvGenerator(String id, String name,
+                                                           GTRecipeType recipeType, ResourceLocation model,
+                                                           Int2IntFunction tankScalingFunction) {
+        return GULVRegistration.REGISTRATE
+                .machine(id, holder -> new SimpleGeneratorMachine(holder, GTValues.ULV, 0.0f,
+                        tankScalingFunction))
+                .tier(GTValues.ULV)
+                .rotationState(RotationState.ALL)
+                .recipeType(recipeType)
+                .recipeModifier(SimpleGeneratorMachine::recipeModifier, true)
+                .addOutputLimit(ItemRecipeCapability.CAP, 0)
+                .addOutputLimit(FluidRecipeCapability.CAP, 0)
+                .langValue(generatorName(name))
+                .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(
+                        GregULVExpansion.id(id), recipeType))
+                .workableTieredHullModel(model)
+                .tooltips(GTMachineUtils.workableTiered(GTValues.ULV, GTValues.V[GTValues.ULV],
+                        GTValues.V[GTValues.ULV] * 64, recipeType,
+                        tankScalingFunction.applyAsInt(GTValues.ULV), false))
+                .register();
+    }
 
     private static String simpleMachineName(String name) {
         return "%s %s %s".formatted(GTValues.VLVH[GTValues.ULV], name, GTValues.VLVT[GTValues.ULV]);
@@ -288,11 +182,10 @@ public final class GULVMachines {
                 GTValues.VLVH[GTValues.ULV], name, GTValues.VLVT[GTValues.ULV]);
     }
 
-    private static Component[] workableTooltip(com.gregtechceu.gtceu.api.recipe.GTRecipeType recipeType,
-                                                boolean input) {
+    private static Component[] workableTooltip(GTRecipeType recipeType) {
         return GTMachineUtils.workableTiered(GTValues.ULV, GTValues.V[GTValues.ULV],
                 ULVSimpleMachine.ENERGY_CAPACITY, recipeType,
-                GTMachineUtils.defaultTankSizeFunction.applyAsInt(GTValues.ULV), input);
+                GTMachineUtils.defaultTankSizeFunction.applyAsInt(GTValues.ULV), true);
     }
 
     private static Component voltageOut(long voltage) {

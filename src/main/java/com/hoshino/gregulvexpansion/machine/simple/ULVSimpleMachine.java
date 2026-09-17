@@ -13,7 +13,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 
 /**
- * 本模组 ULV 用电机器公共基类。
+ * 本模组 ULV 用电机器公共实现。
  *
  * <p>与上游 {@link SimpleTieredMachine} 唯一差异：能量缓存收窄为
  * **240 EU**（约 30 t 缓冲，C3/C4 已裁决，原型电解槽 / ULV 线材轧机 /
@@ -22,12 +22,12 @@ import it.unimi.dsi.fastutil.ints.Int2IntFunction;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public abstract class ULVSimpleMachine extends SimpleTieredMachine {
+public class ULVSimpleMachine extends SimpleTieredMachine {
 
     /** 能量缓存 EU（C3/C4 已裁决；本模组 ULV 用电机器统一口径）。 */
     public static final long ENERGY_CAPACITY = 240;
 
-    protected ULVSimpleMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction) {
+    public ULVSimpleMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction) {
         super(holder, tier, tankScalingFunction);
     }
 

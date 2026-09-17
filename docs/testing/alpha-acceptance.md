@@ -24,3 +24,6 @@ Alpha 验收统一使用 Forge GameTest。`runGameTestServer` 必须发现至少
 ```
 
 `clean build` 同时校验 JSON、工作台配方符号、中英文键、模型引用、发布 JAR 元数据、许可证文件及构建缓存泄漏。
+这些规则集中在 `gradle/verification.gradle`，由主 `build.gradle` 引入；新增校验应继续放在该文件，避免主构建脚本重新膨胀。
+
+Java 编译启用 `-Xlint:all,-classfile,-processing`：检查项目源码的弃用、泛型、覆写和资源管理等问题，同时过滤 GTCEu 已编译 class 中缺失可选注解造成的第三方噪声。Gradle 8.8 必须使用 JDK 17 运行。

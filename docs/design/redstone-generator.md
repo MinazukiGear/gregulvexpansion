@@ -24,7 +24,7 @@
 | 资源 ID | `gregulvexpansion:redstone_generator` |
 | 中文名 | 原始红石发电机 |
 | 英文名 | Primitive Redstone Generator |
-| 机器类 | `com.hoshino.gregulvexpansion.machine.generator.RedstoneGeneratorMachine`（基于 `SimpleGeneratorMachine`） |
+| 机器实现 | 直接复用 GTCEu `SimpleGeneratorMachine` |
 | 注册字段 | `GULVMachines.REDSTONE_GENERATOR` |
 | 配方类型 | `GULVRecipeTypes.REDSTONE_GENERATOR_FUELS`（新注册，group `GENERATOR`） |
 

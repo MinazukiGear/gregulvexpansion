@@ -2,7 +2,7 @@
 
 > 状态：**已实现（v0.11，2026-09-16）；v0.5–v0.9 扩表增补卷板机/车床/化学反应釜/流体固化器/流体提取机（v0.6 挤出机增补后于 v0.6.2 删除）** · 优先级：**P1** · 类型：单方块 ULV 机器（上游机器的层级变体，配方子集）
 >
-> 变更记录：v0.2 移除硒整流器前置，三机前置改为超低压电动马达。v0.3 依据首轮裁决：**超低压洗矿机砍除**（越级判定 A2，移入负面清单），本批收缩为两机；切割机锯片定为**锻铁**（D12）；能量缓存统一定为 **240 EU** 并抽共用常量（C3/C4）。**v0.3.1 实现期修订（2026-09-08）**：工作台配方收纳为 3×3（轧机铁板 4→3）；锯片落地为锻铁板（GTCEu 无独立锯片物品，锻铁板即锯片坯，D12 门槛意图不变）；轧机子集配方省略上游的编程电路（单一职能无档位歧义）；240 EU 缓存抽 `ULVSimpleMachine` 公共基类（与电解槽共享）。**v0.5–v0.9** 依次加入卷板机、车床、化学反应釜、流体固化器与电力版提取机；中途加入的挤出机于 v0.6.2 删除。**v0.10（2026-09-09）**：七机工作台配方整体改为上游同型 LV 机器的图案，tier-0 电动构件由本模组 ULV 构件填补；切割机采用上游 SAWBLADE 的 ULV 青铜圆锯头。**v0.11（2026-09-16）**：全部单方块机器的显示名和 Tooltip 模板与上游保持一致，名称统一采用“原始”前缀，仅保留 ULV 电压、缓存、槽位容量等数值差异；补齐 EMI/JEI 配方分类汉化；化学反应釜完整收录聚乙烯与橡胶反应，流体固化器完整收录两种材料的可固化形态。
+> 变更记录：v0.2 移除硒整流器前置，三机前置改为超低压电动马达。v0.3 依据首轮裁决：**超低压洗矿机砍除**（越级判定 A2，移入负面清单），本批收缩为两机；切割机锯片定为**锻铁**（D12）；能量缓存统一定为 **240 EU** 并抽共用常量（C3/C4）。**v0.3.1 实现期修订（2026-09-08）**：工作台配方收纳为 3×3（轧机铁板 4→3）；锯片落地为锻铁板（GTCEu 无独立锯片物品，锻铁板即锯片坯，D12 门槛意图不变）；轧机子集配方省略上游的编程电路（单一职能无档位歧义）；240 EU 缓存抽 `ULVSimpleMachine` 公共实现（与电解槽共享）。**v0.5–v0.9** 依次加入卷板机、车床、化学反应釜、流体固化器与电力版提取机；中途加入的挤出机于 v0.6.2 删除。**v0.10（2026-09-09）**：七机工作台配方整体改为上游同型 LV 机器的图案，tier-0 电动构件由本模组 ULV 构件填补；切割机采用上游 SAWBLADE 的 ULV 青铜圆锯头。**v0.11（2026-09-16）**：全部单方块机器的显示名和 Tooltip 模板与上游保持一致，名称统一采用“原始”前缀，仅保留 ULV 电压、缓存、槽位容量等数值差异；补齐 EMI/JEI 配方分类汉化；化学反应釜完整收录聚乙烯与橡胶反应，流体固化器完整收录两种材料的可固化形态。
 
 ## 定位
 
@@ -16,15 +16,15 @@
 
 ## 注册、命名与 Tooltip（七机共用约定）
 
-| 机器 | 资源 ID | 中文名 | 英文名 | 机器类（`machine.simple` 包） | 注册字段 |
+| 机器 | 资源 ID | 中文名 | 英文名 | 机器实现 | 注册字段 |
 | --- | --- | --- | --- | --- | --- |
-| 拉丝 | `gregulvexpansion:ulv_wire_mill` | 原始线材轧机 | Primitive Wiremill | `ULVWireMillMachine` | `GULVMachines.ULV_WIRE_MILL` |
-| 切割 | `gregulvexpansion:ulv_cutter` | 原始切割机 | Primitive Cutter | `ULVCutterMachine` | `GULVMachines.ULV_CUTTER` |
-| 卷板 | `gregulvexpansion:ulv_bender` | 原始卷板机 | Primitive Bender | `ULVBenderMachine` | `GULVMachines.ULV_BENDER` |
-| 车削 | `gregulvexpansion:ulv_lathe` | 原始车床 | Primitive Lathe | `ULVLatheMachine` | `GULVMachines.ULV_LATHE` |
-| 化学 | `gregulvexpansion:ulv_chemical_reactor` | 原始化学反应釜 | Primitive Chemical Reactor | `ULVChemicalReactorMachine` | `GULVMachines.ULV_CHEMICAL_REACTOR` |
-| 固化 | `gregulvexpansion:ulv_fluid_solidifier` | 原始流体固化器 | Primitive Fluid Solidifier | `ULVFluidSolidifierMachine` | `GULVMachines.ULV_FLUID_SOLIDIFIER` |
-| 提取 | `gregulvexpansion:ulv_fluid_extractor` | 原始提取机 | Primitive Extractor | `ULVFluidExtractorMachine` | `GULVMachines.ULV_FLUID_EXTRACTOR` |
+| 拉丝 | `gregulvexpansion:ulv_wire_mill` | 原始线材轧机 | Primitive Wiremill | `ULVSimpleMachine` | `GULVMachines.ULV_WIRE_MILL` |
+| 切割 | `gregulvexpansion:ulv_cutter` | 原始切割机 | Primitive Cutter | `ULVSimpleMachine` | `GULVMachines.ULV_CUTTER` |
+| 卷板 | `gregulvexpansion:ulv_bender` | 原始卷板机 | Primitive Bender | `ULVSimpleMachine` | `GULVMachines.ULV_BENDER` |
+| 车削 | `gregulvexpansion:ulv_lathe` | 原始车床 | Primitive Lathe | `ULVSimpleMachine` | `GULVMachines.ULV_LATHE` |
+| 化学 | `gregulvexpansion:ulv_chemical_reactor` | 原始化学反应釜 | Primitive Chemical Reactor | `ULVSimpleMachine` | `GULVMachines.ULV_CHEMICAL_REACTOR` |
+| 固化 | `gregulvexpansion:ulv_fluid_solidifier` | 原始流体固化器 | Primitive Fluid Solidifier | `ULVSimpleMachine` | `GULVMachines.ULV_FLUID_SOLIDIFIER` |
+| 提取 | `gregulvexpansion:ulv_fluid_extractor` | 原始提取机 | Primitive Extractor | `ULVSimpleMachine` | `GULVMachines.ULV_FLUID_EXTRACTOR` |
 
 配方类型：`GULVRecipeTypes.ULV_WIRE_MILLING / ULV_CUTTING / ULV_BENDING / ULV_TURNING / ULV_CHEMICAL_REACTING / ULV_FLUID_SOLIDFICATION / ULV_EXTRACTING`（各自注册于 `ELECTRIC` 分组）。EMI/JEI 分类名称使用独立翻译键并提供中英文文本。
 

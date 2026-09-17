@@ -1,6 +1,5 @@
 package com.hoshino.gregulvexpansion.machine.multiblock;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FluidDrillMachine;
 

@@ -61,6 +61,8 @@ EMI、Jade、JECh（拼音搜索）、精妙背包/存储、Modern UI、GTM Thin
 
 若系统默认 Java 不是 17，先设置 `$env:JAVA_HOME` 指向 JDK 17。
 
+源码模块、注册时序、配方文件职责与构建校验入口见 [`docs/development.md`](docs/development.md)。
+
 ## 项目信息
 
 - Mod ID：`gregulvexpansion`
